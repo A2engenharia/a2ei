@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>A2 Engenharia Integrada</title>
+  <meta name="description" content="A2 Engenharia Integrada: +15 anos entregando soluções completas de engenharia industrial, montagem eletromecânica, manutenção e gerenciamento de projetos." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── NAV ────────────────────────────────────── -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="#hero" class="nav-logo">
+        <img src="assets/logo.png" alt="A2 Engenharia Integrada" />
+      </a>
+      <ul class="nav-links">
+        <li><a href="#sobre">Quem Somos</a></li>
+        <li><a href="#servicos">Serviços</a></li>
+        <li><a href="#segmentos">Segmentos</a></li>
+        <li><a href="#clientes">Clientes</a></li>
+        <li><a href="#contato">Contato</a></li>
+      </ul>
+      <a href="#contato" class="btn btn-nav">Solicitar Orçamento</a>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-mobile" id="navMobile">
+      <a href="#sobre" onclick="closeMenu()">Quem Somos</a>
+      <a href="#servicos" onclick="closeMenu()">Serviços</a>
+      <a href="#segmentos" onclick="closeMenu()">Segmentos</a>
+      <a href="#clientes" onclick="closeMenu()">Clientes</a>
+      <a href="#contato" onclick="closeMenu()">Contato</a>
+      <a href="#contato" class="btn btn-nav" onclick="closeMenu()">Solicitar Orçamento</a>
+    </div>
+  </nav>
+
+  <!-- ── HERO ───────────────────────────────────── -->
+  <section id="hero">
+    <div class="hero-bg"></div>
+    <div class="hero-overlay"></div>
+    <div class="hero-content">
+      <span class="hero-tag">Engenharia Industrial</span>
+      <h1>A2 Engenharia<br /><span class="red">Integrada</span></h1>
+      <p>Soluções completas de engenharia para os projetos mais exigentes da indústria — do projeto à entrega final, com segurança, precisão e comprometimento.</p>
+      <div class="hero-btns">
+        <a href="#contato" class="btn btn-primary">Solicitar Orçamento</a>
+        <a href="#servicos" class="btn btn-outline">Ver Soluções</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat">
+        <span class="stat-num">+15</span>
+        <span class="stat-label">Anos de mercado</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num">2010</span>
+        <span class="stat-label">Fundação</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num">100+</span>
+        <span class="stat-label">Projetos entregues</span>
+      </div>
+      <div class="stat-divider"></div>
+      <div class="stat">
+        <span class="stat-num">15+</span>
+        <span class="stat-label">Clientes ativos</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SOBRE ──────────────────────────────────── -->
+  <section id="sobre" class="section">
+    <div class="container">
+      <div class="sobre-grid">
+        <div class="sobre-text" data-animate>
+          <span class="section-tag">Quem Somos</span>
+          <h2>Engenharia integrada com mais de <span class="red">15 anos</span> de mercado</h2>
+          <p>A A2 Engenharia Integrada é uma empresa de engenharia industrial fundada em 2010 com o propósito de entregar soluções completas, integrando pessoas, processos e tecnologia.</p>
+          <p>Atuamos de forma técnica e comprometida em obras industriais de alta complexidade — conectando engenharia, execução e resultado em cada projeto.</p>
+          <div class="mvv-grid">
+            <div class="mvv-card">
+              <div class="mvv-icon">🎯</div>
+              <h4>Missão</h4>
+              <p>Entregar soluções integradas com segurança, qualidade e eficiência, gerando valor real para clientes e sociedade.</p>
+            </div>
+            <div class="mvv-card">
+              <div class="mvv-icon">🔭</div>
+              <h4>Visão</h4>
+              <p>Ser referência nacional em engenharia integrada, reconhecida pela excelência técnica e comprometimento com resultados.</p>
+            </div>
+          </div>
+          <div class="valores">
+            <span class="valor-tag">Ética</span>
+            <span class="valor-tag">Segurança</span>
+            <span class="valor-tag">Qualidade</span>
+            <span class="valor-tag">Inovação</span>
+            <span class="valor-tag">Comprometimento</span>
+            <span class="valor-tag">Trabalho em equipe</span>
+          </div>
+        </div>
+        <div class="sobre-visual" data-animate>
+          <div class="sobre-card-main">
+            <div class="sobre-accent"></div>
+            <div class="sobre-logo-big">A2</div>
+            <p class="sobre-slogan">ENGENHARIA<br /><em>INTEGRADA</em></p>
+          </div>
+          <div class="sobre-cards-mini">
+            <div class="mini-card">
+              <strong>+15</strong>
+              <span>anos</span>
+            </div>
+            <div class="mini-card red-card">
+              <strong>100+</strong>
+              <span>projetos</span>
+            </div>
+            <div class="mini-card">
+              <strong>4</strong>
+              <span>segmentos</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SERVIÇOS ───────────────────────────────── -->
+  <section id="servicos" class="section dark-section">
+    <div class="container">
+      <div class="section-header" data-animate>
+        <span class="section-tag">Nossas Soluções</span>
+        <h2>Expertise integrada para os maiores desafios da <span class="red">engenharia industrial</span></h2>
+        <p>Do projeto à entrega final — com equipe especializada e controle total de execução.</p>
+      </div>
+      <div class="services-grid">
+
+        <div class="service-card" data-animate>
+          <div class="service-num">01</div>
+          <div class="service-icon">⚙️</div>
+          <h3>Engenharia Industrial</h3>
+          <p>Projetos técnicos com foco em performance e segurança. Laudos, ARTs e adequação a NR-10, NR-12 e NR-13.</p>
+          <ul class="service-list">
+            <li>Projetos elétricos e mecânicos completos</li>
+            <li>Estudos de viabilidade técnica e econômica</li>
+            <li>Laudos técnicos e ART</li>
+            <li>Assessoria técnica especializada</li>
+          </ul>
+        </div>
+
+        <div class="service-card featured" data-animate>
+          <div class="service-num">02</div>
+          <div class="service-icon">🔩</div>
+          <h3>Montagem Eletromecânica</h3>
+          <p>Instalação e montagem com precisão e rastreabilidade — de painéis e CCMs a máquinas de grande porte.</p>
+          <ul class="service-list">
+            <li>Montagem de máquinas e equipamentos industriais</li>
+            <li>Painéis elétricos, CCMs e quadros de comando</li>
+            <li>Içamento de equipamentos de grande porte</li>
+            <li>Testes, comissionamento e partida</li>
+          </ul>
+        </div>
+
+        <div class="service-card" data-animate>
+          <div class="service-num">03</div>
+          <div class="service-icon">🔧</div>
+          <h3>Manutenção Industrial</h3>
+          <p>Continuidade operacional com eficiência e confiabilidade. Redução de paradas não programadas.</p>
+          <ul class="service-list">
+            <li>Manutenção preventiva e corretiva</li>
+            <li>Análise de vibração e termografia preditiva</li>
+            <li>Gestão de ativos e planos de manutenção</li>
+            <li>Relatórios técnicos e indicadores</li>
+          </ul>
+        </div>
+
+        <div class="service-card" data-animate>
+          <div class="service-num">04</div>
+          <div class="service-icon">🏗️</div>
+          <h3>Construção e Infraestrutura</h3>
+          <p>Da fundação à entrega — obras civis e industriais com controle rigoroso de cronograma e qualidade.</p>
+          <ul class="service-list">
+            <li>Obras civis industriais e comerciais</li>
+            <li>Fundações e bases para grandes equipamentos</li>
+            <li>Estruturas metálicas e coberturas</li>
+            <li>Retrofit e readequação de plantas</li>
+          </ul>
+        </div>
+
+        <div class="service-card" data-animate>
+          <div class="service-num">05</div>
+          <div class="service-icon">📋</div>
+          <h3>Gerenciamento de Projetos</h3>
+          <p>Controle total do início ao fim — metodologia estruturada, escopo, prazo e orçamento garantidos.</p>
+          <ul class="service-list">
+            <li>Planejamento e cronograma detalhado</li>
+            <li>Gestão de contratos e fornecedores</li>
+            <li>Relatórios de progresso e reuniões</li>
+            <li>Gestão de riscos e contingências</li>
+          </ul>
+        </div>
+
+        <div class="service-card" data-animate>
+          <div class="service-num">06</div>
+          <div class="service-icon">⏱️</div>
+          <h3>Paradas Programadas</h3>
+          <p>Máxima eficiência no menor tempo de parada. Planejamento e execução de shutdowns industriais.</p>
+          <ul class="service-list">
+            <li>Planejamento antecipado e detalhado</li>
+            <li>Inspeção e troca de componentes críticos</li>
+            <li>Serviços simultâneos com múltiplas equipes</li>
+            <li>Controle de PTW e gestão de SSO</li>
+          </ul>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SEGMENTOS ──────────────────────────────── -->
+  <section id="segmentos" class="section">
+    <div class="container">
+      <div class="section-header" data-animate>
+        <span class="section-tag">Segmentos de Atuação</span>
+        <h2>Presença nos setores mais <span class="red">exigentes</span> da indústria</h2>
+      </div>
+      <div class="segments-grid">
+        <div class="segment-card" data-animate>
+          <div class="segment-icon">🚗</div>
+          <h3>Automotivo</h3>
+          <p>Atuação em plantas automotivas nacionais e internacionais de alta complexidade — transferências de linhas, montagens industriais e obras especializadas.</p>
+        </div>
+        <div class="segment-card" data-animate>
+          <div class="segment-icon">🏭</div>
+          <h3>Indústria</h3>
+          <p>Alimentícia, química, farmacêutica e metalúrgica. Soluções técnicas adaptadas ao processo produtivo de cada cliente.</p>
+        </div>
+        <div class="segment-card" data-animate>
+          <div class="segment-icon">🛢️</div>
+          <h3>Óleo & Gás</h3>
+          <p>Plantas de petróleo, gás natural e petroquímica. Equipe habilitada para ambientes classificados e normas rigorosas.</p>
+        </div>
+        <div class="segment-card" data-animate>
+          <div class="segment-icon">🏗️</div>
+          <h3>Infraestrutura</h3>
+          <p>Obras industriais e urbanas com solidez técnica e conformidade com os padrões mais exigentes do mercado.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CLIENTES ───────────────────────────────── -->
+  <section id="clientes" class="section dark-section">
+    <div class="container">
+      <div class="section-header" data-animate>
+        <span class="section-tag">Clientes</span>
+        <h2>Confiança de quem exige o <span class="red">melhor</span></h2>
+        <p>Grandes grupos nacionais e internacionais que escolheram a A2 para seus projetos mais críticos.</p>
+      </div>
+      <div class="clients-grid" data-animate>
+        <div class="client-item">Petrobras</div>
+        <div class="client-item">Transpetro</div>
+        <div class="client-item">Volkswagen</div>
+        <div class="client-item">Ford Motor Company</div>
+        <div class="client-item">Hyundai CAOA</div>
+        <div class="client-item">Mercedes-Benz</div>
+        <div class="client-item">Bosch / ZF</div>
+        <div class="client-item">Novelis do Brasil</div>
+        <div class="client-item">3M Brasil</div>
+        <div class="client-item">Barry Callebaut</div>
+        <div class="client-item">Camozzi Automation</div>
+        <div class="client-item">Aisin Automotive</div>
+        <div class="client-item">Marinha do Brasil</div>
+        <div class="client-item">Lorenzetti</div>
+        <div class="client-item">EssilorLuxottica</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA BANNER ─────────────────────────────── -->
+  <section class="cta-banner">
+    <div class="container">
+      <div class="cta-content" data-animate>
+        <h2>Tem um projeto em mente?</h2>
+        <p>Nossa equipe técnica está pronta para analisar seu desafio e entregar a solução mais eficiente.</p>
+        <a href="#contato" class="btn btn-primary btn-lg">Falar com a Equipe Técnica</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CONTATO ────────────────────────────────── -->
+  <section id="contato" class="section">
+    <div class="container">
+      <div class="contato-grid">
+        <div class="contato-info" data-animate>
+          <span class="section-tag">Contato</span>
+          <h2>Vamos conversar sobre seu <span class="red">projeto</span></h2>
+          <p>Preencha o formulário ou entre em contato diretamente pelos canais abaixo. Respondemos em até 24h.</p>
+          <div class="contact-items">
+            <a href="https://wa.me/5519978129914" target="_blank" class="contact-item">
+              <div class="contact-icon">📱</div>
+              <div>
+                <strong>WhatsApp</strong>
+                <span>(19) 97812-9914</span>
+              </div>
+            </a>
+            <a href="mailto:contato@a2ei.com.br" class="contact-item">
+              <div class="contact-icon">✉️</div>
+              <div>
+                <strong>E-mail</strong>
+                <span>contato@a2ei.com.br</span>
+              </div>
+            </a>
+            <a href="https://instagram.com/a2engenhariaintegrada" target="_blank" class="contact-item">
+              <div class="contact-icon">📷</div>
+              <div>
+                <strong>Instagram</strong>
+                <span>@a2engenhariaintegrada</span>
+              </div>
+            </a>
+            <a href="https://www.a2ei.com.br" target="_blank" class="contact-item">
+              <div class="contact-icon">🌐</div>
+              <div>
+                <strong>Site</strong>
+                <span>www.a2ei.com.br</span>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="contato-form" data-animate>
+          <form id="form" onsubmit="handleSubmit(event)">
+            <div class="form-row">
+              <div class="form-group">
+                <label for="nome">Nome *</label>
+                <input type="text" id="nome" name="nome" placeholder="Seu nome completo" required />
+              </div>
+              <div class="form-group">
+                <label for="empresa">Empresa *</label>
+                <input type="text" id="empresa" name="empresa" placeholder="Nome da empresa" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label for="email">E-mail *</label>
+                <input type="email" id="email" name="email" placeholder="seu@email.com" required />
+              </div>
+              <div class="form-group">
+                <label for="telefone">Telefone / WhatsApp</label>
+                <input type="tel" id="telefone" name="telefone" placeholder="(19) 99999-9999" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label for="servico">Serviço de interesse</label>
+              <select id="servico" name="servico">
+                <option value="">Selecione um serviço</option>
+                <option>Engenharia Industrial</option>
+                <option>Montagem Eletromecânica</option>
+                <option>Manutenção Industrial</option>
+                <option>Construção e Infraestrutura</option>
+                <option>Gerenciamento de Projetos</option>
+                <option>Paradas Programadas</option>
+                <option>Outro / Múltiplos serviços</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="mensagem">Mensagem *</label>
+              <textarea id="mensagem" name="mensagem" rows="4" placeholder="Descreva brevemente seu projeto ou necessidade..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary btn-full">
+              <span id="btn-text">Enviar Mensagem</span>
+            </button>
+            <div id="form-success" class="form-success hidden">
+              ✅ Mensagem enviada! Nossa equipe entrará em contato em breve.
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ─────────────────────────────────── -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="assets/logo.png" alt="A2 Engenharia Integrada" class="footer-logo" />
+          <p>Engenharia Industrial de alta complexidade.</p>
+          <div class="footer-social">
+            <a href="https://instagram.com/a2engenhariaintegrada" target="_blank" aria-label="Instagram">IG</a>
+            <a href="https://wa.me/5519978129914" target="_blank" aria-label="WhatsApp">WA</a>
+            <a href="mailto:contato@a2ei.com.br" aria-label="Email">EM</a>
+          </div>
+        </div>
+        <div class="footer-links">
+          <h5>Soluções</h5>
+          <ul>
+            <li><a href="#servicos">Engenharia Industrial</a></li>
+            <li><a href="#servicos">Montagem Eletromecânica</a></li>
+            <li><a href="#servicos">Manutenção Industrial</a></li>
+            <li><a href="#servicos">Construção e Infraestrutura</a></li>
+            <li><a href="#servicos">Gerenciamento de Projetos</a></li>
+            <li><a href="#servicos">Paradas Programadas</a></li>
+          </ul>
+        </div>
+        <div class="footer-links">
+          <h5>Empresa</h5>
+          <ul>
+            <li><a href="#sobre">Quem Somos</a></li>
+            <li><a href="#segmentos">Segmentos</a></li>
+            <li><a href="#clientes">Clientes</a></li>
+            <li><a href="#contato">Contato</a></li>
+          </ul>
+        </div>
+        <div class="footer-contact">
+          <h5>Contato</h5>
+          <p><a href="https://wa.me/5519978129914">(19) 97812-9914</a></p>
+          <p><a href="mailto:contato@a2ei.com.br">contato@a2ei.com.br</a></p>
+          <p><a href="https://www.a2ei.com.br">www.a2ei.com.br</a></p>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 A2 Engenharia Integrada. Todos os direitos reservados.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WhatsApp flutuante -->
+  <a href="https://wa.me/5519978129914?text=Olá!%20Vim%20pelo%20site%20e%20gostaria%20de%20solicitar%20um%20orçamento." target="_blank" class="whatsapp-float" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+
+  <script src="script.js"></script>
+</body>
+</html>
