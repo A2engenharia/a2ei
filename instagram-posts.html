@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Posts Instagram — A2 Engenharia</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --red:   #C8102E;
+      --dark:  #1a1a1a;
+      --gray:  #414042;
+      --mgray: #A7A9AC;
+      --white: #ffffff;
+    }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #111;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 60px;
+    }
+    h1 {
+      color: #fff;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      text-align: center;
+      opacity: 0.4;
+      margin-bottom: -20px;
+    }
+    .post-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+    }
+    .post-label {
+      color: rgba(255,255,255,0.3);
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    /* ── CARD BASE ────────────────────────────── */
+    /* 1080×1080px → escala para 540×540 na tela */
+    .card {
+      width: 540px;
+      height: 540px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    /* logotipo A2 no canto */
+    .logo-stamp {
+      position: absolute;
+      top: 28px;
+      left: 28px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logo-stamp .a2 {
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: var(--white);
+      line-height: 1;
+    }
+    .logo-stamp .a2 span { color: var(--red); }
+    .logo-stamp .brand-sub {
+      font-size: 0.48rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      line-height: 1.4;
+    }
+
+    /* linha vermelha decorativa */
+    .red-bar {
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%; height: 5px;
+      background: var(--red);
+    }
+    .red-bar-left {
+      position: absolute;
+      top: 0; left: 0;
+      width: 5px; height: 100%;
+      background: var(--red);
+    }
+
+    /* tag de segmento */
+    .seg-tag {
+      display: inline-block;
+      padding: 5px 14px;
+      border-radius: 4px;
+      font-size: 0.65rem;
+      font-weight: 800;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 16px;
+    }
+    .seg-red   { background: var(--red); color: #fff; }
+    .seg-white { background: rgba(255,255,255,0.15); color: rgba(255,255,255,0.8); }
+
+    /* número grande */
+    .big-num {
+      font-size: 5.5rem;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -4px;
+    }
+    .plus { font-size: 3rem; vertical-align: super; letter-spacing: 0; }
+
+    /* grid de bullets */
+    .bullet-list {
+      list-style: none;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 8px;
+    }
+    .bullet-list li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.88rem;
+      font-weight: 500;
+    }
+    .bullet-list li::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .bullet-red li::before  { background: var(--red); }
+    .bullet-white li::before { background: rgba(255,255,255,0.7); }
+
+    /* rodapé do card */
+    .card-footer {
+      position: absolute;
+      bottom: 20px;
+      left: 0; right: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      font-size: 0.62rem;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+    }
+    .dot { width: 4px; height: 4px; border-radius: 50%; }
+
+    /* ╔══════════════════════════════════════════╗
+       POST 1 — APRESENTAÇÃO (fundo escuro)
+       ╚══════════════════════════════════════════╝ */
+    .p1 {
+      background: linear-gradient(145deg, #0d0d0d 0%, #1f1f1f 50%, #2a0a12 100%);
+    }
+    .p1 .content { z-index: 1; padding: 0 48px; }
+    .p1 h2 { font-size: 2.6rem; font-weight: 900; color: #fff; line-height: 1.05; letter-spacing: -1px; }
+    .p1 h2 .red { color: var(--red); }
+    .p1 p { font-size: 0.88rem; color: rgba(255,255,255,0.55); margin-top: 16px; line-height: 1.7; }
+    .p1-decor {
+      position: absolute;
+      right: -40px; top: -40px;
+      width: 260px; height: 260px;
+      border-radius: 50%;
+      border: 60px solid rgba(200,16,46,0.08);
+    }
+    .p1-decor2 {
+      position: absolute;
+      left: -60px; bottom: -60px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      border: 40px solid rgba(200,16,46,0.06);
+    }
+
+    /* ╔══════════════════════════════════════════╗
+       POST 2 — MONTAGEM ELETROMECÂNICA (vermelho)
+       ╚══════════════════════════════════════════╝ */
+    .p2 {
+      background: var(--red);
+    }
+    .p2 .content { z-index: 1; padding: 0 48px; }
+    .p2 .icon-big { font-size: 4rem; margin-bottom: 12px; filter: drop-shadow(0 4px 12px rgba(0,0,0,0.3)); }
+    .p2 h2 { font-size: 1.8rem; font-weight: 900; color: #fff; letter-spacing: -0.5px; line-height: 1.1; }
+    .p2 .subtitle { font-size: 0.75rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(255,255,255,0.6); margin-bottom: 8px; }
+    .p2 .divider { width: 48px; height: 3px; background: rgba(255,255,255,0.3); margin: 16px auto; }
+    .p2 .bullet-list { color: rgba(255,255,255,0.9); }
+    .p2-decor {
+      position: absolute;
+      right: -20px; bottom: -20px;
+      width: 200px; height: 200px;
+      border-radius: 50%;
+      background: rgba(0,0,0,0.1);
+    }
+
+    /* ╔══════════════════════════════════════════╗
+       POST 3 — NÚMERO IMPACTO (fundo escuro)
+       ╚══════════════════════════════════════════╝ */
+    .p3 {
+      background: #0d0d0d;
+    }
+    .p3 .content { z-index: 1; padding: 0 40px; }
+    .p3 .big-num { color: var(--red); }
+    .p3 .num-label { font-size: 1.4rem; font-weight: 800; color: #fff; letter-spacing: -0.3px; margin-top: 4px; }
+    .p3 .sub { font-size: 0.82rem; color: rgba(255,255,255,0.4); margin-top: 12px; line-height: 1.6; }
+    .p3-grid {
+      display: grid;
+      grid-template-columns: 1fr 1px 1fr 1px 1fr;
+      gap: 0;
+      position: absolute;
+      bottom: 60px;
+      left: 48px; right: 48px;
+    }
+    .p3-stat { text-align: center; padding: 0 8px; }
+    .p3-stat .n { font-size: 1.6rem; font-weight: 900; color: var(--red); }
+    .p3-stat .l { font-size: 0.58rem; color: rgba(255,255,255,0.4); text-transform: uppercase; letter-spacing: 1px; margin-top: 2px; }
+    .p3-div { background: rgba(255,255,255,0.08); }
+
+    /* ╔══════════════════════════════════════════╗
+       POST 4 — PARADAS PROGRAMADAS (escuro + acc.)
+       ╚══════════════════════════════════════════╝ */
+    .p4 {
+      background: linear-gradient(160deg, #111 0%, #1a1a1a 100%);
+    }
+    .p4 .red-bar-left { }
+    .p4 .content { z-index: 1; padding: 0 40px 0 56px; text-align: left; }
+    .p4 .icon-big { font-size: 3rem; margin-bottom: 12px; }
+    .p4 h2 { font-size: 1.9rem; font-weight: 900; color: #fff; line-height: 1.1; letter-spacing: -0.5px; }
+    .p4 h2 span { color: var(--red); }
+    .p4 .desc { font-size: 0.82rem; color: rgba(255,255,255,0.5); line-height: 1.6; margin: 12px 0 16px; }
+    .p4 .bullet-list { color: rgba(255,255,255,0.8); }
+
+    /* ╔══════════════════════════════════════════╗
+       POST 5 — CLIENTES (fundo cinza escuro)
+       ╚══════════════════════════════════════════╝ */
+    .p5 {
+      background: #1a1a1a;
+    }
+    .p5 .content { z-index: 1; padding: 0 40px; width: 100%; }
+    .p5 h2 { font-size: 1.6rem; font-weight: 900; color: #fff; line-height: 1.1; margin-bottom: 8px; }
+    .p5 h2 span { color: var(--red); }
+    .p5 .sub { font-size: 0.78rem; color: rgba(255,255,255,0.4); margin-bottom: 24px; }
+    .clients-wrap {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+    }
+    .cli-chip {
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .cli-red   { background: rgba(200,16,46,0.15); color: #ff8095; border: 1px solid rgba(200,16,46,0.3); }
+    .cli-light { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.65); border: 1px solid rgba(255,255,255,0.08); }
+
+    /* ╔══════════════════════════════════════════╗
+       POST 6 — ENGENHARIA INDUSTRIAL (vermelho)
+       ╚══════════════════════════════════════════╝ */
+    .p6 {
+      background: linear-gradient(145deg, #9a0d22 0%, var(--red) 100%);
+    }
+    .p6 .content { z-index: 1; padding: 0 48px; }
+    .p6 .icon-big { font-size: 3.5rem; margin-bottom: 8px; }
+    .p6 h2 { font-size: 1.9rem; font-weight: 900; color: #fff; line-height: 1.1; letter-spacing: -0.5px; }
+    .p6 .divider { width: 40px; height: 3px; background: rgba(255,255,255,0.4); margin: 14px auto; }
+    .p6-tags { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; margin-top: 4px; }
+    .p6-tag { padding: 6px 14px; border-radius: 4px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.5px; background: rgba(0,0,0,0.2); color: rgba(255,255,255,0.9); }
+    .p6-decor {
+      position: absolute;
+      left: -40px; top: -40px;
+      width: 220px; height: 220px;
+      border-radius: 50%;
+      border: 50px solid rgba(255,255,255,0.05);
+    }
+
+    /* ╔══════════════════════════════════════════╗
+       POST 7 — SEGMENTOS (escuro com grid)
+       ╚══════════════════════════════════════════╝ */
+    .p7 {
+      background: #0d0d0d;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+    .p7 .top-area {
+      z-index: 1;
+      padding: 90px 40px 24px;
+      text-align: left;
+      width: 100%;
+    }
+    .p7 h2 { font-size: 1.6rem; font-weight: 900; color: #fff; line-height: 1.1; }
+    .p7 h2 span { color: var(--red); }
+    .p7 .sub { font-size: 0.78rem; color: rgba(255,255,255,0.4); margin-top: 6px; }
+    .seg-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2px;
+      width: 100%;
+      flex: 1;
+    }
+    .seg-cell {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 24px;
+      transition: background 0.2s;
+    }
+    .seg-cell:hover { background: rgba(200,16,46,0.1); }
+    .seg-cell .emoji { font-size: 2.2rem; }
+    .seg-cell .name { font-size: 0.82rem; font-weight: 700; color: #fff; }
+    .seg-cell .detail { font-size: 0.62rem; color: rgba(255,255,255,0.35); text-align: center; line-height: 1.4; }
+
+    /* ╔══════════════════════════════════════════╗
+       POST 8 — DIFERENCIAIS / VALORES
+       ╚══════════════════════════════════════════╝ */
+    .p8 {
+      background: var(--red);
+    }
+    .p8 .content { z-index: 1; padding: 0 44px; }
+    .p8 .quote {
+      font-size: 2.4rem;
+      font-weight: 900;
+      color: #fff;
+      line-height: 1.05;
+      letter-spacing: -1px;
+    }
+    .p8 .quote em { font-style: normal; color: rgba(255,255,255,0.55); }
+    .p8 .divider { width: 48px; height: 3px; background: rgba(255,255,255,0.3); margin: 20px 0; }
+    .p8 .desc { font-size: 0.82rem; color: rgba(255,255,255,0.75); line-height: 1.65; }
+    .p8-vals {
+      position: absolute;
+      bottom: 56px;
+      left: 44px; right: 44px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .p8-val { padding: 5px 12px; border-radius: 4px; font-size: 0.62rem; font-weight: 800; letter-spacing: 1.5px; text-transform: uppercase; background: rgba(0,0,0,0.2); color: rgba(255,255,255,0.8); }
+
+    /* ╔══════════════════════════════════════════╗
+       POST 9 — CTA / ORÇAMENTO (escuro)
+       ╚══════════════════════════════════════════╝ */
+    .p9 {
+      background: linear-gradient(145deg, #0d0d0d 0%, #1f1f1f 60%, #2a0a12 100%);
+    }
+    .p9 .content { z-index: 1; padding: 0 48px; }
+    .p9 h2 { font-size: 2.2rem; font-weight: 900; color: #fff; line-height: 1.05; letter-spacing: -1px; }
+    .p9 h2 span { color: var(--red); }
+    .p9 .sub { font-size: 0.82rem; color: rgba(255,255,255,0.5); margin: 14px 0 24px; line-height: 1.6; }
+    .cta-box {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .cta-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #fff;
+    }
+    .cta-item .ico { font-size: 1.2rem; }
+    .p9-decor {
+      position: absolute;
+      right: -60px; top: 50%;
+      transform: translateY(-50%);
+      width: 280px; height: 280px;
+      border-radius: 50%;
+      border: 70px solid rgba(200,16,46,0.06);
+    }
+
+    /* ── LEGENDA CAPTION ──────────────────────────── */
+    .caption-box {
+      width: 540px;
+      background: #1a1a1a;
+      border-radius: 8px;
+      padding: 20px 24px;
+      border: 1px solid rgba(255,255,255,0.06);
+    }
+    .caption-label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 8px;
+    }
+    .caption-text {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.7);
+      line-height: 1.7;
+      white-space: pre-line;
+    }
+    .caption-hashtags {
+      margin-top: 10px;
+      font-size: 0.72rem;
+      color: rgba(255,255,255,0.3);
+    }
+
+    /* instrução de print */
+    .print-tip {
+      width: 540px;
+      background: rgba(255,200,0,0.06);
+      border: 1px solid rgba(255,200,0,0.15);
+      border-radius: 6px;
+      padding: 10px 16px;
+      font-size: 0.72rem;
+      color: rgba(255,200,0,0.6);
+      letter-spacing: 0.3px;
+    }
+  </style>
+</head>
+<body>
+
+<h1>📱 Posts Instagram — A2 Engenharia Integrada</h1>
+<p style="color:rgba(255,255,255,0.25);font-size:0.72rem;text-align:center;margin-top:-32px;">Abra em tela cheia · dê zoom em cada card · tire print · poste na ordem indicada</p>
+
+<!-- ════════════════════════════════════════════
+     POST 01 — APRESENTAÇÃO
+     ════════════════════════════════════════════ -->
+<div class="post-wrapper">
+  <div class="post-label">Post 1 de 9 — Apresentação</div>
+  <div class="card p1">
+    <div class="p1-decor"></div>
+    <div class="p1-decor2"></div>
+    <div class="logo-stamp">
+      <div class="a2">A<span>2</span></div>
+      <div class="brand-sub">ENGENHARIA<br>INTEGRADA</div>
+    </div>
+    <div class="content" style="z-index:1;padding:0 48px;text-align:left;">
+      <div class="seg-tag seg-red" style="margin-bottom:20px;">Estamos no Instagram</div>
+      <h2 class="p1-h2" style="font-size:2.4rem;font-weight:900;color:#fff;line-height:1.05;letter-spacing:-1px;">Mais de <span class="red" style="color:#C8102E;">15 anos</span><br>fazendo a indústria<br>funcionar.</h2>
+      <p style="font-size:0.85rem;color:rgba(255,255,255,0.5);margin-top:18px;line-height:1.7;">Montagem eletromecânica, manutenção, engenharia industrial e gestão de projetos — do projeto à entrega, com segurança e resultado.</p>
+    </div>
+    <div class="red-bar"></div>
+    <div class="card-footer" style="color:rgba(255,255,255,0.3);">
+      <span>www.a2ei.com.br</span>
+      <div class="dot" style="background:rgba(255,255,255,0.2)"></div>
+      <span>Indaiatuba — SP</span>
+    </div>
+  </div>
+  <div class="caption-box">
+    <div class="caption-label">Legenda para copiar</div>
+    <div class="caption-text">Chegamos no Instagram! 🔩
+
+Somos a A2 Engenharia Integrada — uma empresa com mais de 15 anos entregando projetos industriais de alta complexidade para as maiores empresas do Brasil.
+
+Montagem eletromecânica, manutenção industrial, engenharia de projetos, paradas programadas e muito mais. Tudo integrado, do projeto à entrega final.
+
+Aqui você vai encontrar:
+✅ Bastidores de obras reais
+✅ Conteúdo técnico sobre engenharia industrial
+✅ Cases de sucesso
+✅ Nossa equipe em ação
+
+Siga para acompanhar! 👷‍♂️
+.
+📞 (19) 97812-9914 | 🌐 a2ei.com.br</div>
+    <div class="caption-hashtags">#a2engenharia #engenhariaintegrada #montagemelétromecânica #engenhariaIndustrial #indaiatuba #industriabrasileira #manutenção #engenharia</div>
+  </div>
+  <div class="print-tip">⚠️ Tire print do card acima (540×540px) · use Cmd+Shift+4 no Mac para selecionar a área exata</div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     POST 02 — MONTAGEM ELETROMECÂNICA
+     ════════════════════════════════════════════ -->
+<div class="post-wrapper">
+  <div class="post-label">Post 2 de 9 — Montagem Eletromecânica</div>
+  <div class="card p2">
+    <div class="p2-decor"></div>
+    <div class="logo-stamp">
+      <div class="a2">A<span style="color:rgba(255,255,255,0.5)">2</span></div>
+      <div class="brand-sub" style="color:rgba(255,255,255,0.5);">ENGENHARIA<br>INTEGRADA</div>
+    </div>
+    <div class="content p2" style="background:none;">
+      <div class="icon-big">🔩</div>
+      <div class="subtitle">Serviço em destaque</div>
+      <h2>Montagem<br>Eletromecânica</h2>
+      <div class="divider"></div>
+      <ul class="bullet-list bullet-white" style="font-size:0.82rem;color:rgba(255,255,255,0.85);">
+        <li>Máquinas e equipamentos industriais</li>
+        <li>Painéis elétricos, CCMs e quadros</li>
+        <li>Içamento de grande porte</li>
+        <li>Testes, comissionamento e start-up</li>
+      </ul>
+    </div>
+    <div class="card-footer" style="color:rgba(255,255,255,0.5);background:rgba(0,0,0,0.2);left:0;right:0;padding:10px;">
+      <span>a2ei.com.br</span>
+      <div class="dot" style="background:rgba(255,255,255,0.3)"></div>
+      <span>(19) 97812-9914</span>
+    </div>
+  </div>
+  <div class="caption-box">
+    <div class="caption-label">Legenda para copiar</div>
+    <div class="caption-text">Montagem Eletromecânica de alta precisão ⚙️
+
+Da instalação de painéis elétricos ao içamento de equipamentos de grande porte — a A2 executa com rastreabilidade total e segurança em cada etapa.
+
+Nossos serviços incluem:
+🔧 Montagem de máquinas e equipamentos industriais
+⚡ Painéis elétricos, CCMs e quadros de comando
+🏗️ Içamento e movimentação de cargas especiais
+✅ Testes, comissionamento e partida supervisionada
+
+Trabalhamos com as maiores plantas industriais do Brasil.
+Solicite um orçamento: (19) 97812-9914</div>
+    <div class="caption-hashtags">#montagemeletromecânica #engenhariaindustrial #painélelétrico #comissionamento #a2engenharia #içamento #industria</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     POST 03 — NÚMERO IMPACTO (100+ projetos)
+     ════════════════════════════════════════════ -->
+<div class="post-wrapper">
+  <div class="post-label">Post 3 de 9 — Número de impacto</div>
+  <div class="card p3">
+    <div class="logo-stamp">
+      <div class="a2">A<span style="color:#C8102E">2</span></div>
+      <div class="brand-sub">ENGENHARIA<br>INTEGRADA</div>
+    </div>
+    <div class="content p3" style="background:none;">
+      <div class="big-num"><span class="plus">+</span>100</div>
+      <div class="num-label">projetos entregues</div>
+      <div class="sub">Para as maiores empresas da indústria brasileira —<br>automotivo, petroquímico, alimentício e infraestrutura.</div>
+    </div>
+    <div class="p3-grid">
+      <div class="p3-stat">
+        <div class="n">+15</div>
+        <div class="l">anos de mercado</div>
+      </div>
+      <div class="p3-div"></div>
+      <div class="p3-stat">
+        <div class="n">15+</div>
+        <div class="l">clientes ativos</div>
+      </div>
+      <div class="p3-div"></div>
+      <div class="p3-stat">
+        <div class="n">4</div>
+        <div class="l">segmentos</div>
+      </div>
+    </div>
+    <div class="red-bar"></div>
+  </div>
+  <div class="caption-box">
+    <div class="caption-label">Legenda para copiar</div>
+    <div class="caption-text">+100 projetos entregues. 📊
+
+Esse número representa cada equipe que entrou em campo, cada prazo cumprido, cada cliente que confiou na A2 para seus projetos mais críticos.
+
+✅ +15 anos de mercado
+✅ Clientes: Volkswagen, Petrobras, Mercedes-Benz, 3M e muito mais
+✅ Atuação em 4 segmentos: automotivo, indústria, óleo & gás e infraestrutura
+✅ Base em Indaiatuba — SP, com atuação nacional
+
+Seu projeto pode ser o próximo. 💬 Fale com a nossa equipe: (19) 97812-9914</div>
+    <div class="caption-hashtags">#projetoscompletos #engenhariaindustrial #a2engenharia #indústria #automotivo #petrôleo #resultados</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     POST 04 — PARADAS PROGRAMADAS
+     ════════════════════════════════════════════ -->
+<div class="post-wrapper">
+  <div class="post-label">Post 4 de 9 — Paradas Programadas</div>
+  <div class="card p4">
+    <div class="red-bar-left"></div>
+    <div class="logo-stamp">
+      <div class="a2">A<span style="color:#C8102E">2</span></div>
+      <div class="brand-sub">ENGENHARIA<br>INTEGRADA</div>
+    </div>
+    <div class="content p4" style="background:none;">
+      <div class="icon-big">⏱️</div>
+      <h2>Paradas <span>Programadas</span></h2>
+      <div class="desc">Máxima eficiência no menor tempo de parada. Planejamento e execução de shutdowns industriais com múltiplas equipes simultâneas.</div>
+      <ul class="bullet-list bullet-red" style="color:rgba(255,255,255,0.8);">
+        <li>Planejamento antecipado e detalhado</li>
+        <li>Inspeção de componentes críticos</li>
+        <li>Equipes simultâneas para máxima agilidade</li>
+        <li>Gestão de PTW e controle de SSO</li>
+      </ul>
+    </div>
+    <div class="card-footer" style="color:rgba(255,255,255,0.25);">
+      <span>www.a2ei.com.br</span>
+    </div>
+  </div>
+  <div class="caption-box">
+    <div class="caption-label">Legenda para copiar</div>
+    <div class="caption-text">Tempo parado = dinheiro perdido. ⏱️
+
+Por isso a A2 especializa em Paradas Programadas — quando a fábrica para, nossa equipe entra em ritmo acelerado para garantir que a produção volte o mais rápido possível.
+
+Como trabalhamos:
+📋 Planejamento detalhado antes da parada
+👷 Múltiplas equipes trabalhando simultaneamente
+🔍 Inspeção e substituição de componentes críticos
+📊 Controle rigoroso de PTW e gestão de SSO
+
+Menos tempo parado. Mais eficiência. Mais segurança.
+
+Quer planejar sua próxima parada? Fale conosco: (19) 97812-9914</div>
+    <div class="caption-hashtags">#paradasProgramadas #shutdown #manutenção #engenharia #a2engenharia #indústria #eficiência</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     POST 05 — CLIENTES
+     ════════════════════════════════════════════ -->
+<div class="post-wrapper">
+  <div class="post-label">Post 5 de 9 — Nossos Clientes</div>
+  <div class="card p5">
+    <div class="logo-stamp">
+      <div class="a2">A<span style="color:#C8102E">2</span></div>
+      <div class="brand-sub">ENGENHARIA<br>INTEGRADA</div>
+    </div>
+    <div class="content p5" style="background:none;">
+      <h2>Quem confia<br>na <span>A2</span></h2>
+      <div class="sub">Grandes grupos nacionais e internacionais que escolheram a A2 para seus projetos mais críticos.</div>
+      <div class="clients-wrap">
+        <div class="cli-chip cli-red">Volkswagen</div>
+        <div class="cli-chip cli-light">Petrobras</div>
+        <div class="cli-chip cli-light">Mercedes-Benz</div>
+        <div class="cli-chip cli-red">Hyundai CAOA</div>
+        <div class="cli-chip cli-light">Ford Motor</div>
+        <div class="cli-chip cli-light">3M Brasil</div>
+        <div class="cli-chip cli-red">Novelis</div>
+        <div class="cli-chip cli-light">Transpetro</div>
+        <div class="cli-chip cli-light">Bosch / ZF</div>
+        <div class="cli-chip cli-red">Marinha do Brasil</div>
+        <div class="cli-chip cli-light">Barry Callebaut</div>
+        <div class="cli-chip cli-light">Camozzi</div>
+      </div>
+    </div>
+    <div class="red-bar"></div>
+  </div>
+  <div class="caption-box">
+    <div class="caption-label">Legenda para copiar</div>
+    <div class="caption-text">Quando as maiores empresas precisam de engenharia séria, elas chamam a A2. 🤝
+
+Ao longo de 15 anos, construímos uma carteira de clientes que é o maior prêmio que poderíamos ter: empresas que voltam projeto após projeto, porque sabem que vão receber o melhor.
+
+Volkswagen · Petrobras · Mercedes-Benz · Ford Motor · Hyundai CAOA · 3M Brasil · Novelis do Brasil · Transpetro · Bosch / ZF · Marinha do Brasil · Barry Callebaut · Camozzi Automation · e outros.
+
+Temos orgulho de cada nome nessa lista. 💪
+
+Quer fazer parte? Solicite um orçamento: a2ei.com.br</div>
+    <div class="caption-hashtags">#clientes #volkswagen #petrobras #mercedes #engenharia #a2engenharia #industria #automotive</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     POST 06 — ENGENHARIA INDUSTRIAL / NR
+     ════════════════════════════════════════════ -->
+<div class="post-wrapper">
+  <div class="post-label">Post 6 de 9 — Engenharia Industrial</div>
+  <div class="card p6">
+    <div class="p6-decor"></div>
+    <div class="logo-stamp">
+      <div class="a2">A<span style="color:rgba(255,255,255,0.4)">2</span></div>
+      <div class="brand-sub" style="color:rgba(255,255,255,0.4);">ENGENHARIA<br>INTEGRADA</div>
+    </div>
+    <div class="content p6" style="background:none;">
+      <div class="icon-big">⚙️</div>
+      <h2>Engenharia<br>Industrial</h2>
+      <div class="divider"></div>
+      <div class="p6-tags">
+        <div class="p6-tag">Projetos Elétricos</div>
+        <div class="p6-tag">Projetos Mecânicos</div>
+        <div class="p6-tag">NR-10</div>
+        <div class="p6-tag">NR-12</div>
+        <div class="p6-tag">NR-13</div>
+        <div class="p6-tag">Laudo Técnico</div>
+        <div class="p6-tag">ART CREA</div>
+        <div class="p6-tag">Assessoria Técnica</div>
+      </div>
+    </div>
+    <div class="card-footer" style="color:rgba(255,255,255,0.4);">
+      <span>a2ei.com.br</span>
+      <div class="dot" style="background:rgba(255,255,255,0.3)"></div>
+      <span>(19) 97812-9914</span>
+    </div>
+  </div>
+  <div class="caption-box">
+    <div class="caption-label">Legenda para copiar</div>
+    <div class="caption-text">Engenharia de verdade começa no projeto. 📐
+
+A A2 tem equipe técnica própria para entregar projetos elétricos e mecânicos completos — com toda a documentação técnica que a sua operação exige.
+
+Nossa expertise em normas regulamentadoras:
+⚡ NR-10 — Segurança em Instalações Elétricas
+🔧 NR-12 — Segurança em Máquinas e Equipamentos
+🔵 NR-13 — Vasos de Pressão e Caldeiras
+
+Também emitimos laudos técnicos e ARTs registradas no CREA para todas as entregas.
+
+Precisando de assessoria técnica especializada? Fale com a gente: (19) 97812-9914</div>
+    <div class="caption-hashtags">#NR10 #NR12 #NR13 #laudotecnico #ART #engenhariaindustrial #a2engenharia #CREA #segurança</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     POST 07 — SEGMENTOS
+     ════════════════════════════════════════════ -->
+<div class="post-wrapper">
+  <div class="post-label">Post 7 de 9 — Segmentos de atuação</div>
+  <div class="card p7" style="display:flex;flex-direction:column;justify-content:flex-start;">
+    <div class="logo-stamp">
+      <div class="a2">A<span style="color:#C8102E">2</span></div>
+      <div class="brand-sub">ENGENHARIA<br>INTEGRADA</div>
+    </div>
+    <div class="top-area">
+      <div class="seg-tag seg-red" style="margin-bottom:12px;">Onde atuamos</div>
+      <h2>4 segmentos.<br><span>Uma só expertise.</span></h2>
+      <div class="sub">Presença nos setores mais exigentes da indústria brasileira.</div>
+    </div>
+    <div class="seg-grid">
+      <div class="seg-cell">
+        <div class="emoji">🚗</div>
+        <div class="name">Automotivo</div>
+        <div class="detail">VW, Ford, Mercedes, Hyundai</div>
+      </div>
+      <div class="seg-cell">
+        <div class="emoji">🏭</div>
+        <div class="name">Indústria</div>
+        <div class="detail">Alimentícia, química, metalúrgica</div>
+      </div>
+      <div class="seg-cell">
+        <div class="emoji">🛢️</div>
+        <div class="name">Óleo & Gás</div>
+        <div class="detail">Petrobras, Transpetro, ATEX</div>
+      </div>
+      <div class="seg-cell">
+        <div class="emoji">🏗️</div>
+        <div class="name">Infraestrutura</div>
+        <div class="detail">Obras industriais e civis</div>
+      </div>
+    </div>
+    <div class="red-bar"></div>
+  </div>
+  <div class="caption-box">
+    <div class="caption-label">Legenda para copiar</div>
+    <div class="caption-text">Onde há indústria exigente, a A2 está. 🏭
+
+Atuamos em 4 grandes segmentos — com equipe especializada para os desafios específicos de cada setor:
+
+🚗 Automotivo — Transferências de linha, montagens industriais em plantas como VW, Ford e Mercedes-Benz
+🏭 Indústria — Alimentícia, química, farmacêutica e metalúrgica
+🛢️ Óleo & Gás — Plantas de petróleo e gás, equipe habilitada para áreas classificadas (ATEX)
+🏗️ Infraestrutura — Obras industriais e civis de alta complexidade
+
+Cada segmento tem suas exigências. Nós conhecemos todas elas.
+
+📩 Conte seu projeto: a2ei.com.br ou (19) 97812-9914</div>
+    <div class="caption-hashtags">#automotivo #petroleo #industria #infraestrutura #engenharia #a2engenharia #ATEX #segmentos</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     POST 08 — DIFERENCIAIS / VALORES
+     ════════════════════════════════════════════ -->
+<div class="post-wrapper">
+  <div class="post-label">Post 8 de 9 — Diferenciais e valores</div>
+  <div class="card p8">
+    <div class="logo-stamp">
+      <div class="a2">A<span style="color:rgba(255,255,255,0.4)">2</span></div>
+      <div class="brand-sub" style="color:rgba(255,255,255,0.4);">ENGENHARIA<br>INTEGRADA</div>
+    </div>
+    <div class="content p8" style="background:none;text-align:left;padding:0 44px;margin-top:32px;">
+      <div class="quote">"Segurança<br>não é um item<br>da lista. <em>É o<br>primeiro."</em></div>
+      <div class="divider"></div>
+      <div class="desc">Na A2, cada obra começa com DDS, APR e análise de risco. Nosso histórico é o maior argumento: zero acidentes em mais de 15 anos de projetos industriais.</div>
+    </div>
+    <div class="p8-vals">
+      <div class="p8-val">Ética</div>
+      <div class="p8-val">Segurança</div>
+      <div class="p8-val">Qualidade</div>
+      <div class="p8-val">Inovação</div>
+      <div class="p8-val">Comprometimento</div>
+      <div class="p8-val">Trabalho em equipe</div>
+    </div>
+  </div>
+  <div class="caption-box">
+    <div class="caption-label">Legenda para copiar</div>
+    <div class="caption-text">Segurança primeiro. Sempre. 🛡️
+
+Na A2 Engenharia, segurança não é burocracia — é cultura. Cada equipe começa o dia com DDS (Diálogo Diário de Segurança) e cada tarefa passa por APR (Análise Preliminar de Risco) antes de começar.
+
+Nosso resultado? Mais de 15 anos de operação com histórico limpo.
+
+Porque no final, o maior projeto que entregamos é o de trazer cada trabalhador de volta pra casa são e salvo. 🏠
+
+Nossos valores que guiam tudo:
+✅ Ética | Segurança | Qualidade | Inovação | Comprometimento | Trabalho em equipe
+
+#segurança #DDS #APR #trabalhoSeguro #a2engenharia #engenharia #NR</div>
+    <div class="caption-hashtags">#segurançadotrabalho #DDS #APR #cultura #a2engenharia #engenhariaindustrial #zero acidentes</div>
+  </div>
+</div>
+
+<!-- ════════════════════════════════════════════
+     POST 09 — CTA / ORÇAMENTO
+     ════════════════════════════════════════════ -->
+<div class="post-wrapper">
+  <div class="post-label">Post 9 de 9 — Call to action</div>
+  <div class="card p9">
+    <div class="p9-decor"></div>
+    <div class="logo-stamp">
+      <div class="a2">A<span style="color:#C8102E">2</span></div>
+      <div class="brand-sub">ENGENHARIA<br>INTEGRADA</div>
+    </div>
+    <div class="content p9" style="background:none;text-align:left;">
+      <div class="seg-tag seg-red" style="margin-bottom:16px;">Próximo passo</div>
+      <h2>Tem um projeto<br>em mente?<br><span>Vamos conversar.</span></h2>
+      <div class="sub">Nossa equipe técnica analisa seu desafio e entrega a solução mais eficiente — com prazo, segurança e qualidade garantidos.</div>
+      <div class="cta-box">
+        <div class="cta-item"><span class="ico">📱</span><span>(19) 97812-9914</span></div>
+        <div class="cta-item"><span class="ico">✉️</span><span>contato@a2ei.com.br</span></div>
+        <div class="cta-item"><span class="ico">🌐</span><span>www.a2ei.com.br</span></div>
+      </div>
+    </div>
+    <div class="red-bar"></div>
+  </div>
+  <div class="caption-box">
+    <div class="caption-label">Legenda para copiar</div>
+    <div class="caption-text">Seu projeto merece a engenharia certa. 🔩
+
+A A2 Engenharia Integrada está pronta para receber seu desafio e transformar em resultado concreto — com segurança, prazo e qualidade que você pode exigir.
+
+Como solicitar seu orçamento:
+📱 WhatsApp: (19) 97812-9914
+✉️ E-mail: contato@a2ei.com.br
+🌐 Formulário: a2ei.com.br
+
+Respondemos em até 24h.
+
+Salva esse post e manda pra quem precisa de engenharia de verdade! 👇</div>
+    <div class="caption-hashtags">#orçamento #engenharia #a2engenharia #montagemelétromecânica #manutenção #indaiatuba #engenhariaindustrial #projetoindustrial</div>
+  </div>
+  <div class="print-tip">✅ Esses são os 9 posts iniciais. Após postá-los, continue com fotos reais de obras, bastidores da equipe e conteúdo técnico semanal.</div>
+</div>
+
+</body>
+</html>
