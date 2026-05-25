@@ -10,7 +10,7 @@
   --lgray:  #f4f4f4;
   --white:  #ffffff;
   --border: rgba(255,255,255,0.1);
-  --nav-h:  72px;
+  --nav-h:  88px;
   --radius: 12px;
   --shadow: 0 4px 24px rgba(0,0,0,0.12);
 }
@@ -124,7 +124,7 @@ h2 { font-size: clamp(1.6rem, 3vw, 2.4rem); font-weight: 800; line-height: 1.2; 
   align-items: center;
   gap: 40px;
 }
-.nav-logo img { height: 64px; width: auto; }
+.nav-logo img { height: 80px; width: auto; }
 .nav-links {
   display: flex;
   gap: 32px;
