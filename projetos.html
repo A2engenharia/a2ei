@@ -1,0 +1,632 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projetos — A2 Engenharia Integrada</title>
+  <meta name="description" content="Conheça os projetos e cases de sucesso da A2 Engenharia Integrada — montagem eletromecânica, manutenção industrial e gerenciamento de projetos para as maiores indústrias do Brasil." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ── NAV ────────────────────────────────────── -->
+  <nav id="navbar">
+    <div class="nav-inner">
+      <a href="index.html" class="nav-logo">
+        <img src="assets/logo.png" alt="A2 Engenharia Integrada" />
+      </a>
+      <ul class="nav-links">
+        <li><a href="index.html#sobre">Quem Somos</a></li>
+        <li><a href="index.html#servicos">Serviços</a></li>
+        <li><a href="projetos.html" class="active">Projetos</a></li>
+        <li><a href="index.html#segmentos">Segmentos</a></li>
+        <li><a href="index.html#clientes">Clientes</a></li>
+      </ul>
+      <a href="index.html#contato" class="btn btn-nav">Solicitar Orçamento</a>
+      <button class="hamburger" id="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+    <div class="nav-mobile" id="navMobile">
+      <a href="index.html#sobre" onclick="closeMenu()">Quem Somos</a>
+      <a href="index.html#servicos" onclick="closeMenu()">Serviços</a>
+      <a href="projetos.html" onclick="closeMenu()">Projetos</a>
+      <a href="index.html#segmentos" onclick="closeMenu()">Segmentos</a>
+      <a href="index.html#clientes" onclick="closeMenu()">Clientes</a>
+      <a href="index.html#contato" class="btn btn-nav" onclick="closeMenu()">Solicitar Orçamento</a>
+    </div>
+  </nav>
+
+  <!-- ── PAGE HERO ──────────────────────────────── -->
+  <section class="page-hero">
+    <div class="page-hero-overlay"></div>
+    <div class="container">
+      <div class="page-hero-content">
+        <span class="hero-tag">Portfólio</span>
+        <h1>Nossos <span class="red">Projetos</span></h1>
+        <p>Cases reais de engenharia integrada nas maiores indústrias do Brasil — do projeto à entrega.</p>
+      </div>
+    </div>
+    <div class="page-hero-bar">
+      <div class="container">
+        <div class="breadcrumb">
+          <a href="index.html">Início</a>
+          <span>›</span>
+          <span>Projetos</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── STATS STRIP ─────────────────────────────── -->
+  <section class="stats-strip">
+    <div class="container">
+      <div class="stats-strip-grid">
+        <div class="strip-stat">
+          <span class="strip-num" data-count="100">0</span><span class="strip-suffix">+</span>
+          <span class="strip-label">Projetos entregues</span>
+        </div>
+        <div class="strip-divider"></div>
+        <div class="strip-stat">
+          <span class="strip-num" data-count="15">0</span><span class="strip-suffix">+</span>
+          <span class="strip-label">Clientes ativos</span>
+        </div>
+        <div class="strip-divider"></div>
+        <div class="strip-stat">
+          <span class="strip-num" data-count="15">0</span><span class="strip-suffix"> anos</span>
+          <span class="strip-label">No mercado</span>
+        </div>
+        <div class="strip-divider"></div>
+        <div class="strip-stat">
+          <span class="strip-num" data-count="4">0</span>
+          <span class="strip-label">Segmentos atendidos</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FILTERS ────────────────────────────────── -->
+  <section class="section" style="padding-bottom: 0;">
+    <div class="container">
+      <div class="section-header" data-animate>
+        <span class="section-tag">Cases de Sucesso</span>
+        <h2>Engenharia que <span class="red">transforma</span> indústrias</h2>
+        <p>Projetos executados com excelência técnica, segurança e prazo — do setor automotivo ao petroquímico.</p>
+      </div>
+      <div class="filter-bar" data-animate>
+        <button class="filter-btn active" data-filter="all">Todos</button>
+        <button class="filter-btn" data-filter="automotivo">Automotivo</button>
+        <button class="filter-btn" data-filter="industria">Indústria</button>
+        <button class="filter-btn" data-filter="oleo-gas">Óleo & Gás</button>
+        <button class="filter-btn" data-filter="infraestrutura">Infraestrutura</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PROJECTS GRID ──────────────────────────── -->
+  <section class="section" style="padding-top: 40px;">
+    <div class="container">
+      <div class="projects-grid" id="projectsGrid">
+
+        <!-- AUTOMOTIVO -->
+        <div class="project-card" data-segment="automotivo" data-animate>
+          <div class="project-thumb automotivo">
+            <div class="project-thumb-inner">
+              <span class="project-icon">🚗</span>
+              <span class="project-num">01</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-meta">
+              <span class="project-tag automotivo-tag">Automotivo</span>
+              <span class="project-year">2023</span>
+            </div>
+            <h3>Transferência de Linha de Produção</h3>
+            <p class="project-client">Volkswagen do Brasil</p>
+            <p class="project-desc">Transferência completa de linha de produção — desmontagem, transporte, remontagem e comissionamento de equipamentos de grande porte, incluindo içamento especializado e start-up da linha.</p>
+            <div class="project-services">
+              <span>Montagem Eletromecânica</span>
+              <span>Içamento</span>
+              <span>Comissionamento</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-segment="automotivo" data-animate>
+          <div class="project-thumb automotivo">
+            <div class="project-thumb-inner">
+              <span class="project-icon">🔩</span>
+              <span class="project-num">02</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-meta">
+              <span class="project-tag automotivo-tag">Automotivo</span>
+              <span class="project-year">2022</span>
+            </div>
+            <h3>Implantação de Equipamentos e CCMs</h3>
+            <p class="project-client">Hyundai CAOA</p>
+            <p class="project-desc">Implantação de equipamentos industriais e centros de controle de motores (CCMs) em nova linha de pintura — projeto elétrico, montagem mecânica, cabeamento e testes de energização.</p>
+            <div class="project-services">
+              <span>Engenharia Industrial</span>
+              <span>Elétrica</span>
+              <span>CCM</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-segment="automotivo" data-animate>
+          <div class="project-thumb automotivo">
+            <div class="project-thumb-inner">
+              <span class="project-icon">⚙️</span>
+              <span class="project-num">03</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-meta">
+              <span class="project-tag automotivo-tag">Automotivo</span>
+              <span class="project-year">2022</span>
+            </div>
+            <h3>Retrofit Eletromecânico de Linha de Prensas</h3>
+            <p class="project-client">Mercedes-Benz do Brasil</p>
+            <p class="project-desc">Modernização completa de linha de prensas — substituição de painéis elétricos, atualização de CLPs, revisão mecânica e adequação à NR-12 com mínimo impacto produtivo.</p>
+            <div class="project-services">
+              <span>Retrofit</span>
+              <span>NR-12</span>
+              <span>Automação</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-segment="automotivo" data-animate>
+          <div class="project-thumb automotivo">
+            <div class="project-thumb-inner">
+              <span class="project-icon">🏭</span>
+              <span class="project-num">04</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-meta">
+              <span class="project-tag automotivo-tag">Automotivo</span>
+              <span class="project-year">2021</span>
+            </div>
+            <h3>Desmontagem e Remontagem de Equipamentos</h3>
+            <p class="project-client">Ford Motor Company</p>
+            <p class="project-desc">Desmontagem controlada e remontagem de linha de montagem automotiva — com rastreabilidade total de peças, gabaritos de precisão e aprovação do cliente em cada etapa.</p>
+            <div class="project-services">
+              <span>Montagem Mecânica</span>
+              <span>Gerenciamento</span>
+              <span>Rastreabilidade</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-segment="automotivo" data-animate>
+          <div class="project-thumb automotivo">
+            <div class="project-thumb-inner">
+              <span class="project-icon">🔧</span>
+              <span class="project-num">05</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-meta">
+              <span class="project-tag automotivo-tag">Automotivo</span>
+              <span class="project-year">2023</span>
+            </div>
+            <h3>Manutenção Eletromecânica em Parada Programada</h3>
+            <p class="project-client">Aisin Automotive</p>
+            <p class="project-desc">Execução de parada programada com múltiplas equipes simultâneas — manutenção preventiva de equipamentos, inspeção de componentes críticos e análise preditiva por termografia.</p>
+            <div class="project-services">
+              <span>Parada Programada</span>
+              <span>Termografia</span>
+              <span>Preventiva</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- INDUSTRIA -->
+        <div class="project-card" data-segment="industria" data-animate>
+          <div class="project-thumb industria">
+            <div class="project-thumb-inner">
+              <span class="project-icon">🏭</span>
+              <span class="project-num">06</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-meta">
+              <span class="project-tag industria-tag">Indústria</span>
+              <span class="project-year">2022</span>
+            </div>
+            <h3>Montagem e Comissionamento de Linha de Produção</h3>
+            <p class="project-client">3M Brasil</p>
+            <p class="project-desc">Montagem completa de nova linha de produção — instalação de equipamentos importados, cabeamento industrial, integração de sistemas e comissionamento com equipe 3M presente.</p>
+            <div class="project-services">
+              <span>Montagem Industrial</span>
+              <span>Comissionamento</span>
+              <span>Elétrica</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-segment="industria" data-animate>
+          <div class="project-thumb industria">
+            <div class="project-thumb-inner">
+              <span class="project-icon">🍫</span>
+              <span class="project-num">07</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-meta">
+              <span class="project-tag industria-tag">Indústria</span>
+              <span class="project-year">2021</span>
+            </div>
+            <h3>Obras Civis e Montagem Industrial</h3>
+            <p class="project-client">Barry Callebaut</p>
+            <p class="project-desc">Execução de obras civis industriais e montagem eletromecânica em planta de produção de chocolate — instalação de silos, tubulações inox, painéis de controle e sistema de utilidades.</p>
+            <div class="project-services">
+              <span>Obras Civis</span>
+              <span>Montagem</span>
+              <span>Inox</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-segment="industria" data-animate>
+          <div class="project-thumb industria">
+            <div class="project-thumb-inner">
+              <span class="project-icon">🔬</span>
+              <span class="project-num">08</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-meta">
+              <span class="project-tag industria-tag">Indústria</span>
+              <span class="project-year">2023</span>
+            </div>
+            <h3>Modernização de Sistema de Laminação</h3>
+            <p class="project-client">Novelis do Brasil</p>
+            <p class="project-desc">Modernização de laminador de alumínio — substituição de sistemas hidráulicos, elétricos e mecânicos com engenharia de precisão, garantindo mínima parada da produção.</p>
+            <div class="project-services">
+              <span>Engenharia</span>
+              <span>Hidráulica</span>
+              <span>Retrofit</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-segment="industria" data-animate>
+          <div class="project-thumb industria">
+            <div class="project-thumb-inner">
+              <span class="project-icon">⚡</span>
+              <span class="project-num">09</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-meta">
+              <span class="project-tag industria-tag">Indústria</span>
+              <span class="project-year">2022</span>
+            </div>
+            <h3>Adequação NR-10 e NR-12</h3>
+            <p class="project-client">Bosch / ZF</p>
+            <p class="project-desc">Levantamento, projeto e execução de adequação às normas NR-10 e NR-12 — bloqueio e etiquetagem (LOTO), proteções de máquinas, laudos técnicos e ARTs registradas no CREA.</p>
+            <div class="project-services">
+              <span>NR-10</span>
+              <span>NR-12</span>
+              <span>LOTO</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- ÓLEO E GÁS -->
+        <div class="project-card" data-segment="oleo-gas" data-animate>
+          <div class="project-thumb oleo-gas">
+            <div class="project-thumb-inner">
+              <span class="project-icon">🛢️</span>
+              <span class="project-num">10</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-meta">
+              <span class="project-tag oleo-tag">Óleo & Gás</span>
+              <span class="project-year">2022</span>
+            </div>
+            <h3>Manutenção em Parada Programada — Refinaria</h3>
+            <p class="project-client">Petrobras</p>
+            <p class="project-desc">Execução de parada programada em unidade de refino — manutenção de turbocompressores, trocadores de calor, válvulas de controle e inspeção de vasos de pressão com gestão de PTW e SSMA.</p>
+            <div class="project-services">
+              <span>Parada Programada</span>
+              <span>Vasos de Pressão</span>
+              <span>PTW</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-segment="oleo-gas" data-animate>
+          <div class="project-thumb oleo-gas">
+            <div class="project-thumb-inner">
+              <span class="project-icon">⛽</span>
+              <span class="project-num">11</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-meta">
+              <span class="project-tag oleo-tag">Óleo & Gás</span>
+              <span class="project-year">2021</span>
+            </div>
+            <h3>Montagem Eletromecânica em Terminal Dutoviário</h3>
+            <p class="project-client">Transpetro</p>
+            <p class="project-desc">Montagem eletromecânica em terminal de transferência de derivados — instalação de motores, bombas, válvulas, instrumentação e painéis elétricos em área classificada ATEX.</p>
+            <div class="project-services">
+              <span>Área Classificada</span>
+              <span>ATEX</span>
+              <span>Instrumentação</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- INFRAESTRUTURA -->
+        <div class="project-card" data-segment="infraestrutura" data-animate>
+          <div class="project-thumb infraestrutura">
+            <div class="project-thumb-inner">
+              <span class="project-icon">⚓</span>
+              <span class="project-num">12</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-meta">
+              <span class="project-tag infra-tag">Infraestrutura</span>
+              <span class="project-year">2022</span>
+            </div>
+            <h3>Obras Especializadas em Instalações Navais</h3>
+            <p class="project-client">Marinha do Brasil</p>
+            <p class="project-desc">Execução de obras civis e eletromecânicas em instalações da Marinha do Brasil — adequações, reformas estruturais e montagem de equipamentos com equipe habilitada e rastreabilidade total.</p>
+            <div class="project-services">
+              <span>Obras Civis</span>
+              <span>Elétrica</span>
+              <span>Estrutura Metálica</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-segment="infraestrutura" data-animate>
+          <div class="project-thumb infraestrutura">
+            <div class="project-thumb-inner">
+              <span class="project-icon">🏗️</span>
+              <span class="project-num">13</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-meta">
+              <span class="project-tag infra-tag">Infraestrutura</span>
+              <span class="project-year">2023</span>
+            </div>
+            <h3>Implantação de Infraestrutura Industrial</h3>
+            <p class="project-client">EssilorLuxottica</p>
+            <p class="project-desc">Projeto e execução de infraestrutura industrial — rede elétrica, sistemas de compressão de ar, fundações especializadas para equipamentos óticos de precisão e obras de acabamento industrial.</p>
+            <div class="project-services">
+              <span>Elétrica</span>
+              <span>Fundações</span>
+              <span>Ar Comprimido</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-segment="industria" data-animate>
+          <div class="project-thumb industria">
+            <div class="project-thumb-inner">
+              <span class="project-icon">🌡️</span>
+              <span class="project-num">14</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-meta">
+              <span class="project-tag industria-tag">Indústria</span>
+              <span class="project-year">2023</span>
+            </div>
+            <h3>Gerenciamento de Projeto — Ampliação de Planta</h3>
+            <p class="project-client">Camozzi Automation</p>
+            <p class="project-desc">Gerenciamento completo da ampliação de planta fabril — escopo, cronograma, contratos de fornecedores, controle de qualidade e relatórios gerenciais com EAP detalhada.</p>
+            <div class="project-services">
+              <span>PMO</span>
+              <span>Cronograma</span>
+              <span>Gestão de Contratos</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="project-card" data-segment="infraestrutura" data-animate>
+          <div class="project-thumb infraestrutura">
+            <div class="project-thumb-inner">
+              <span class="project-icon">🔌</span>
+              <span class="project-num">15</span>
+            </div>
+          </div>
+          <div class="project-body">
+            <div class="project-meta">
+              <span class="project-tag infra-tag">Infraestrutura</span>
+              <span class="project-year">2022</span>
+            </div>
+            <h3>Instalação Elétrica Industrial — Galpão Logístico</h3>
+            <p class="project-client">Lorenzetti</p>
+            <p class="project-desc">Projeto e instalação elétrica completa de galpão industrial — subestação, cabines primárias, sistema de iluminação LED industrial, SPDA, QGBT e infraestrutura de força e dados.</p>
+            <div class="project-services">
+              <span>Subestação</span>
+              <span>LED Industrial</span>
+              <span>SPDA</span>
+            </div>
+          </div>
+        </div>
+
+      </div><!-- /projects-grid -->
+    </div>
+  </section>
+
+  <!-- ── DIFERENCIAIS ───────────────────────────── -->
+  <section class="section dark-section">
+    <div class="container">
+      <div class="section-header" data-animate>
+        <span class="section-tag">Por que a A2?</span>
+        <h2>O que nos diferencia em cada <span class="red">projeto</span></h2>
+      </div>
+      <div class="difs-grid">
+        <div class="dif-card" data-animate>
+          <div class="dif-icon">📐</div>
+          <h4>Engenharia Própria</h4>
+          <p>Equipe de engenheiros internos que projeta, calcula e documenta cada etapa — sem terceirização do conhecimento.</p>
+        </div>
+        <div class="dif-card" data-animate>
+          <div class="dif-icon">🛡️</div>
+          <h4>Zero Acidentes</h4>
+          <p>Programa robusto de SSO com treinamentos constantes, APR, DDS e auditoria de segurança em todos os projetos.</p>
+        </div>
+        <div class="dif-card" data-animate>
+          <div class="dif-icon">📅</div>
+          <h4>Prazo Garantido</h4>
+          <p>Cronograma detalhado e gestão ativa de recursos — entregas no prazo combinado, mesmo nos projetos mais complexos.</p>
+        </div>
+        <div class="dif-card" data-animate>
+          <div class="dif-icon">📊</div>
+          <h4>Gestão Transparente</h4>
+          <p>Relatórios semanais de progresso, indicadores de performance e reuniões de acompanhamento com o cliente.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CTA ────────────────────────────────────── -->
+  <section class="cta-banner">
+    <div class="container">
+      <div class="cta-content" data-animate>
+        <h2>Seu projeto pode ser o próximo case de sucesso</h2>
+        <p>Fale com nossa equipe técnica e receba uma proposta personalizada para o seu desafio.</p>
+        <a href="index.html#contato" class="btn btn-primary btn-lg">Solicitar Proposta</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FOOTER ────────────────────────────────── -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="assets/logo.png" alt="A2 Engenharia" class="footer-logo" />
+          <p>Engenharia integrada com mais de 15 anos de mercado. Do projeto à entrega — com segurança, precisão e comprometimento.</p>
+          <div class="footer-social">
+            <a href="https://instagram.com/a2engenhariaintegrada" target="_blank" aria-label="Instagram">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838c-3.403 0-6.162 2.759-6.162 6.162s2.759 6.163 6.162 6.163 6.162-2.759 6.162-6.163c0-3.403-2.759-6.162-6.162-6.162zm0 10.162c-2.209 0-4-1.79-4-4 0-2.209 1.791-4 4-4s4 1.791 4 4c0 2.21-1.791 4-4 4zm6.406-11.845c-.796 0-1.441.645-1.441 1.44s.645 1.44 1.441 1.44c.795 0 1.439-.645 1.439-1.44s-.644-1.44-1.439-1.44z"/></svg>
+            </a>
+            <a href="https://wa.me/5519978129914" target="_blank" aria-label="WhatsApp">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+            </a>
+            <a href="mailto:contato@a2ei.com.br" aria-label="E-mail">
+              <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            </a>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h5>Serviços</h5>
+          <ul>
+            <li><a href="index.html#servicos">Engenharia Industrial</a></li>
+            <li><a href="index.html#servicos">Montagem Eletromecânica</a></li>
+            <li><a href="index.html#servicos">Manutenção Industrial</a></li>
+            <li><a href="index.html#servicos">Construção e Infraestrutura</a></li>
+            <li><a href="index.html#servicos">Gerenciamento de Projetos</a></li>
+            <li><a href="index.html#servicos">Paradas Programadas</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Empresa</h5>
+          <ul>
+            <li><a href="index.html#sobre">Quem Somos</a></li>
+            <li><a href="projetos.html">Projetos</a></li>
+            <li><a href="index.html#segmentos">Segmentos</a></li>
+            <li><a href="index.html#clientes">Clientes</a></li>
+            <li><a href="index.html#contato">Contato</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h5>Contato</h5>
+          <ul class="footer-contact">
+            <li>
+              <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+              <a href="https://wa.me/5519978129914" target="_blank">(19) 97812-9914</a>
+            </li>
+            <li>
+              <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+              <a href="mailto:contato@a2ei.com.br">contato@a2ei.com.br</a>
+            </li>
+            <li>
+              <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+              <span>Campinas — SP</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2025 A2 Engenharia Integrada. Todos os direitos reservados. | CNPJ: a consultar</p>
+        <p><a href="https://www.a2ei.com.br">www.a2ei.com.br</a></p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ── WHATSAPP FLOAT ─────────────────────────── -->
+  <a href="https://wa.me/5519978129914" class="whatsapp-float" target="_blank" aria-label="WhatsApp">
+    <svg width="28" height="28" fill="white" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+  </a>
+
+  <script src="script.js"></script>
+  <script>
+    // ── FILTER PROJECTS ──────────────────────────
+    const filterBtns = document.querySelectorAll('.filter-btn');
+    const projectCards = document.querySelectorAll('.project-card');
+
+    filterBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        filterBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+
+        const filter = btn.dataset.filter;
+        projectCards.forEach(card => {
+          if (filter === 'all' || card.dataset.segment === filter) {
+            card.style.display = 'flex';
+            card.style.opacity = '0';
+            requestAnimationFrame(() => {
+              card.style.transition = 'opacity 0.3s ease';
+              card.style.opacity = '1';
+            });
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+
+    // ── COUNTER ANIMATION (strip) ──────────────
+    const stripNums = document.querySelectorAll('.strip-num');
+    const stripObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          const el = entry.target;
+          const target = parseInt(el.dataset.count);
+          let current = 0;
+          const duration = 1200;
+          const start = performance.now();
+          function update(now) {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = Math.round(eased * target);
+            if (progress < 1) requestAnimationFrame(update);
+          }
+          requestAnimationFrame(update);
+          stripObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+
+    stripNums.forEach(n => stripObserver.observe(n));
+  </script>
+</body>
+</html>
