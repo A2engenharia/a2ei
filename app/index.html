@@ -1613,6 +1613,7 @@ function renderAdminUsers(){
       <div class="uacts">
         <button class="ibtn" onclick="openUserModal('${uid}')" title="Editar">✏️</button>
         ${!u.isSuper?`<button class="ibtn ${u.ativo!==false?'del':''}" onclick="toggleUser('${uid}',${u.ativo!==false})" title="${u.ativo!==false?'Desativar':'Reativar'}">${u.ativo!==false?'🚫':'✅'}</button>`:''}
+        ${!u.isSuper?`<button class="ibtn del" onclick="deleteUser('${uid}','${u.nome.replace(/'/g,'')}')" title="Excluir permanentemente">🗑️</button>`:''}
       </div>
     </div>`).join('');
 }
@@ -1663,12 +1664,18 @@ async function saveUser(){
     ...existing, nome, iniciais:inic, pinHash, modulos:mods,
     ativo:existing.ativo!==false, criadoEm:existing.criadoEm||Date.now()
   });
-  if(!pinVal) closeOvl('ovlUser');
+  closeOvl('ovlUser');
+  if(pinVal) alert(`✅ Usuário salvo!\n\n🔑 PIN de ${nome}: ${pinVal}\n\nGuarde este PIN — não será exibido novamente.`);
 }
 
 async function toggleUser(uid,isActive){
   if(isActive&&!confirm(`Desativar ${usuarios[uid]?.nome}? Ele não conseguirá fazer login.`)) return;
   await db.ref('erp/usuarios/'+uid+'/ativo').set(!isActive);
+}
+
+async function deleteUser(uid,nome){
+  if(!confirm(`⚠️ Excluir permanentemente "${nome}"?\n\nEsta ação não pode ser desfeita.`)) return;
+  await db.ref('erp/usuarios/'+uid).remove();
 }
 
 // ══════════════════════════════════════════════
