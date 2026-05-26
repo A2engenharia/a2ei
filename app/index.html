@@ -212,6 +212,97 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .cs p{font-size:0.83rem;color:var(--sub)}
 .tag-em-breve{display:inline-block;background:#fef3c7;color:var(--amber);font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:10px}
 
+/* ── PROPOSTAS ── */
+.prop-card{background:var(--card);border-radius:11px;border:1px solid var(--border);padding:13px 14px;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;transition:box-shadow 0.12s;margin-bottom:7px}
+.prop-card:hover{box-shadow:0 2px 8px rgba(0,0,0,0.07)}
+.prop-num{font-size:0.68rem;font-weight:700;color:var(--sub);margin-bottom:2px}
+.prop-name{font-size:0.9rem;font-weight:700;color:var(--dark);margin-bottom:2px}
+.prop-desc{font-size:0.72rem;color:var(--sub)}
+.prop-val{font-size:1rem;font-weight:800;color:var(--dark);text-align:right}
+.prop-date{font-size:0.68rem;color:var(--sub);text-align:right;margin-top:2px}
+.pst-rascunho{background:#f1f5f9;color:#64748b}
+.pst-enviada{background:#dbeafe;color:var(--blue)}
+.pst-aprovada{background:#dcfce7;color:var(--green)}
+.pst-rejeitada{background:#fee2e2;color:var(--red)}
+
+/* ── ORCAMENTO FORM ── */
+.orc-section{background:#f9fafb;border-radius:10px;padding:14px;margin-bottom:12px}
+.orc-section h3{font-size:0.8rem;font-weight:700;color:var(--dark);margin-bottom:10px}
+.orc-table{width:100%;border-collapse:collapse;font-size:0.78rem}
+.orc-table th{background:#f3f4f6;padding:6px 8px;text-align:left;font-size:0.68rem;font-weight:700;color:var(--sub);text-transform:uppercase;border-bottom:1px solid var(--border)}
+.orc-table td{padding:5px 6px;border-bottom:1px solid #f3f4f6;vertical-align:middle}
+.orc-table input,.orc-table select{width:100%;padding:4px 6px;border:1px solid var(--border);border-radius:5px;font-size:0.77rem;font-family:inherit;background:var(--card)}
+.orc-table input:focus,.orc-table select:focus{outline:none;border-color:var(--red)}
+.orc-table .num{text-align:right;font-weight:700;color:var(--dark);white-space:nowrap}
+.btn-add-row{background:#f3f4f6;border:1.5px dashed var(--border);color:var(--sub);padding:6px;border-radius:7px;font-size:0.75rem;cursor:pointer;width:100%;font-family:inherit;margin-top:6px}
+.btn-add-row:hover{background:#e5e7eb}
+.btn-del-row{background:none;border:none;color:#ef4444;cursor:pointer;padding:2px 5px;font-size:0.9rem;line-height:1}
+.resumo-fin{background:var(--dark);border-radius:10px;padding:14px;color:#fff;margin-bottom:12px}
+.resumo-fin h3{font-size:0.8rem;font-weight:700;color:rgba(255,255,255,0.6);margin-bottom:10px}
+.resumo-row{display:flex;justify-content:space-between;font-size:0.81rem;padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.07)}
+.resumo-row.total{font-weight:800;font-size:0.9rem;border-top:2px solid rgba(255,255,255,0.2);border-bottom:none;padding-top:8px;margin-top:4px}
+.resumo-row.venda{color:#4ade80;font-weight:800;font-size:1rem;border:none;padding-top:6px}
+.resumo-label{color:rgba(255,255,255,0.65)}
+.resumo-val{color:#fff;font-weight:600}
+.perc-row{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin:10px 0}
+.perc-field label{font-size:0.65rem;color:rgba(255,255,255,0.5);display:block;margin-bottom:2px}
+.perc-field input{width:100%;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:#fff;padding:5px 7px;font-size:0.78rem;font-family:inherit}
+
+/* ── PROJETOS ── */
+.proj-card{background:var(--card);border-radius:11px;border:1px solid var(--border);padding:13px 14px;margin-bottom:7px;cursor:pointer;transition:box-shadow 0.12s}
+.proj-card:hover{box-shadow:0 2px 8px rgba(0,0,0,0.07)}
+.proj-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:6px}
+.proj-num{font-size:0.68rem;color:var(--sub);font-weight:700}
+.proj-title{font-size:0.9rem;font-weight:700;color:var(--dark)}
+.proj-client{font-size:0.73rem;color:var(--sub);margin-top:2px}
+.proj-prog{margin-top:8px}
+.prog-bar{height:4px;background:#f3f4f6;border-radius:2px;overflow:hidden;margin-top:3px}
+.prog-fill{height:100%;background:var(--green);border-radius:2px;transition:width 0.3s}
+.pst-em-andamento{background:#dbeafe;color:var(--blue)}
+.pst-concluido{background:#dcfce7;color:var(--green)}
+.pst-pausado{background:#fef3c7;color:var(--amber)}
+.pst-cancelado{background:#fee2e2;color:var(--red)}
+.update-item{background:#f9fafb;border-radius:7px;padding:9px 11px;margin-bottom:6px;font-size:0.78rem}
+.update-meta{display:flex;justify-content:space-between;margin-bottom:3px}
+.update-user{font-weight:600;color:var(--dark)}
+.update-date{color:var(--sub);font-size:0.7rem}
+
+/* ── COMPRAS ── */
+.ped-card{background:var(--card);border-radius:11px;border:1px solid var(--border);padding:13px 14px;margin-bottom:7px;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.ped-num{font-size:0.68rem;color:var(--sub);font-weight:700;margin-bottom:2px}
+.ped-forn{font-size:0.9rem;font-weight:700;color:var(--dark)}
+.ped-desc{font-size:0.72rem;color:var(--sub);margin-top:2px}
+.pst-pendente{background:#fef3c7;color:var(--amber)}
+.pst-aprovado{background:#dcfce7;color:var(--green)}
+.pst-enviado{background:#dbeafe;color:var(--blue)}
+.forn-item{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;margin-bottom:6px;display:flex;align-items:center;gap:12px}
+.forn-av{width:36px;height:36px;border-radius:9px;background:var(--dark);color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+
+/* ── ESTOQUE ── */
+.est-card{background:var(--card);border-radius:11px;border:1px solid var(--border);padding:12px 14px;margin-bottom:6px;display:flex;align-items:center;gap:12px;cursor:pointer}
+.est-av{width:38px;height:38px;border-radius:9px;background:var(--blue);color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.est-info{flex:1;min-width:0}
+.est-name{font-size:0.87rem;font-weight:700;color:var(--dark)}
+.est-cat{font-size:0.7rem;color:var(--sub)}
+.est-qty{text-align:right}
+.est-qty-val{font-size:1.1rem;font-weight:800;color:var(--dark)}
+.est-qty-unit{font-size:0.68rem;color:var(--sub)}
+.est-alerta{color:var(--red)!important}
+.mov-item{background:#f9fafb;border-radius:7px;padding:9px 11px;margin-bottom:5px;font-size:0.78rem;display:flex;justify-content:space-between;align-items:center}
+.mov-tipo-ent{color:var(--green);font-weight:700}
+.mov-tipo-sai{color:var(--red);font-weight:700}
+
+/* ── RH ── */
+.func-card{background:var(--card);border-radius:11px;border:1px solid var(--border);padding:12px 14px;margin-bottom:6px;display:flex;align-items:center;gap:12px;cursor:pointer}
+.func-av{width:40px;height:40px;border-radius:50%;background:var(--dark);color:#fff;font-size:0.85rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.func-info{flex:1;min-width:0}
+.func-name{font-size:0.87rem;font-weight:700;color:var(--dark)}
+.func-cargo{font-size:0.71rem;color:var(--sub);margin-top:1px}
+.nr-badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:0.62rem;font-weight:700;margin:2px}
+.nr-ok{background:#dcfce7;color:var(--green)}
+.nr-venc{background:#fee2e2;color:var(--red)}
+.nr-pend{background:#fef3c7;color:var(--amber)}
+
 /* MISC */
 .offline-warn{position:fixed;bottom:68px;left:50%;transform:translateX(-50%);background:var(--dark);color:rgba(255,255,255,0.7);padding:7px 15px;border-radius:20px;font-size:0.7rem;font-weight:600;display:none;z-index:1000;white-space:nowrap;border:1px solid rgba(255,255,255,0.1)}
 .offline-warn.show{display:block}
@@ -326,27 +417,66 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
       <!-- PROPOSTAS -->
       <div class="sec" id="secProp">
-        <div class="cs"><div class="ico">📄</div><h2>Propostas</h2><p>Geração de propostas com orçamento e contrato preenchido automaticamente.</p><div class="tag-em-breve">Em desenvolvimento</div></div>
+        <div class="pgh">
+          <div class="pg-title">📄 Propostas</div>
+          <button class="btn btn-red" onclick="openPropModal()">+ Nova Proposta</button>
+        </div>
+        <div class="filters">
+          <input class="search" id="propSearch" placeholder="Buscar proposta ou cliente..." oninput="renderProp()"/>
+          <div class="ftabs" id="propTabs"></div>
+        </div>
+        <div id="propList"></div>
       </div>
 
       <!-- PROJETOS -->
       <div class="sec" id="secProj">
-        <div class="cs"><div class="ico">📋</div><h2>Projetos / OS</h2><p>Ordens de serviço, cronograma e acompanhamento de obras.</p><div class="tag-em-breve">Em desenvolvimento</div></div>
+        <div class="pgh">
+          <div class="pg-title">📋 Projetos / OS</div>
+          <button class="btn btn-red" onclick="openProjModal()">+ Nova OS</button>
+        </div>
+        <div class="filters">
+          <input class="search" id="projSearch" placeholder="Buscar OS ou cliente..." oninput="renderProj()"/>
+          <div class="ftabs" id="projStatusTabs"></div>
+        </div>
+        <div id="projList"></div>
       </div>
 
       <!-- COMPRAS -->
       <div class="sec" id="secComp">
-        <div class="cs"><div class="ico">🛒</div><h2>Compras</h2><p>Requisições, aprovações e pedidos de compra em PDF.</p><div class="tag-em-breve">Em desenvolvimento</div></div>
+        <div class="pgh">
+          <div class="pg-title">🛒 Compras</div>
+          <div style="display:flex;gap:7px">
+            <button class="btn btn-ghost" id="btnForn" onclick="compTab('forn')">Fornecedores</button>
+            <button class="btn btn-red" id="btnPed" onclick="compTab('ped')">+ Pedido</button>
+          </div>
+        </div>
+        <div id="compContent"></div>
       </div>
 
       <!-- ESTOQUE -->
       <div class="sec" id="secEst">
-        <div class="cs"><div class="ico">📦</div><h2>Estoque</h2><p>Controle de materiais, ferramentas e EPIs.</p><div class="tag-em-breve">Em desenvolvimento</div></div>
+        <div class="pgh">
+          <div class="pg-title">📦 Estoque</div>
+          <button class="btn btn-red" onclick="openEstModal()">+ Item</button>
+        </div>
+        <div class="filters">
+          <input class="search" id="estSearch" placeholder="Buscar material, ferramenta..." oninput="renderEst()"/>
+          <div class="ftabs" id="estTabs"></div>
+        </div>
+        <div id="estList"></div>
       </div>
 
       <!-- RH -->
       <div class="sec" id="secRH">
-        <div class="cs"><div class="ico">👷</div><h2>RH</h2><p>Gestão de equipe, férias, documentos e horas por projeto.</p><div class="tag-em-breve">Em desenvolvimento</div></div>
+        <div class="pgh">
+          <div class="pg-title">👷 RH — Equipe</div>
+          <button class="btn btn-red" onclick="openFuncModal()">+ Funcionário</button>
+        </div>
+        <div class="filters">
+          <input class="search" id="rhSearch" placeholder="Buscar funcionário..." oninput="renderRH()"/>
+          <div class="ftabs" id="rhTabs"></div>
+        </div>
+        <div id="funcList"></div>
       </div>
 
       <!-- ADMIN -->
@@ -500,6 +630,371 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   </div>
 </div>
 
+<!-- ═══ MODAL: PROPOSTA ═══ -->
+<div class="ovl" id="ovlProp" onclick="if(event.target===this)closeOvl('ovlProp')">
+  <div class="modal" style="max-width:720px;max-height:95vh">
+    <div class="mhead">
+      <div class="mtitle" id="propModalTitle">Nova Proposta</div>
+      <button class="mclose" onclick="closeOvl('ovlProp')">✕</button>
+    </div>
+    <input type="hidden" id="editPropId"/>
+    <div class="f2">
+      <div class="fg"><label>Cliente *</label><select id="pCliente" onchange="onPropClientChange()"></select></div>
+      <div class="fg"><label>Validade</label>
+        <select id="pValidade"><option value="30">30 dias</option><option value="45">45 dias</option><option value="60">60 dias</option></select>
+      </div>
+    </div>
+    <div class="fg"><label>Descrição do Serviço / Projeto *</label><input type="text" id="pDesc" placeholder="Ex: Manutenção elétrica painel de controle"/></div>
+    <div class="f2">
+      <div class="fg"><label>Local de Execução</label><input type="text" id="pLocal" placeholder="Ex: Planta Honda — Sumaré SP"/></div>
+      <div class="fg"><label>Prazo de Execução</label><input type="text" id="pPrazo" placeholder="Ex: 15 dias úteis"/></div>
+    </div>
+
+    <!-- MÃO DE OBRA -->
+    <div class="orc-section">
+      <h3>👷 Mão de Obra</h3>
+      <table class="orc-table" id="moTable">
+        <thead><tr><th>Cargo</th><th>Tipo</th><th>Qtd</th><th>Dias</th><th style="text-align:right">Custo/h</th><th style="text-align:right">Total</th><th></th></tr></thead>
+        <tbody id="moBody"></tbody>
+      </table>
+      <button class="btn-add-row" onclick="addMORow()">+ Adicionar cargo</button>
+    </div>
+
+    <!-- MATERIAIS -->
+    <div class="orc-section">
+      <h3>🔧 Materiais</h3>
+      <table class="orc-table" id="matTable">
+        <thead><tr><th>Descrição</th><th>Especificação</th><th>Unid</th><th>Qtd</th><th style="text-align:right">Vlr Unit</th><th style="text-align:right">Total</th><th></th></tr></thead>
+        <tbody id="matBody"></tbody>
+      </table>
+      <button class="btn-add-row" onclick="addMatRow()">+ Adicionar material</button>
+    </div>
+
+    <!-- OUTROS CUSTOS -->
+    <div class="orc-section">
+      <h3>🚗 Outros Custos</h3>
+      <div class="f2">
+        <div class="fg"><label>Diárias (hospedagem) — qtd × dias × R$</label>
+          <div style="display:flex;gap:4px">
+            <input type="number" id="hospQtd" placeholder="Qtd" min="0" step="1" oninput="calcProp()" style="width:60px"/>
+            <input type="number" id="hospDias" placeholder="Dias" min="0" step="1" oninput="calcProp()" style="width:60px"/>
+            <input type="number" id="hospVal" placeholder="R$/diária" min="0" step="0.01" oninput="calcProp()"/>
+          </div>
+        </div>
+        <div class="fg"><label>Refeições — qtd × dias × R$</label>
+          <div style="display:flex;gap:4px">
+            <input type="number" id="refQtd" placeholder="Qtd" min="0" step="1" oninput="calcProp()" style="width:60px"/>
+            <input type="number" id="refDias" placeholder="Dias" min="0" step="1" oninput="calcProp()" style="width:60px"/>
+            <input type="number" id="refVal" placeholder="R$/refeição" min="0" step="0.01" oninput="calcProp()"/>
+          </div>
+        </div>
+      </div>
+      <div class="f2">
+        <div class="fg"><label>Combustível — km × R$/km × dias</label>
+          <div style="display:flex;gap:4px">
+            <input type="number" id="combKm" placeholder="KM" min="0" oninput="calcProp()" style="width:65px"/>
+            <input type="number" id="combVal" placeholder="R$/km" min="0" step="0.01" oninput="calcProp()" style="width:75px"/>
+            <input type="number" id="combDias" placeholder="Dias" min="0" step="1" oninput="calcProp()" style="width:60px"/>
+          </div>
+        </div>
+        <div class="fg"><label>Pedágio + Vale Transporte (total)</label>
+          <input type="number" id="outroCust" placeholder="R$ 0,00" min="0" step="0.01" oninput="calcProp()"/>
+        </div>
+      </div>
+      <div class="fg"><label>Custo Fixo (rateio) — mensal ÷ cap.h/mês × h projeto</label>
+        <div style="display:flex;gap:4px">
+          <input type="number" id="cfMensal" placeholder="Custo fixo mensal" min="0" oninput="calcProp()"/>
+          <input type="number" id="cfCapH" placeholder="Cap. h/mês" min="1" value="176" oninput="calcProp()" style="width:90px"/>
+          <input type="number" id="cfHProj" placeholder="Hs projeto" min="0" oninput="calcProp()" style="width:90px"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- RESUMO FINANCEIRO -->
+    <div class="resumo-fin">
+      <h3>📊 Resumo Financeiro</h3>
+      <div class="resumo-row"><span class="resumo-label">Mão de Obra</span><span class="resumo-val" id="rMO">R$ 0,00</span></div>
+      <div class="resumo-row"><span class="resumo-label">Materiais</span><span class="resumo-val" id="rMat">R$ 0,00</span></div>
+      <div class="resumo-row"><span class="resumo-label">Outros Custos</span><span class="resumo-val" id="rOut">R$ 0,00</span></div>
+      <div class="resumo-row"><span class="resumo-label">Custo Fixo</span><span class="resumo-val" id="rCF">R$ 0,00</span></div>
+      <div class="resumo-row total"><span class="resumo-label">CUSTO TOTAL</span><span class="resumo-val" id="rTotal">R$ 0,00</span></div>
+      <div class="perc-row">
+        <div class="perc-field"><label>Margem (%)</label><input type="number" id="pMargem" value="35" min="0" max="99" step="1" oninput="calcProp()"/></div>
+        <div class="perc-field"><label>Impostos (%)</label><input type="number" id="pImpostos" value="15" min="0" max="99" step="1" oninput="calcProp()"/></div>
+        <div class="perc-field"><label>Over / Oferta (%)</label><input type="number" id="pOver" value="5" min="0" max="99" step="1" oninput="calcProp()"/></div>
+      </div>
+      <div class="resumo-row"><span class="resumo-label">Valor de Venda</span><span class="resumo-val" id="rVenda">R$ 0,00</span></div>
+      <div class="resumo-row venda"><span>💰 VALOR DA PROPOSTA</span><span id="rOferta">R$ 0,00</span></div>
+    </div>
+
+    <div class="fg"><label>Observações / Exclusões do escopo</label><textarea id="pObs" placeholder="Itens fora do escopo, condições especiais..."></textarea></div>
+    <div class="mact">
+      <button class="btn btn-ghost" onclick="closeOvl('ovlProp')">Cancelar</button>
+      <button class="btn btn-ghost" onclick="saveProp('rascunho')">Salvar Rascunho</button>
+      <button class="btn btn-red" onclick="saveProp('enviada')">Salvar e Enviar →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: PROPOSTA DETALHE ═══ -->
+<div class="ovl" id="ovlPropView" onclick="if(event.target===this)closeOvl('ovlPropView')">
+  <div class="modal" style="max-width:600px">
+    <div class="mhead">
+      <div class="mtitle" id="pvTitle">Proposta</div>
+      <button class="mclose" onclick="closeOvl('ovlPropView')">✕</button>
+    </div>
+    <div id="pvBody"></div>
+    <div class="mact" id="pvActs"></div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: PROJETO/OS ═══ -->
+<div class="ovl" id="ovlProj" onclick="if(event.target===this)closeOvl('ovlProj')">
+  <div class="modal">
+    <div class="mhead">
+      <div class="mtitle" id="projModalTitle">Nova OS</div>
+      <button class="mclose" onclick="closeOvl('ovlProj')">✕</button>
+    </div>
+    <input type="hidden" id="editProjId"/>
+    <div class="f2">
+      <div class="fg"><label>Título / OS *</label><input type="text" id="pjTitulo" placeholder="Ex: Manutenção elétrica Honda"/></div>
+      <div class="fg"><label>Número OS</label><input type="text" id="pjNumero" placeholder="Gerado auto"/></div>
+    </div>
+    <div class="f2">
+      <div class="fg"><label>Cliente</label><select id="pjCliente"></select></div>
+      <div class="fg"><label>Responsável</label><select id="pjResp"></select></div>
+    </div>
+    <div class="f2">
+      <div class="fg"><label>Status</label>
+        <select id="pjStatus">
+          <option value="em-andamento">🔵 Em andamento</option>
+          <option value="concluido">✅ Concluído</option>
+          <option value="pausado">⏸ Pausado</option>
+          <option value="cancelado">❌ Cancelado</option>
+        </select>
+      </div>
+      <div class="fg"><label>Progresso (%)</label><input type="number" id="pjProg" value="0" min="0" max="100"/></div>
+    </div>
+    <div class="f2">
+      <div class="fg"><label>Início</label><input type="date" id="pjInicio"/></div>
+      <div class="fg"><label>Previsão de Término</label><input type="date" id="pjFim"/></div>
+    </div>
+    <div class="fg"><label>Valor do Contrato (R$)</label><input type="number" id="pjValor" placeholder="0,00" min="0" step="0.01"/></div>
+    <div class="fg"><label>Descrição / Escopo</label><textarea id="pjDesc" placeholder="Descreva o serviço e escopo..."></textarea></div>
+    <div class="fg"><label>Equipe (nomes separados por vírgula)</label><input type="text" id="pjEquipe" placeholder="Ex: João Silva, Carlos Souza"/></div>
+    <div class="mact">
+      <button class="btn btn-ghost" onclick="closeOvl('ovlProj')">Cancelar</button>
+      <button class="btn btn-red" onclick="saveProj()">Salvar OS</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: OS ATUALIZAÇÃO ═══ -->
+<div class="ovl" id="ovlProjView" onclick="if(event.target===this)closeOvl('ovlProjView')">
+  <div class="modal">
+    <div class="mhead">
+      <div class="mtitle" id="pvjTitle">OS</div>
+      <button class="mclose" onclick="closeOvl('ovlProjView')">✕</button>
+    </div>
+    <div id="pvjBody"></div>
+    <div class="orc-section" style="margin-top:12px">
+      <h3>+ Nova Atualização</h3>
+      <div class="fg"><label>Status</label>
+        <select id="upStatus">
+          <option value="em-andamento">🔵 Em andamento</option>
+          <option value="concluido">✅ Concluído</option>
+          <option value="pausado">⏸ Pausado</option>
+        </select>
+      </div>
+      <div class="fg"><label>Progresso (%)</label><input type="number" id="upProg" min="0" max="100" value="0"/></div>
+      <div class="fg"><label>Descrição *</label><textarea id="upDesc" placeholder="O que foi feito? Pendências?"></textarea></div>
+      <button class="btn btn-red" onclick="saveUpdate()">Salvar Atualização</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: FORNECEDOR ═══ -->
+<div class="ovl" id="ovlForn" onclick="if(event.target===this)closeOvl('ovlForn')">
+  <div class="modal">
+    <div class="mhead">
+      <div class="mtitle" id="fornModalTitle">Novo Fornecedor</div>
+      <button class="mclose" onclick="closeOvl('ovlForn')">✕</button>
+    </div>
+    <input type="hidden" id="editFornId"/>
+    <div class="f2">
+      <div class="fg"><label>Nome / Razão Social *</label><input type="text" id="fNome" placeholder="Ex: Eletro Materiais Ltda"/></div>
+      <div class="fg"><label>CNPJ</label><input type="text" id="fCNPJ" placeholder="00.000.000/0001-00"/></div>
+    </div>
+    <div class="f2">
+      <div class="fg"><label>Categoria</label>
+        <select id="fCat">
+          <option value="">Selecione</option>
+          <option>Materiais Elétricos</option><option>Materiais Mecânicos</option>
+          <option>EPIs / EPCs</option><option>Ferramentas</option><option>Serviços</option>
+          <option>Locação de Equipamentos</option><option>Alimentação</option><option>Outro</option>
+        </select>
+      </div>
+      <div class="fg"><label>Contato</label><input type="text" id="fContato" placeholder="Nome do vendedor"/></div>
+    </div>
+    <div class="f2">
+      <div class="fg"><label>Telefone / WhatsApp</label><input type="text" id="fTel" placeholder="(11) 00000-0000"/></div>
+      <div class="fg"><label>E-mail</label><input type="text" id="fEmail" placeholder="vendas@empresa.com"/></div>
+    </div>
+    <div class="fg"><label>Observações</label><textarea id="fObs" placeholder="Condições, prazo de entrega, etc."></textarea></div>
+    <div class="mact">
+      <button class="btn btn-ghost" onclick="closeOvl('ovlForn')">Cancelar</button>
+      <button class="btn btn-red" onclick="saveForn()">Salvar Fornecedor</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: PEDIDO DE COMPRA ═══ -->
+<div class="ovl" id="ovlPedido" onclick="if(event.target===this)closeOvl('ovlPedido')">
+  <div class="modal" style="max-width:680px">
+    <div class="mhead">
+      <div class="mtitle" id="pedModalTitle">Novo Pedido de Compra</div>
+      <button class="mclose" onclick="closeOvl('ovlPedido')">✕</button>
+    </div>
+    <input type="hidden" id="editPedId"/>
+    <div class="f2">
+      <div class="fg"><label>Fornecedor *</label><select id="pedForn"></select></div>
+      <div class="fg"><label>Projeto / OS (referência)</label><select id="pedProj"></select></div>
+    </div>
+    <div class="fg"><label>Condições de Pagamento</label>
+      <select id="pedPgto">
+        <option>30 DDL</option><option>A vista</option><option>50% entrada + 50% entrega</option><option>Boleto 30/60</option>
+      </select>
+    </div>
+    <div class="orc-section">
+      <h3>Itens do Pedido</h3>
+      <table class="orc-table">
+        <thead><tr><th>#</th><th>Descrição</th><th>Unid</th><th>Qtd</th><th style="text-align:right">Vlr Unit</th><th style="text-align:right">Total</th><th></th></tr></thead>
+        <tbody id="pedItens"></tbody>
+      </table>
+      <button class="btn-add-row" onclick="addPedItem()">+ Adicionar item</button>
+      <div style="text-align:right;margin-top:10px;font-size:0.9rem;font-weight:800;color:var(--dark)">Total: <span id="pedTotal">R$ 0,00</span></div>
+    </div>
+    <div class="fg"><label>Observações / Prazo de entrega</label><textarea id="pedObs" placeholder="Prazo, local de entrega, observações..."></textarea></div>
+    <div class="mact">
+      <button class="btn btn-ghost" onclick="closeOvl('ovlPedido')">Cancelar</button>
+      <button class="btn btn-ghost" onclick="savePedido('pendente')">Salvar Rascunho</button>
+      <button class="btn btn-red" onclick="savePedido('aprovado')">Aprovar e Enviar →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: ITEM ESTOQUE ═══ -->
+<div class="ovl" id="ovlEst" onclick="if(event.target===this)closeOvl('ovlEst')">
+  <div class="modal">
+    <div class="mhead">
+      <div class="mtitle" id="estModalTitle">Novo Item</div>
+      <button class="mclose" onclick="closeOvl('ovlEst')">✕</button>
+    </div>
+    <input type="hidden" id="editEstId"/>
+    <div class="f2">
+      <div class="fg"><label>Nome / Descrição *</label><input type="text" id="eNome" placeholder="Ex: Disjuntor 63A bifásico"/></div>
+      <div class="fg"><label>Categoria</label>
+        <select id="eCat">
+          <option value="">Selecione</option>
+          <option>Materiais Elétricos</option><option>Materiais Mecânicos</option>
+          <option>EPIs</option><option>Ferramentas</option><option>Equipamentos</option><option>Consumíveis</option>
+        </select>
+      </div>
+    </div>
+    <div class="f2">
+      <div class="fg"><label>Unidade</label>
+        <select id="eUnid"><option>un</option><option>m</option><option>kg</option><option>L</option><option>caixa</option><option>rolo</option></select>
+      </div>
+      <div class="fg"><label>Quantidade Atual</label><input type="number" id="eQtd" value="0" min="0" step="0.01"/></div>
+    </div>
+    <div class="f2">
+      <div class="fg"><label>Estoque Mínimo (alerta)</label><input type="number" id="eMin" value="0" min="0" step="0.01"/></div>
+      <div class="fg"><label>Localização</label><input type="text" id="eLoc" placeholder="Ex: Prateleira A3"/></div>
+    </div>
+    <div class="fg"><label>Observações</label><textarea id="eObs" placeholder="Especificações, marca, fornecedor preferencial..."></textarea></div>
+    <div class="mact">
+      <button class="btn btn-ghost" onclick="closeOvl('ovlEst')">Cancelar</button>
+      <button class="btn btn-red" onclick="saveEst()">Salvar Item</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: MOVIMENTAÇÃO ESTOQUE ═══ -->
+<div class="ovl" id="ovlMov" onclick="if(event.target===this)closeOvl('ovlMov')">
+  <div class="modal">
+    <div class="mhead">
+      <div class="mtitle" id="movModalTitle">Movimentação</div>
+      <button class="mclose" onclick="closeOvl('ovlMov')">✕</button>
+    </div>
+    <input type="hidden" id="movEstId"/>
+    <div class="fg"><label>Tipo</label>
+      <select id="movTipo">
+        <option value="entrada">📦 Entrada (compra/devolução)</option>
+        <option value="saida">🔧 Saída (uso em obra)</option>
+      </select>
+    </div>
+    <div class="fg"><label>Quantidade</label><input type="number" id="movQtd" value="1" min="0.01" step="0.01"/></div>
+    <div class="fg"><label>Projeto / OS (referência)</label><select id="movProj"></select></div>
+    <div class="fg"><label>Observação</label><textarea id="movObs" placeholder="Motivo, OS, fornecedor..."></textarea></div>
+    <div class="mact">
+      <button class="btn btn-ghost" onclick="closeOvl('ovlMov')">Cancelar</button>
+      <button class="btn btn-red" onclick="saveMov()">Registrar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: FUNCIONÁRIO ═══ -->
+<div class="ovl" id="ovlFunc" onclick="if(event.target===this)closeOvl('ovlFunc')">
+  <div class="modal">
+    <div class="mhead">
+      <div class="mtitle" id="funcModalTitle">Novo Funcionário</div>
+      <button class="mclose" onclick="closeOvl('ovlFunc')">✕</button>
+    </div>
+    <input type="hidden" id="editFuncId"/>
+    <div class="f2">
+      <div class="fg"><label>Nome Completo *</label><input type="text" id="fnNome" placeholder="Nome completo"/></div>
+      <div class="fg"><label>Cargo</label>
+        <select id="fnCargo">
+          <option value="">Selecione</option>
+          <option>Supervisor</option><option>Engenheiro</option><option>Encarregado</option>
+          <option>Eletricista</option><option>Mecânico</option><option>Soldador</option>
+          <option>Caldeireiro</option><option>Pintor</option><option>Pedreiro</option>
+          <option>Ajudante</option><option>Tec. Segurança</option><option>Administrativo</option>
+        </select>
+      </div>
+    </div>
+    <div class="f2">
+      <div class="fg"><label>Tipo</label>
+        <select id="fnTipo"><option value="clt">CLT</option><option value="pj">PJ</option><option value="terceiro">Terceiro</option></select>
+      </div>
+      <div class="fg"><label>Admissão</label><input type="date" id="fnAdmissao"/></div>
+    </div>
+    <div class="f2">
+      <div class="fg"><label>CPF</label><input type="text" id="fnCPF" placeholder="000.000.000-00"/></div>
+      <div class="fg"><label>Telefone</label><input type="text" id="fnTel" placeholder="(19) 00000-0000"/></div>
+    </div>
+    <div class="fg"><label>Documentos / NRs (vencimentos)</label>
+      <div class="f2">
+        <div><label style="font-size:0.68rem;color:var(--sub)">NR-10</label><input type="date" id="fnNR10"/></div>
+        <div><label style="font-size:0.68rem;color:var(--sub)">NR-35</label><input type="date" id="fnNR35"/></div>
+        <div><label style="font-size:0.68rem;color:var(--sub)">NR-12</label><input type="date" id="fnNR12"/></div>
+        <div><label style="font-size:0.68rem;color:var(--sub)">NR-18</label><input type="date" id="fnNR18"/></div>
+      </div>
+    </div>
+    <div class="f2">
+      <div class="fg"><label>Início Férias</label><input type="date" id="fnFerIni"/></div>
+      <div class="fg"><label>Fim Férias</label><input type="date" id="fnFerFim"/></div>
+    </div>
+    <div class="fg"><label>Status</label>
+      <select id="fnStatus"><option value="ativo">Ativo</option><option value="ferias">Em Férias</option><option value="afastado">Afastado</option><option value="inativo">Inativo</option></select>
+    </div>
+    <div class="mact">
+      <button class="btn btn-ghost" onclick="closeOvl('ovlFunc')">Cancelar</button>
+      <button class="btn btn-red" onclick="saveFunc()">Salvar Funcionário</button>
+    </div>
+  </div>
+</div>
+
 <div class="offline-warn" id="offWarn">⚠️ Sem conexão — modo offline</div>
 <button class="fab h" id="fab" onclick="fabAct()">+</button>
 
@@ -522,6 +1017,27 @@ const MODS = [
   {id:'admin',label:'Admin',     icon:'⚙️', sec:'secAdmin'},
 ];
 
+// ── CARGOS (A2_Orcamento_Template.xlsx — Dados)
+const CARGOS = [
+  {label:'Supervisor',        sal:6339.20},
+  {label:'Engenheiro',        sal:11177.60},
+  {label:'Tec. Segurança',    sal:7000.00},
+  {label:'Encarregado Mec.',  sal:4984.00},
+  {label:'Soldador Sênior',   sal:4183.20},
+  {label:'Eletricista FC',    sal:3640.00},
+  {label:'Soldador Pleno',    sal:3600.00},
+  {label:'Eletricista Mont.', sal:3360.00},
+  {label:'Pintor',            sal:3500.00},
+  {label:'Mecânico',          sal:3416.00},
+  {label:'Caldeireiro',       sal:3416.00},
+  {label:'Pedreiro',          sal:3220.00},
+  {label:'Ajudante',          sal:2310.00},
+];
+const ENC=1.40, HS_EFT=180;
+function custoH(sal){ return (sal*ENC)/HS_EFT; }
+function fmtBRL(v){ return 'R$ '+Number(v||0).toLocaleString('pt-BR',{minimumFractionDigits:2,maximumFractionDigits:2}); }
+function numProposta(){ const yr=new Date().getFullYear(); const n=Object.values(propostas).filter(p=>(p.numero||'').startsWith('P'+yr)).length; return 'P'+yr+String(n+1).padStart(3,'0'); }
+
 const STAGES = [
   {id:'prospect',  label:'Prospect',        cls:'s-prospect'},
   {id:'contato',   label:'Contato feito',   cls:'s-contato'},
@@ -536,7 +1052,10 @@ const STAGES = [
 // ══════════════════════════════════════════════
 let db = null, curUser = null, curMod = 'dash';
 let usuarios = {}, clientes = {}, interacoes = {};
+let propostas = {}, projetos = {}, fornecedores = {}, pedidos = {}, estoque = {}, movimentos = {}, funcionarios = {};
 let selUID = null, pinBuf = '', curCID = null, crmFilter = 'all';
+let propFilter = 'all', projFilter = 'all', estFilter = 'all', rhFilter = 'all';
+let curProjViewId = null;
 
 // ══════════════════════════════════════════════
 // UTILS
@@ -680,7 +1199,8 @@ function logout(){
   if(!confirm('Sair do sistema?')) return;
   sessionStorage.removeItem('a2erp_uid');
   curUser=null; clientes={}; interacoes={};
-  if(db){ db.ref('erp/clientes').off(); db.ref('erp/interacoes').off(); db.ref('erp/usuarios').off(); }
+  propostas={}; projetos={}; fornecedores={}; pedidos={}; estoque={}; movimentos={}; funcionarios={};
+  if(db){ ['erp/clientes','erp/interacoes','erp/usuarios','erp/propostas','erp/projetos','erp/fornecedores','erp/pedidos','erp/estoque','erp/movimentos','erp/funcionarios'].forEach(p=>db.ref(p).off()); }
   document.getElementById('app').classList.remove('v');
   document.getElementById('loginScreen').classList.remove('h');
   renderUserGrid();
@@ -727,6 +1247,7 @@ function navTo(mid){
   }
   document.getElementById('fab').classList.toggle('h', mid!=='crm');
   closePanel();
+  if(mid==='compras'&&!document.getElementById('compContent').innerHTML.trim()) compTab('ped');
 }
 function fabAct(){ if(curMod==='crm') openClientModal(); }
 
@@ -736,7 +1257,14 @@ function fabAct(){ if(curMod==='crm') openClientModal(); }
 function startListeners(){
   db.ref('erp/clientes').on('value', snap=>{ clientes=snap.val()||{}; renderCRM(); renderDash(); });
   db.ref('erp/interacoes').on('value', snap=>{ interacoes=snap.val()||{}; if(curCID) renderPanel(curCID); renderCRM(); renderDash(); });
-  db.ref('erp/usuarios').on('value', snap=>{ usuarios=snap.val()||{}; renderAdminUsers(); fillRespSelect(); });
+  db.ref('erp/usuarios').on('value', snap=>{ usuarios=snap.val()||{}; renderAdminUsers(); fillRespSelect(); fillProjSelects(); });
+  db.ref('erp/propostas').on('value', snap=>{ propostas=snap.val()||{}; renderProp(); renderDash(); });
+  db.ref('erp/projetos').on('value', snap=>{ projetos=snap.val()||{}; renderProj(); renderDash(); fillProjSelects(); });
+  db.ref('erp/fornecedores').on('value', snap=>{ fornecedores=snap.val()||{}; renderForn(); });
+  db.ref('erp/pedidos').on('value', snap=>{ pedidos=snap.val()||{}; renderPedidos(); });
+  db.ref('erp/estoque').on('value', snap=>{ estoque=snap.val()||{}; renderEst(); });
+  db.ref('erp/movimentos').on('value', snap=>{ movimentos=snap.val()||{}; });
+  db.ref('erp/funcionarios').on('value', snap=>{ funcionarios=snap.val()||{}; renderRH(); renderDash(); });
 }
 
 // ══════════════════════════════════════════════
@@ -749,11 +1277,19 @@ function renderDash(){
   const allI = Object.values(interacoes);
   const overdue = allI.filter(i=>i.proximoContato && i.proximoContato<today && ['cliente','perdido'].indexOf(clientes[i.clienteId]?.estagio)<0).length;
 
+  const propArr = Object.values(propostas);
+  const propAberto = propArr.filter(p=>p.status==='enviada').length;
+  const propValor = propArr.filter(p=>p.status==='aprovada').reduce((s,p)=>s+(p.oferta||0),0);
+  const projArr = Object.values(projetos);
+  const projAtivos = projArr.filter(p=>p.status==='em-andamento').length;
+  const funcArr = Object.values(funcionarios);
+  const funcAtivos = funcArr.filter(f=>f.status==='ativo').length;
+
   document.getElementById('dashKpis').innerHTML=`
-    <div class="kpi"><div class="kpi-lbl">Total Empresas</div><div class="kpi-val">${arr.length}</div><div class="kpi-sub">no CRM</div></div>
-    <div class="kpi"><div class="kpi-lbl">Clientes Ativos</div><div class="kpi-val" style="color:var(--green)">${byS.cliente||0}</div><div class="kpi-sub">fechados</div></div>
-    <div class="kpi"><div class="kpi-lbl">Em Negociação</div><div class="kpi-val" style="color:var(--amber)">${(byS.negociacao||0)+(byS.proposta||0)}</div><div class="kpi-sub">propostas+negoc</div></div>
-    <div class="kpi"><div class="kpi-lbl">Follow-ups vencidos</div><div class="kpi-val" style="color:var(--red)">${overdue}</div><div class="kpi-sub">precisam contato</div></div>`;
+    <div class="kpi"><div class="kpi-lbl">Empresas CRM</div><div class="kpi-val">${arr.length}</div><div class="kpi-sub">${byS.cliente||0} clientes</div></div>
+    <div class="kpi"><div class="kpi-lbl">Em Negociação</div><div class="kpi-val" style="color:var(--amber)">${(byS.negociacao||0)+(byS.proposta||0)}</div><div class="kpi-sub">follow-ups: ${overdue} venc.</div></div>
+    <div class="kpi"><div class="kpi-lbl">Propostas Abertas</div><div class="kpi-val" style="color:var(--blue)">${propAberto}</div><div class="kpi-sub">aprovadas: ${fmtBRL(propValor)}</div></div>
+    <div class="kpi"><div class="kpi-lbl">OS em Andamento</div><div class="kpi-val" style="color:var(--green)">${projAtivos}</div><div class="kpi-sub">equipe: ${funcAtivos} ativos</div></div>`;
 
   const recent = allI.sort((a,b)=>b.criadoEm-a.criadoEm).slice(0,6);
   const overdueList = allI.filter(i=>i.proximoContato&&i.proximoContato<=today&&['cliente','perdido'].indexOf(clientes[i.clienteId]?.estagio)<0)
@@ -1044,6 +1580,734 @@ async function saveUser(){
 async function toggleUser(uid,isActive){
   if(isActive&&!confirm(`Desativar ${usuarios[uid]?.nome}? Ele não conseguirá fazer login.`)) return;
   await db.ref('erp/usuarios/'+uid+'/ativo').set(!isActive);
+}
+
+// ══════════════════════════════════════════════
+// PROPOSTAS
+// ══════════════════════════════════════════════
+function renderProp(){
+  const q=(document.getElementById('propSearch')?.value||'').toLowerCase();
+  let arr=Object.values(propostas).filter(p=>{
+    if(propFilter!=='all'&&p.status!==propFilter)return false;
+    if(q&&!p.clienteNome?.toLowerCase().includes(q)&&!(p.desc||'').toLowerCase().includes(q)&&!(p.numero||'').toLowerCase().includes(q))return false;
+    return true;
+  }).sort((a,b)=>b.criadoEm-a.criadoEm);
+  const total=Object.values(propostas);
+  const cnts={all:total.length,rascunho:0,enviada:0,aprovada:0,rejeitada:0};
+  total.forEach(p=>{if(cnts[p.status]!==undefined)cnts[p.status]++;});
+  document.getElementById('propTabs').innerHTML=
+    `<div class="ftab ${propFilter==='all'?'active':''}" onclick="setPropFilter('all')">Todas (${cnts.all})</div>`+
+    [{id:'rascunho',l:'Rascunho'},{id:'enviada',l:'Enviadas'},{id:'aprovada',l:'Aprovadas'},{id:'rejeitada',l:'Rejeitadas'}]
+    .map(s=>`<div class="ftab ${propFilter===s.id?'active':''}" onclick="setPropFilter('${s.id}')">${s.l} (${cnts[s.id]})</div>`).join('');
+  if(!arr.length){document.getElementById('propList').innerHTML='<div class="empty">Nenhuma proposta encontrada.</div>';return;}
+  document.getElementById('propList').innerHTML=arr.map(p=>`
+    <div class="prop-card" onclick="openPropView('${p.id}')">
+      <div>
+        <div class="prop-num">${p.numero||'—'} · ${p.criadoPorNome||'—'} · ${fmtD((p.criadoEm?new Date(p.criadoEm).toISOString():todayStr()).slice(0,10))}</div>
+        <div class="prop-name">${p.clienteNome||'—'}</div>
+        <div class="prop-desc">${p.desc||'—'} · Validade: ${p.validade||30}d</div>
+      </div>
+      <div>
+        <div class="prop-val">${fmtBRL(p.oferta||0)}</div>
+        <div class="prop-date"><span class="stbdg pst-${p.status||'rascunho'}">${({rascunho:'Rascunho',enviada:'Enviada',aprovada:'Aprovada',rejeitada:'Rejeitada'})[p.status]||p.status}</span></div>
+      </div>
+    </div>`).join('');
+}
+function setPropFilter(f){propFilter=f;renderProp();}
+
+function openPropModal(pid){
+  const p=pid?propostas[pid]:null;
+  document.getElementById('editPropId').value=pid||'';
+  document.getElementById('propModalTitle').textContent=pid?'Editar Proposta':'Nova Proposta';
+  // fill client select
+  const sel=document.getElementById('pCliente');
+  sel.innerHTML='<option value="">— Selecione o cliente —</option>'+
+    Object.values(clientes).sort((a,b)=>a.nome.localeCompare(b.nome))
+    .map(c=>`<option value="${c.id}" data-tel="${c.telefone||''}" data-email="${c.email||''}">${c.nome}</option>`).join('');
+  if(p){
+    sel.value=p.clienteId||'';
+    document.getElementById('pDesc').value=p.desc||'';
+    document.getElementById('pLocal').value=p.local||'';
+    document.getElementById('pPrazo').value=p.prazo||'';
+    document.getElementById('pValidade').value=p.validade||'30';
+    document.getElementById('pObs').value=p.obs||'';
+    document.getElementById('pMargem').value=p.margem||35;
+    document.getElementById('pImpostos').value=p.impostos||15;
+    document.getElementById('pOver').value=p.over||5;
+    document.getElementById('hospQtd').value=p.hospQtd||'';
+    document.getElementById('hospDias').value=p.hospDias||'';
+    document.getElementById('hospVal').value=p.hospVal||'';
+    document.getElementById('refQtd').value=p.refQtd||'';
+    document.getElementById('refDias').value=p.refDias||'';
+    document.getElementById('refVal').value=p.refVal||'';
+    document.getElementById('combKm').value=p.combKm||'';
+    document.getElementById('combVal').value=p.combVal||'';
+    document.getElementById('combDias').value=p.combDias||'';
+    document.getElementById('outroCust').value=p.outroCust||'';
+    document.getElementById('cfMensal').value=p.cfMensal||'';
+    document.getElementById('cfCapH').value=p.cfCapH||176;
+    document.getElementById('cfHProj').value=p.cfHProj||'';
+    // restore MO rows
+    document.getElementById('moBody').innerHTML='';
+    (p.moRows||[]).forEach(r=>addMORow(r));
+    document.getElementById('matBody').innerHTML='';
+    (p.matRows||[]).forEach(r=>addMatRow(r));
+  } else {
+    ['pDesc','pLocal','pPrazo','pObs','hospQtd','hospDias','hospVal','refQtd','refDias','refVal','combKm','combVal','combDias','outroCust','cfMensal','cfHProj'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+    document.getElementById('pMargem').value=35;
+    document.getElementById('pImpostos').value=15;
+    document.getElementById('pOver').value=5;
+    document.getElementById('cfCapH').value=176;
+    document.getElementById('moBody').innerHTML='';
+    document.getElementById('matBody').innerHTML='';
+    addMORow(); addMatRow();
+  }
+  calcProp();
+  document.getElementById('ovlProp').classList.add('v');
+}
+function onPropClientChange(){}
+
+const CARGO_OPTS=CARGOS.map((c,i)=>`<option value="${i}">${c.label}</option>`).join('');
+function addMORow(r){
+  const tr=document.createElement('tr');
+  const ci=r?CARGOS.findIndex(c=>c.label===r.cargo):0;
+  tr.innerHTML=`
+    <td><select class="mo-cargo" onchange="updateMORow(this)">${CARGO_OPTS}</select></td>
+    <td><select class="mo-tipo" onchange="calcProp()"><option value="1">Normal</option><option value="1.2">Noturno +20%</option><option value="1.5">H.Extra +50%</option></select></td>
+    <td><input type="number" class="mo-qtd" value="${r?.qtd||1}" min="1" oninput="calcProp()" style="width:50px"/></td>
+    <td><input type="number" class="mo-dias" value="${r?.dias||1}" min="1" oninput="calcProp()" style="width:50px"/></td>
+    <td class="num mo-ch">—</td><td class="num mo-tot">—</td>
+    <td><button class="btn-del-row" onclick="delRow(this)">✕</button></td>`;
+  document.getElementById('moBody').appendChild(tr);
+  if(ci>=0) tr.querySelector('.mo-cargo').value=ci;
+  if(r?.tipo) tr.querySelector('.mo-tipo').value=r.tipo;
+  calcProp();
+}
+function updateMORow(sel){ calcProp(); }
+function addMatRow(r){
+  const tr=document.createElement('tr');
+  tr.innerHTML=`
+    <td><input type="text" class="mat-desc" placeholder="Material" value="${r?.desc||''}"/></td>
+    <td><input type="text" class="mat-esp" placeholder="Especif." value="${r?.esp||''}"/></td>
+    <td><select class="mat-unid"><option>un</option><option>m</option><option>kg</option><option>L</option><option>cx</option><option>rolo</option></select></td>
+    <td><input type="number" class="mat-qtd" value="${r?.qtd||1}" min="0" step="0.001" oninput="calcProp()" style="width:55px"/></td>
+    <td><input type="number" class="mat-vu" placeholder="0,00" value="${r?.vu||''}" min="0" step="0.01" oninput="calcProp()" style="width:80px"/></td>
+    <td class="num mat-tot">—</td>
+    <td><button class="btn-del-row" onclick="delRow(this)">✕</button></td>`;
+  document.getElementById('matBody').appendChild(tr);
+  if(r?.unid) tr.querySelector('.mat-unid').value=r.unid;
+  calcProp();
+}
+function delRow(btn){ btn.closest('tr').remove(); calcProp(); }
+
+function calcProp(){
+  let moT=0;
+  document.querySelectorAll('#moBody tr').forEach(tr=>{
+    const ci=parseInt(tr.querySelector('.mo-cargo')?.value);
+    const tipo=parseFloat(tr.querySelector('.mo-tipo')?.value||1);
+    const qtd=parseFloat(tr.querySelector('.mo-qtd')?.value||0);
+    const dias=parseFloat(tr.querySelector('.mo-dias')?.value||0);
+    if(isNaN(ci)||!CARGOS[ci])return;
+    const ch=custoH(CARGOS[ci].sal)*tipo;
+    const rt=qtd*dias*8*ch;
+    moT+=rt;
+    tr.querySelector('.mo-ch').textContent=fmtBRL(ch);
+    tr.querySelector('.mo-tot').textContent=fmtBRL(rt);
+  });
+  let matT=0;
+  document.querySelectorAll('#matBody tr').forEach(tr=>{
+    const qtd=parseFloat(tr.querySelector('.mat-qtd')?.value||0);
+    const vu=parseFloat(tr.querySelector('.mat-vu')?.value||0);
+    const rt=qtd*vu; matT+=rt;
+    tr.querySelector('.mat-tot').textContent=fmtBRL(rt);
+  });
+  const v=(id,def=0)=>parseFloat(document.getElementById(id)?.value||def);
+  const outT=(v('hospQtd')*v('hospDias')*v('hospVal'))+(v('refQtd')*v('refDias')*v('refVal'))+(v('combKm')*v('combVal')*v('combDias'))+v('outroCust');
+  const cfCapH=v('cfCapH',176); const cfT=cfCapH>0?(v('cfMensal')/cfCapH)*v('cfHProj'):0;
+  const total=moT+matT+outT+cfT;
+  const margem=v('pMargem',35)/100, imp=v('pImpostos',15)/100, over=v('pOver',5)/100;
+  const div=1-margem-imp-0.01;
+  const venda=div>0.01?total/div:0;
+  const oferta=venda*(1+over);
+  document.getElementById('rMO').textContent=fmtBRL(moT);
+  document.getElementById('rMat').textContent=fmtBRL(matT);
+  document.getElementById('rOut').textContent=fmtBRL(outT);
+  document.getElementById('rCF').textContent=fmtBRL(cfT);
+  document.getElementById('rTotal').textContent=fmtBRL(total);
+  document.getElementById('rVenda').textContent=fmtBRL(venda);
+  document.getElementById('rOferta').textContent=fmtBRL(oferta);
+}
+
+async function saveProp(status){
+  const clienteId=document.getElementById('pCliente').value;
+  const desc=(document.getElementById('pDesc').value||'').trim();
+  if(!clienteId||!desc){alert('Selecione o cliente e descreva o serviço.');return;}
+  const pid=document.getElementById('editPropId').value||genId();
+  const existing=propostas[pid]||{};
+  const v=(id,def=0)=>parseFloat(document.getElementById(id)?.value||def);
+  // collect MO rows
+  const moRows=[];
+  document.querySelectorAll('#moBody tr').forEach(tr=>{
+    const ci=parseInt(tr.querySelector('.mo-cargo')?.value);
+    if(isNaN(ci)||!CARGOS[ci])return;
+    moRows.push({cargo:CARGOS[ci].label,tipo:tr.querySelector('.mo-tipo')?.value||'1',qtd:parseFloat(tr.querySelector('.mo-qtd')?.value||0),dias:parseFloat(tr.querySelector('.mo-dias')?.value||0)});
+  });
+  const matRows=[];
+  document.querySelectorAll('#matBody tr').forEach(tr=>{
+    const desc2=(tr.querySelector('.mat-desc')?.value||'').trim();
+    if(!desc2)return;
+    matRows.push({desc:desc2,esp:tr.querySelector('.mat-esp')?.value||'',unid:tr.querySelector('.mat-unid')?.value||'un',qtd:parseFloat(tr.querySelector('.mat-qtd')?.value||0),vu:parseFloat(tr.querySelector('.mat-vu')?.value||0)});
+  });
+  // recalc totals
+  const moT=moRows.reduce((s,r)=>{const ch=custoH(CARGOS.find(c=>c.label===r.cargo)?.sal||0)*parseFloat(r.tipo);return s+r.qtd*r.dias*8*ch;},0);
+  const matT=matRows.reduce((s,r)=>s+r.qtd*r.vu,0);
+  const outT=(v('hospQtd')*v('hospDias')*v('hospVal'))+(v('refQtd')*v('refDias')*v('refVal'))+(v('combKm')*v('combVal')*v('combDias'))+v('outroCust');
+  const cfCapH=v('cfCapH',176); const cfT=cfCapH>0?(v('cfMensal')/cfCapH)*v('cfHProj'):0;
+  const total=moT+matT+outT+cfT;
+  const margem=v('pMargem',35)/100,imp=v('pImpostos',15)/100,over=v('pOver',5)/100;
+  const div=1-margem-imp-0.01; const venda=div>0.01?total/div:0; const oferta=venda*(1+over);
+  const cli=clientes[clienteId];
+  await db.ref('erp/propostas/'+pid).set({
+    id:pid,numero:existing.numero||numProposta(),clienteId,clienteNome:cli?.nome||'',
+    desc,local:document.getElementById('pLocal').value.trim(),prazo:document.getElementById('pPrazo').value.trim(),
+    validade:document.getElementById('pValidade').value,obs:document.getElementById('pObs').value.trim(),
+    margem:v('pMargem',35),impostos:v('pImpostos',15),over:v('pOver',5),
+    hospQtd:v('hospQtd'),hospDias:v('hospDias'),hospVal:v('hospVal'),
+    refQtd:v('refQtd'),refDias:v('refDias'),refVal:v('refVal'),
+    combKm:v('combKm'),combVal:v('combVal'),combDias:v('combDias'),
+    outroCust:v('outroCust'),cfMensal:v('cfMensal'),cfCapH,cfHProj:v('cfHProj'),
+    moRows,matRows,moTotal:moT,matTotal:matT,outTotal:outT,cfTotal:cfT,
+    custo:total,venda,oferta,status,
+    criadoEm:existing.criadoEm||Date.now(),criadoPor:curUser.uid,criadoPorNome:curUser.nome.split(' ')[0],
+    atualizadoEm:Date.now()
+  });
+  if(status==='enviada'){
+    // show send options
+    closeOvl('ovlProp');
+    const p=propostas[pid]||{numero:existing.numero||'',clienteNome:cli?.nome||''};
+    const tel=(cli?.telefone||'').replace(/\D/g,'');
+    const msg=`Olá${cli?.contatoNome?' '+cli.contatoNome.split(' ')[0]:''}! Segue a proposta ${existing.numero||''} da A2 Engenharia Integrada referente a: ${desc}. Valor: ${fmtBRL(oferta)}. Qualquer dúvida estamos à disposição!`;
+    if(confirm(`Proposta salva! Enviar por WhatsApp para ${cli?.nome}?`))
+      window.open('https://wa.me/55'+tel+'?text='+encodeURIComponent(msg));
+  } else {
+    closeOvl('ovlProp');
+  }
+}
+
+function openPropView(pid){
+  const p=propostas[pid]; if(!p) return;
+  document.getElementById('pvTitle').textContent=p.numero+' — '+p.clienteNome;
+  const statusLabel={rascunho:'Rascunho',enviada:'Enviada',aprovada:'Aprovada ✅',rejeitada:'Rejeitada ❌'}[p.status]||p.status;
+  document.getElementById('pvBody').innerHTML=`
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+      <span class="stbdg pst-${p.status}">${statusLabel}</span>
+      <span style="font-size:0.75rem;color:var(--sub)">Validade: ${p.validade} dias · Criada: ${fmtD(new Date(p.criadoEm).toISOString().slice(0,10))}</span>
+    </div>
+    <div style="margin-bottom:10px"><strong>Serviço:</strong> ${p.desc}</div>
+    ${p.local?`<div style="margin-bottom:6px;font-size:0.82rem"><strong>Local:</strong> ${p.local}</div>`:''}
+    ${p.prazo?`<div style="margin-bottom:6px;font-size:0.82rem"><strong>Prazo:</strong> ${p.prazo}</div>`:''}
+    <div class="resumo-fin" style="margin-top:12px">
+      <div class="resumo-row"><span class="resumo-label">Mão de Obra</span><span class="resumo-val">${fmtBRL(p.moTotal)}</span></div>
+      <div class="resumo-row"><span class="resumo-label">Materiais</span><span class="resumo-val">${fmtBRL(p.matTotal)}</span></div>
+      <div class="resumo-row"><span class="resumo-label">Outros Custos</span><span class="resumo-val">${fmtBRL(p.outTotal)}</span></div>
+      <div class="resumo-row total"><span class="resumo-label">CUSTO TOTAL</span><span class="resumo-val">${fmtBRL(p.custo)}</span></div>
+      <div class="resumo-row venda"><span>💰 PROPOSTA</span><span>${fmtBRL(p.oferta)}</span></div>
+    </div>
+    ${p.obs?`<div style="margin-top:10px;font-size:0.8rem;color:var(--sub)"><strong>Obs:</strong> ${p.obs}</div>`:''}`;
+  const pvActs=document.getElementById('pvActs');
+  pvActs.innerHTML=`
+    <button class="btn btn-ghost" onclick="closeOvl('ovlPropView')">Fechar</button>
+    <button class="btn btn-ghost" onclick="closeOvl('ovlPropView');openPropModal('${pid}')">✏️ Editar</button>
+    <button class="btn btn-ghost" onclick="setPropStatus('${pid}','aprovada')" style="background:#dcfce7;color:var(--green)">✅ Aprovar</button>
+    <button class="btn btn-red" onclick="gerarProposta('${pid}')">🖨️ Gerar PDF</button>`;
+  document.getElementById('ovlPropView').classList.add('v');
+}
+async function setPropStatus(pid,s){ await db.ref('erp/propostas/'+pid+'/status').set(s); closeOvl('ovlPropView'); }
+
+function gerarProposta(pid){
+  const p=propostas[pid]; if(!p) return;
+  const cli=clientes[p.clienteId]||{};
+  const dt=new Date(p.criadoEm); const dtFmt=dt.toLocaleDateString('pt-BR');
+  const venc=new Date(dt.getTime()+p.validade*864e5).toLocaleDateString('pt-BR');
+  const moHtml=(p.moRows||[]).map(r=>`<tr><td>${r.cargo}</td><td>${r.qtd} prof. × ${r.dias}d × 8h</td><td style="text-align:right">${fmtBRL(r.qtd*r.dias*8*custoH(CARGOS.find(c=>c.label===r.cargo)?.sal||0)*parseFloat(r.tipo))}</td></tr>`).join('');
+  const matHtml=(p.matRows||[]).map(r=>`<tr><td>${r.desc}${r.esp?' — '+r.esp:''}</td><td>${r.qtd} ${r.unid}</td><td style="text-align:right">${fmtBRL(r.qtd*r.vu)}</td></tr>`).join('');
+  const w=window.open('','_blank');
+  w.document.write(`<!DOCTYPE html><html lang="pt-BR"><head><meta charset="UTF-8"><title>Proposta ${p.numero}</title>
+  <style>body{font-family:Arial,sans-serif;color:#111;max-width:800px;margin:0 auto;padding:30px}
+  h1{color:#C8102E}table{width:100%;border-collapse:collapse;margin:10px 0}th,td{padding:7px 9px;border:1px solid #ddd;font-size:13px}th{background:#f5f5f5}
+  .total-row{font-weight:bold;background:#f0f0f0}.venda-row{font-weight:bold;background:#111;color:#fff;font-size:15px}
+  .footer{margin-top:30px;font-size:11px;color:#666;border-top:1px solid #ddd;padding-top:10px}
+  @media print{button{display:none}}</style></head><body>
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:20px">
+    <div><h1>A2 Engenharia Integrada</h1><div style="font-size:12px;color:#555">CNPJ: 12.674.244/0001-39 · contato@a2ei.com.br</div></div>
+    <div style="text-align:right"><div style="font-size:20px;font-weight:bold;color:#C8102E">${p.numero}</div><div style="font-size:12px;color:#555">${dtFmt}</div></div>
+  </div>
+  <h2 style="border-bottom:2px solid #C8102E;padding-bottom:6px">PROPOSTA TÉCNICO-COMERCIAL</h2>
+  <table><tr><th>Cliente</th><td>${cli.nome||p.clienteNome}</td><th>CNPJ</th><td>${cli.cnpj||'—'}</td></tr>
+  <tr><th>Contato</th><td>${cli.contatoNome||'—'}</td><th>Telefone</th><td>${cli.telefone||'—'}</td></tr>
+  <tr><th>Serviço</th><td colspan="3">${p.desc}</td></tr>
+  ${p.local?`<tr><th>Local</th><td colspan="3">${p.local}</td></tr>`:''}
+  ${p.prazo?`<tr><th>Prazo</th><td colspan="3">${p.prazo}</td></tr>`:''}
+  <tr><th>Validade</th><td>Até ${venc}</td><th>Elaborado por</th><td>${p.criadoPorNome||'André Aguiar'}</td></tr></table>
+  ${moHtml?`<h3>Mão de Obra</h3><table><tr><th>Cargo</th><th>Quantidade</th><th style="text-align:right">Custo</th></tr>${moHtml}</table>`:''}
+  ${matHtml?`<h3>Materiais</h3><table><tr><th>Material</th><th>Quantidade</th><th style="text-align:right">Custo</th></tr>${matHtml}</table>`:''}
+  <h3>Resumo Financeiro</h3>
+  <table><tr><td>Mão de Obra</td><td style="text-align:right">${fmtBRL(p.moTotal)}</td></tr>
+  <tr><td>Materiais</td><td style="text-align:right">${fmtBRL(p.matTotal)}</td></tr>
+  <tr><td>Outros Custos (diárias, combustível, etc.)</td><td style="text-align:right">${fmtBRL(p.outTotal)}</td></tr>
+  <tr class="total-row"><td>CUSTO TOTAL</td><td style="text-align:right">${fmtBRL(p.custo)}</td></tr>
+  <tr class="venda-row"><td>💰 VALOR DA PROPOSTA</td><td style="text-align:right">${fmtBRL(p.oferta)}</td></tr></table>
+  <h3>Condições</h3>
+  <p>• Pagamento: A combinar conforme negociação.<br>• Os serviços acima descritos serão executados por profissionais qualificados da A2 Engenharia Integrada.<br>• Esta proposta é válida até ${venc}.</p>
+  ${p.obs?`<p><strong>Exclusões / Observações:</strong> ${p.obs}</p>`:''}
+  <div class="footer">A2 Engenharia Integrada · CNPJ 12.674.244/0001-39 · Indaiatuba — SP<br>Representante: André Aguiar · contato@a2ei.com.br</div>
+  <br><button onclick="window.print()" style="background:#C8102E;color:#fff;border:none;padding:10px 20px;border-radius:6px;cursor:pointer;font-size:14px">🖨️ Imprimir / Salvar PDF</button>
+  </body></html>`);
+  w.document.close();
+}
+
+// ══════════════════════════════════════════════
+// PROJETOS / OS
+// ══════════════════════════════════════════════
+function renderProj(){
+  const q=(document.getElementById('projSearch')?.value||'').toLowerCase();
+  let arr=Object.values(projetos).filter(p=>{
+    if(projFilter!=='all'&&p.status!==projFilter)return false;
+    if(q&&!(p.titulo||'').toLowerCase().includes(q)&&!(p.clienteNome||'').toLowerCase().includes(q)&&!(p.numero||'').toLowerCase().includes(q))return false;
+    return true;
+  }).sort((a,b)=>b.criadoEm-a.criadoEm);
+  const total=Object.values(projetos);
+  const cnts={all:total.length,'em-andamento':0,concluido:0,pausado:0,cancelado:0};
+  total.forEach(p=>{if(cnts[p.status]!==undefined)cnts[p.status]++;});
+  document.getElementById('projStatusTabs').innerHTML=
+    `<div class="ftab ${projFilter==='all'?'active':''}" onclick="setProjFilter('all')">Todas (${cnts.all})</div>`+
+    [['em-andamento','Em andamento'],['concluido','Concluídas'],['pausado','Pausadas'],['cancelado','Canceladas']]
+    .map(([id,l])=>`<div class="ftab ${projFilter===id?'active':''}" onclick="setProjFilter('${id}')">${l} (${cnts[id]})</div>`).join('');
+  if(!arr.length){document.getElementById('projList').innerHTML='<div class="empty">Nenhuma OS encontrada.</div>';return;}
+  document.getElementById('projList').innerHTML=arr.map(p=>`
+    <div class="proj-card" onclick="openProjView('${p.id}')">
+      <div class="proj-head">
+        <div><div class="proj-num">${p.numero||'—'}</div><div class="proj-title">${p.titulo}</div><div class="proj-client">${p.clienteNome||'—'} · ${p.responsavelNome||'—'}</div></div>
+        <span class="stbdg pst-${p.status}">${({'em-andamento':'Em andamento',concluido:'Concluído',pausado:'Pausado',cancelado:'Cancelado'})[p.status]||p.status}</span>
+      </div>
+      ${p.valor?`<div style="font-size:0.82rem;font-weight:700;color:var(--dark);margin-top:4px">${fmtBRL(p.valor)}</div>`:''}
+      <div class="proj-prog"><div style="display:flex;justify-content:space-between;font-size:0.69rem;color:var(--sub)"><span>Progresso</span><span>${p.progresso||0}%</span></div>
+        <div class="prog-bar"><div class="prog-fill" style="width:${p.progresso||0}%"></div></div>
+      </div>
+    </div>`).join('');
+}
+function setProjFilter(f){projFilter=f;renderProj();}
+
+function fillProjSelects(){
+  // proj client + resp selects in modal
+  const pcEl=document.getElementById('pjCliente');
+  const prEl=document.getElementById('pjResp');
+  const mvEl=document.getElementById('movProj');
+  const ppEl=document.getElementById('pedProj');
+  const cliOpts='<option value="">— Sem cliente —</option>'+Object.values(clientes).sort((a,b)=>a.nome.localeCompare(b.nome)).map(c=>`<option value="${c.id}">${c.nome}</option>`).join('');
+  const respOpts='<option value="">— Sem responsável —</option>'+Object.entries(usuarios).filter(([,u])=>u.ativo!==false).map(([id,u])=>`<option value="${id}">${u.nome.split(' ')[0]}</option>`).join('');
+  const projOpts='<option value="">— Sem OS —</option>'+Object.values(projetos).map(p=>`<option value="${p.id}">${p.numero||p.id} — ${p.titulo}</option>`).join('');
+  if(pcEl) pcEl.innerHTML=cliOpts;
+  if(prEl) prEl.innerHTML=respOpts;
+  if(mvEl) mvEl.innerHTML=projOpts;
+  if(ppEl) ppEl.innerHTML=projOpts;
+  // forn select in pedido
+  const pfEl=document.getElementById('pedForn');
+  if(pfEl) pfEl.innerHTML='<option value="">— Selecione —</option>'+Object.values(fornecedores).map(f=>`<option value="${f.id}">${f.nome}</option>`).join('');
+}
+
+function openProjModal(pid){
+  fillProjSelects();
+  const p=pid?projetos[pid]:null;
+  document.getElementById('editProjId').value=pid||'';
+  document.getElementById('projModalTitle').textContent=pid?'Editar OS':'Nova OS';
+  if(p){
+    document.getElementById('pjTitulo').value=p.titulo||'';
+    document.getElementById('pjNumero').value=p.numero||'';
+    document.getElementById('pjCliente').value=p.clienteId||'';
+    document.getElementById('pjResp').value=p.responsavelId||'';
+    document.getElementById('pjStatus').value=p.status||'em-andamento';
+    document.getElementById('pjProg').value=p.progresso||0;
+    document.getElementById('pjInicio').value=p.inicio||'';
+    document.getElementById('pjFim').value=p.fim||'';
+    document.getElementById('pjValor').value=p.valor||'';
+    document.getElementById('pjDesc').value=p.desc||'';
+    document.getElementById('pjEquipe').value=p.equipe||'';
+  } else {
+    ['pjTitulo','pjNumero','pjInicio','pjFim','pjDesc','pjEquipe'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+    document.getElementById('pjStatus').value='em-andamento';
+    document.getElementById('pjProg').value=0;
+    document.getElementById('pjValor').value='';
+    // auto number
+    const yr=new Date().getFullYear(); const n=Object.values(projetos).filter(p=>(p.numero||'').startsWith('OS'+yr)).length;
+    document.getElementById('pjNumero').value='OS'+yr+String(n+1).padStart(3,'0');
+  }
+  document.getElementById('ovlProj').classList.add('v');
+}
+
+async function saveProj(){
+  const titulo=(document.getElementById('pjTitulo').value||'').trim();
+  if(!titulo){alert('Informe o título da OS.');return;}
+  const pid=document.getElementById('editProjId').value||genId();
+  const existing=projetos[pid]||{};
+  const cid=document.getElementById('pjCliente').value;
+  const rid=document.getElementById('pjResp').value;
+  await db.ref('erp/projetos/'+pid).set({
+    id:pid,titulo,numero:document.getElementById('pjNumero').value.trim(),
+    clienteId:cid,clienteNome:cid?clientes[cid]?.nome||'':'',
+    responsavelId:rid,responsavelNome:rid?usuarios[rid]?.nome.split(' ')[0]||'':'',
+    status:document.getElementById('pjStatus').value,
+    progresso:parseInt(document.getElementById('pjProg').value||0),
+    inicio:document.getElementById('pjInicio').value||'',
+    fim:document.getElementById('pjFim').value||'',
+    valor:parseFloat(document.getElementById('pjValor').value||0)||0,
+    desc:document.getElementById('pjDesc').value.trim(),
+    equipe:document.getElementById('pjEquipe').value.trim(),
+    criadoEm:existing.criadoEm||Date.now(),criadoPor:curUser.uid,atualizadoEm:Date.now()
+  });
+  closeOvl('ovlProj');
+}
+
+function openProjView(pid){
+  curProjViewId=pid;
+  const p=projetos[pid]; if(!p) return;
+  document.getElementById('pvjTitle').textContent=(p.numero||'OS')+' — '+p.titulo;
+  const updates=Object.values(movimentos).filter(m=>m.projId===pid&&m._type==='update').sort((a,b)=>b.criadoEm-a.criadoEm);
+  document.getElementById('pvjBody').innerHTML=`
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px">
+      <span class="stbdg pst-${p.status}">${({'em-andamento':'Em andamento',concluido:'Concluído',pausado:'Pausado',cancelado:'Cancelado'})[p.status]||p.status}</span>
+      ${p.valor?`<span style="font-size:0.78rem;font-weight:700">${fmtBRL(p.valor)}</span>`:''}
+    </div>
+    <div style="font-size:0.82rem;margin-bottom:8px">${p.desc||''}</div>
+    <div style="font-size:0.78rem;color:var(--sub);margin-bottom:4px">${p.equipe?'👷 '+p.equipe:''}</div>
+    <div class="prog-bar" style="margin-bottom:14px"><div class="prog-fill" style="width:${p.progresso||0}%"></div></div>
+    <div class="s-title">Histórico</div>
+    ${updates.length?updates.map(u=>`<div class="update-item"><div class="update-meta"><span class="update-user">${u.usuarioNome||'—'}</span><span class="update-date">${fmtD(new Date(u.criadoEm).toISOString().slice(0,10))}</span></div><div>${u.desc}</div></div>`).join(''):'<div class="empty" style="padding:20px 0">Nenhuma atualização ainda.</div>'}`;
+  document.getElementById('upProg').value=p.progresso||0;
+  document.getElementById('upStatus').value=p.status||'em-andamento';
+  document.getElementById('upDesc').value='';
+  document.getElementById('ovlProjView').classList.add('v');
+}
+
+async function saveUpdate(){
+  const pid=curProjViewId; if(!pid) return;
+  const desc=(document.getElementById('upDesc').value||'').trim();
+  if(!desc){alert('Descreva a atualização.');return;}
+  const status=document.getElementById('upStatus').value;
+  const prog=parseInt(document.getElementById('upProg').value||0);
+  const uid=genId();
+  await db.ref('erp/movimentos/'+uid).set({id:uid,_type:'update',projId:pid,desc,status,progresso:prog,usuarioId:curUser.uid,usuarioNome:curUser.nome.split(' ')[0],criadoEm:Date.now()});
+  await db.ref('erp/projetos/'+pid).update({status,progresso:prog,atualizadoEm:Date.now()});
+  document.getElementById('upDesc').value='';
+  openProjView(pid);
+}
+
+// ══════════════════════════════════════════════
+// COMPRAS
+// ══════════════════════════════════════════════
+let compView='ped';
+function compTab(tab){
+  compView=tab;
+  if(tab==='forn'){
+    document.getElementById('btnForn').className='btn btn-red';
+    document.getElementById('btnPed').className='btn btn-ghost';
+    document.getElementById('compContent').innerHTML=`
+      <div class="filters"><input class="search" id="fornSearch" placeholder="Buscar fornecedor..." oninput="renderForn()"/></div>
+      <button class="btn btn-ghost" onclick="openFornModal()" style="margin-bottom:10px">+ Novo Fornecedor</button>
+      <div id="fornList"></div>`;
+    renderForn();
+  } else {
+    document.getElementById('btnPed').className='btn btn-red';
+    document.getElementById('btnForn').className='btn btn-ghost';
+    document.getElementById('compContent').innerHTML=`
+      <div class="filters"><input class="search" id="pedSearch" placeholder="Buscar pedido..." oninput="renderPedidos()"/></div>
+      <div id="pedList"></div>`;
+    renderPedidos();
+  }
+}
+
+function renderForn(){
+  const el=document.getElementById('fornList'); if(!el)return;
+  const q=(document.getElementById('fornSearch')?.value||'').toLowerCase();
+  const arr=Object.values(fornecedores).filter(f=>!q||f.nome?.toLowerCase().includes(q)||(f.cat||'').toLowerCase().includes(q)).sort((a,b)=>a.nome.localeCompare(b.nome));
+  if(!arr.length){el.innerHTML='<div class="empty">Nenhum fornecedor cadastrado.</div>';return;}
+  el.innerHTML=arr.map(f=>`
+    <div class="forn-item">
+      <div class="forn-av">${(f.nome||'?').slice(0,2).toUpperCase()}</div>
+      <div style="flex:1;min-width:0">
+        <div style="font-size:0.87rem;font-weight:700;color:var(--dark)">${f.nome}</div>
+        <div style="font-size:0.71rem;color:var(--sub)">${f.cat||'—'} · ${f.contato||'—'}</div>
+        ${f.tel?`<div style="font-size:0.71rem;color:var(--sub)">${f.tel}</div>`:''}
+      </div>
+      <div style="display:flex;gap:5px">
+        ${f.tel?`<button class="ibtn" onclick="window.open('https://wa.me/55${(f.tel||'').replace(/\D/g,'')}')">💬</button>`:''}
+        <button class="ibtn" onclick="openFornModal('${f.id}')">✏️</button>
+      </div>
+    </div>`).join('');
+}
+
+function openFornModal(fid){
+  const f=fid?fornecedores[fid]:null;
+  document.getElementById('editFornId').value=fid||'';
+  document.getElementById('fornModalTitle').textContent=fid?'Editar Fornecedor':'Novo Fornecedor';
+  if(f){
+    document.getElementById('fNome').value=f.nome||'';
+    document.getElementById('fCNPJ').value=f.cnpj||'';
+    document.getElementById('fCat').value=f.cat||'';
+    document.getElementById('fContato').value=f.contato||'';
+    document.getElementById('fTel').value=f.tel||'';
+    document.getElementById('fEmail').value=f.email||'';
+    document.getElementById('fObs').value=f.obs||'';
+  } else {
+    ['fNome','fCNPJ','fContato','fTel','fEmail','fObs'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('fCat').value='';
+  }
+  document.getElementById('ovlForn').classList.add('v');
+}
+async function saveForn(){
+  const nome=(document.getElementById('fNome').value||'').trim();
+  if(!nome){alert('Informe o nome do fornecedor.');return;}
+  const fid=document.getElementById('editFornId').value||genId();
+  await db.ref('erp/fornecedores/'+fid).set({id:fid,nome,cnpj:document.getElementById('fCNPJ').value.trim(),cat:document.getElementById('fCat').value,contato:document.getElementById('fContato').value.trim(),tel:document.getElementById('fTel').value.trim(),email:document.getElementById('fEmail').value.trim(),obs:document.getElementById('fObs').value.trim(),criadoEm:fornecedores[fid]?.criadoEm||Date.now()});
+  closeOvl('ovlForn'); renderForn();
+}
+
+function renderPedidos(){
+  const el=document.getElementById('pedList'); if(!el)return;
+  const q=(document.getElementById('pedSearch')?.value||'').toLowerCase();
+  const arr=Object.values(pedidos).filter(p=>!q||(fornecedores[p.fornId]?.nome||'').toLowerCase().includes(q)||(p.numero||'').toLowerCase().includes(q)).sort((a,b)=>b.criadoEm-a.criadoEm);
+  if(!arr.length){el.innerHTML='<div class="empty">Nenhum pedido de compra.</div>';return;}
+  el.innerHTML=arr.map(p=>{
+    const forn=fornecedores[p.fornId]||{};
+    return`<div class="ped-card" onclick="openPedidoModal('${p.id}')">
+      <div>
+        <div class="ped-num">${p.numero||'—'}</div>
+        <div class="ped-forn">${forn.nome||'—'}</div>
+        <div class="ped-desc">${p.obs||''}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:0.9rem;font-weight:800;color:var(--dark)">${fmtBRL(p.total||0)}</div>
+        <span class="stbdg pst-${p.status||'pendente'}" style="margin-top:4px;display:inline-block">${({pendente:'Rascunho',aprovado:'Aprovado',enviado:'Enviado'})[p.status]||p.status}</span>
+      </div>
+    </div>`;}).join('');
+}
+
+function openPedidoModal(pid){
+  fillProjSelects();
+  const p=pid?pedidos[pid]:null;
+  document.getElementById('editPedId').value=pid||'';
+  document.getElementById('pedModalTitle').textContent=pid?'Editar Pedido':'Novo Pedido de Compra';
+  if(p){
+    document.getElementById('pedForn').value=p.fornId||'';
+    document.getElementById('pedProj').value=p.projId||'';
+    document.getElementById('pedPgto').value=p.pgto||'30 DDL';
+    document.getElementById('pedObs').value=p.obs||'';
+    document.getElementById('pedItens').innerHTML='';
+    (p.itens||[]).forEach(it=>addPedItem(it));
+  } else {
+    document.getElementById('pedForn').value='';
+    document.getElementById('pedProj').value='';
+    document.getElementById('pedPgto').value='30 DDL';
+    document.getElementById('pedObs').value='';
+    document.getElementById('pedItens').innerHTML='';
+    addPedItem();
+  }
+  calcPedido();
+  document.getElementById('ovlPedido').classList.add('v');
+}
+
+let pedRowN=0;
+function addPedItem(it){
+  pedRowN++;
+  const tr=document.createElement('tr');
+  tr.innerHTML=`<td style="font-size:0.75rem;color:var(--sub)">${pedRowN}</td>
+    <td><input type="text" class="ped-desc" placeholder="Descrição" value="${it?.desc||''}"/></td>
+    <td><select class="ped-unid"><option>un</option><option>m</option><option>kg</option><option>L</option><option>cx</option></select></td>
+    <td><input type="number" class="ped-qtd" value="${it?.qtd||1}" min="0" step="0.001" oninput="calcPedido()" style="width:55px"/></td>
+    <td><input type="number" class="ped-vu" placeholder="0,00" value="${it?.vu||''}" min="0" step="0.01" oninput="calcPedido()" style="width:80px"/></td>
+    <td class="num ped-tot">—</td>
+    <td><button class="btn-del-row" onclick="this.closest('tr').remove();calcPedido()">✕</button></td>`;
+  document.getElementById('pedItens').appendChild(tr);
+  if(it?.unid) tr.querySelector('.ped-unid').value=it.unid;
+  calcPedido();
+}
+function calcPedido(){
+  let tot=0;
+  document.querySelectorAll('#pedItens tr').forEach(tr=>{
+    const qtd=parseFloat(tr.querySelector('.ped-qtd')?.value||0);
+    const vu=parseFloat(tr.querySelector('.ped-vu')?.value||0);
+    const rt=qtd*vu; tot+=rt;
+    tr.querySelector('.ped-tot').textContent=fmtBRL(rt);
+  });
+  document.getElementById('pedTotal').textContent=fmtBRL(tot);
+}
+async function savePedido(status){
+  const fornId=document.getElementById('pedForn').value;
+  if(!fornId){alert('Selecione o fornecedor.');return;}
+  const pid=document.getElementById('editPedId').value||genId();
+  const existing=pedidos[pid]||{};
+  const itens=[];
+  document.querySelectorAll('#pedItens tr').forEach(tr=>{
+    const desc=(tr.querySelector('.ped-desc')?.value||'').trim();
+    if(!desc)return;
+    itens.push({desc,unid:tr.querySelector('.ped-unid')?.value||'un',qtd:parseFloat(tr.querySelector('.ped-qtd')?.value||0),vu:parseFloat(tr.querySelector('.ped-vu')?.value||0)});
+  });
+  const total=itens.reduce((s,it)=>s+it.qtd*it.vu,0);
+  const yr=new Date().getFullYear(); const n=Object.values(pedidos).filter(p=>(p.numero||'').startsWith('PC'+yr)).length;
+  await db.ref('erp/pedidos/'+pid).set({id:pid,numero:existing.numero||'PC'+yr+String(n+1).padStart(3,'0'),fornId,projId:document.getElementById('pedProj').value,pgto:document.getElementById('pedPgto').value,obs:document.getElementById('pedObs').value.trim(),itens,total,status,criadoEm:existing.criadoEm||Date.now(),criadoPor:curUser.uid,atualizadoEm:Date.now()});
+  closeOvl('ovlPedido');
+}
+
+// ══════════════════════════════════════════════
+// ESTOQUE
+// ══════════════════════════════════════════════
+function renderEst(){
+  const q=(document.getElementById('estSearch')?.value||'').toLowerCase();
+  const arr=Object.values(estoque).filter(e=>{
+    if(estFilter!=='all'&&e.cat!==estFilter)return false;
+    if(q&&!(e.nome||'').toLowerCase().includes(q)&&!(e.cat||'').toLowerCase().includes(q))return false;
+    return true;
+  }).sort((a,b)=>(a.nome||'').localeCompare(b.nome||''));
+  const cats=[...new Set(Object.values(estoque).map(e=>e.cat).filter(Boolean))];
+  document.getElementById('estTabs').innerHTML=
+    `<div class="ftab ${estFilter==='all'?'active':''}" onclick="setEstFilter('all')">Todos</div>`+
+    cats.map(c=>`<div class="ftab ${estFilter===c?'active':''}" onclick="setEstFilter('${c}')">${c}</div>`).join('');
+  if(!arr.length){document.getElementById('estList').innerHTML='<div class="empty">Nenhum item no estoque.</div>';return;}
+  document.getElementById('estList').innerHTML=arr.map(e=>{
+    const alert=e.qtd<=(e.min||0)&&e.min>0;
+    return`<div class="est-card" onclick="openMovModal('${e.id}')">
+      <div class="est-av">${(e.nome||'?').slice(0,2).toUpperCase()}</div>
+      <div class="est-info"><div class="est-name">${e.nome}</div><div class="est-cat">${e.cat||'—'} ${e.loc?'· '+e.loc:''}</div></div>
+      <div class="est-qty" style="${alert?'color:var(--red)':''}">
+        <div class="est-qty-val ${alert?'est-alerta':''}">${e.qtd||0}</div>
+        <div class="est-qty-unit">${e.unid||'un'}${alert?' ⚠️':''}</div>
+      </div>
+      <button class="ibtn" onclick="event.stopPropagation();openEstModal('${e.id}')" style="margin-left:4px">✏️</button>
+    </div>`;}).join('');
+}
+function setEstFilter(f){estFilter=f;renderEst();}
+
+function openEstModal(eid){
+  const e=eid?estoque[eid]:null;
+  document.getElementById('editEstId').value=eid||'';
+  document.getElementById('estModalTitle').textContent=eid?'Editar Item':'Novo Item';
+  if(e){
+    document.getElementById('eNome').value=e.nome||'';
+    document.getElementById('eCat').value=e.cat||'';
+    document.getElementById('eUnid').value=e.unid||'un';
+    document.getElementById('eQtd').value=e.qtd||0;
+    document.getElementById('eMin').value=e.min||0;
+    document.getElementById('eLoc').value=e.loc||'';
+    document.getElementById('eObs').value=e.obs||'';
+  } else {
+    ['eNome','eLoc','eObs'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('eCat').value='';
+    document.getElementById('eUnid').value='un';
+    document.getElementById('eQtd').value=0;
+    document.getElementById('eMin').value=0;
+  }
+  document.getElementById('ovlEst').classList.add('v');
+}
+async function saveEst(){
+  const nome=(document.getElementById('eNome').value||'').trim();
+  if(!nome){alert('Informe o nome do item.');return;}
+  const eid=document.getElementById('editEstId').value||genId();
+  await db.ref('erp/estoque/'+eid).set({id:eid,nome,cat:document.getElementById('eCat').value,unid:document.getElementById('eUnid').value,qtd:parseFloat(document.getElementById('eQtd').value||0),min:parseFloat(document.getElementById('eMin').value||0),loc:document.getElementById('eLoc').value.trim(),obs:document.getElementById('eObs').value.trim(),criadoEm:estoque[eid]?.criadoEm||Date.now()});
+  closeOvl('ovlEst');
+}
+
+function openMovModal(eid){
+  fillProjSelects();
+  document.getElementById('movEstId').value=eid;
+  document.getElementById('movModalTitle').textContent='Movimentação — '+(estoque[eid]?.nome||'');
+  document.getElementById('movTipo').value='entrada';
+  document.getElementById('movQtd').value=1;
+  document.getElementById('movObs').value='';
+  document.getElementById('ovlMov').classList.add('v');
+}
+async function saveMov(){
+  const eid=document.getElementById('movEstId').value;
+  if(!eid)return;
+  const tipo=document.getElementById('movTipo').value;
+  const qtd=parseFloat(document.getElementById('movQtd').value||0);
+  if(qtd<=0){alert('Quantidade inválida.');return;}
+  const item=estoque[eid];
+  const novaQtd=(item?.qtd||0)+(tipo==='entrada'?qtd:-qtd);
+  if(novaQtd<0){alert('Estoque insuficiente para saída.');return;}
+  const mid=genId();
+  await db.ref('erp/movimentos/'+mid).set({id:mid,_type:'estoque',estId:eid,estNome:item?.nome||'',tipo,qtd,projId:document.getElementById('movProj').value||null,obs:document.getElementById('movObs').value.trim(),usuarioId:curUser.uid,usuarioNome:curUser.nome.split(' ')[0],criadoEm:Date.now()});
+  await db.ref('erp/estoque/'+eid+'/qtd').set(novaQtd);
+  closeOvl('ovlMov');
+}
+
+// ══════════════════════════════════════════════
+// RH
+// ══════════════════════════════════════════════
+function renderRH(){
+  const q=(document.getElementById('rhSearch')?.value||'').toLowerCase();
+  const arr=Object.values(funcionarios).filter(f=>{
+    if(rhFilter!=='all'&&f.status!==rhFilter)return false;
+    if(q&&!(f.nome||'').toLowerCase().includes(q)&&!(f.cargo||'').toLowerCase().includes(q))return false;
+    return true;
+  }).sort((a,b)=>(a.nome||'').localeCompare(b.nome||''));
+  const allF=Object.values(funcionarios);
+  const cnts={all:allF.length,ativo:allF.filter(f=>f.status==='ativo').length,ferias:allF.filter(f=>f.status==='ferias').length,afastado:allF.filter(f=>f.status==='afastado').length};
+  document.getElementById('rhTabs').innerHTML=
+    `<div class="ftab ${rhFilter==='all'?'active':''}" onclick="setRHFilter('all')">Todos (${cnts.all})</div>`+
+    [['ativo','Ativos'],['ferias','Férias'],['afastado','Afastados']]
+    .map(([id,l])=>`<div class="ftab ${rhFilter===id?'active':''}" onclick="setRHFilter('${id}')">${l} (${cnts[id]})</div>`).join('');
+  if(!arr.length){document.getElementById('funcList').innerHTML='<div class="empty">Nenhum funcionário cadastrado.</div>';return;}
+  const today=todayStr();
+  document.getElementById('funcList').innerHTML=arr.map(f=>{
+    const nrs=['NR10','NR35','NR12','NR18'].map(nr=>{
+      const dt=f['nr'+nr.replace('NR','')]; if(!dt)return'';
+      const d=diffD(dt); const cls=d<0?'nr-venc':d<30?'nr-pend':'nr-ok';
+      return`<span class="nr-badge ${cls}">${nr} ${d<0?'VENC':fmtD(dt)}</span>`;
+    }).join('');
+    const sts={ativo:'✅',ferias:'🏖️',afastado:'🏥',inativo:'❌'}[f.status]||'';
+    return`<div class="func-card" onclick="openFuncModal('${f.id}')">
+      <div class="func-av">${initials(f.nome)}</div>
+      <div class="func-info">
+        <div class="func-name">${f.nome} ${sts}</div>
+        <div class="func-cargo">${f.cargo||'—'} · ${f.tipo||'CLT'}</div>
+        <div style="margin-top:4px">${nrs||'<span style="font-size:0.68rem;color:var(--sub)">Sem NRs cadastradas</span>'}</div>
+      </div>
+    </div>`;}).join('');
+}
+function setRHFilter(f){rhFilter=f;renderRH();}
+
+function openFuncModal(fid){
+  const f=fid?funcionarios[fid]:null;
+  document.getElementById('editFuncId').value=fid||'';
+  document.getElementById('funcModalTitle').textContent=fid?'Editar Funcionário':'Novo Funcionário';
+  if(f){
+    document.getElementById('fnNome').value=f.nome||'';
+    document.getElementById('fnCargo').value=f.cargo||'';
+    document.getElementById('fnTipo').value=f.tipo||'clt';
+    document.getElementById('fnAdmissao').value=f.admissao||'';
+    document.getElementById('fnCPF').value=f.cpf||'';
+    document.getElementById('fnTel').value=f.tel||'';
+    document.getElementById('fnNR10').value=f.nr10||'';
+    document.getElementById('fnNR35').value=f.nr35||'';
+    document.getElementById('fnNR12').value=f.nr12||'';
+    document.getElementById('fnNR18').value=f.nr18||'';
+    document.getElementById('fnFerIni').value=f.ferIni||'';
+    document.getElementById('fnFerFim').value=f.ferFim||'';
+    document.getElementById('fnStatus').value=f.status||'ativo';
+  } else {
+    ['fnNome','fnCPF','fnTel','fnAdmissao','fnNR10','fnNR35','fnNR12','fnNR18','fnFerIni','fnFerFim'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('fnCargo').value='';
+    document.getElementById('fnTipo').value='clt';
+    document.getElementById('fnStatus').value='ativo';
+  }
+  document.getElementById('ovlFunc').classList.add('v');
+}
+async function saveFunc(){
+  const nome=(document.getElementById('fnNome').value||'').trim();
+  if(!nome){alert('Informe o nome do funcionário.');return;}
+  const fid=document.getElementById('editFuncId').value||genId();
+  await db.ref('erp/funcionarios/'+fid).set({id:fid,nome,cargo:document.getElementById('fnCargo').value,tipo:document.getElementById('fnTipo').value,admissao:document.getElementById('fnAdmissao').value||'',cpf:document.getElementById('fnCPF').value.trim(),tel:document.getElementById('fnTel').value.trim(),nr10:document.getElementById('fnNR10').value||'',nr35:document.getElementById('fnNR35').value||'',nr12:document.getElementById('fnNR12').value||'',nr18:document.getElementById('fnNR18').value||'',ferIni:document.getElementById('fnFerIni').value||'',ferFim:document.getElementById('fnFerFim').value||'',status:document.getElementById('fnStatus').value,criadoEm:funcionarios[fid]?.criadoEm||Date.now(),atualizadoPor:curUser.uid});
+  closeOvl('ovlFunc');
 }
 
 // ══════════════════════════════════════════════
