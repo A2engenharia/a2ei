@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="theme-color" content="#C8102E"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="A2 Sistema"/>
+<link rel="manifest" href="manifest.json"/>
+<title>A2 Sistema ERP</title>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--red:#C8102E;--dark:#1a1a1a;--green:#16a34a;--amber:#d97706;--blue:#1d4ed8;
+  --bg:#f0f2f5;--card:#fff;--border:#e5e7eb;--txt:#111827;--sub:#6b7280;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:var(--bg);color:var(--txt);min-height:100vh;overscroll-behavior:none}
+
+/* ── SETUP ── */
+#setupScreen{position:fixed;inset:0;background:var(--dark);z-index:900;overflow-y:auto;display:flex;align-items:center;justify-content:center;padding:24px}
+#setupScreen.h{display:none}
+.sw{max-width:480px;width:100%}
+.slogo{font-size:2.2rem;font-weight:900;color:#fff;margin-bottom:2px}.slogo span{color:var(--red)}
+.ssub{font-size:0.58rem;letter-spacing:3px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-bottom:28px}
+.scard{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:22px;margin-bottom:14px}
+.scard h2{color:#fff;font-size:0.88rem;font-weight:700;margin-bottom:14px}
+.step{display:flex;gap:10px;margin-bottom:10px}
+.sn{width:22px;height:22px;border-radius:50%;background:var(--red);color:#fff;font-size:0.68rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.st{color:rgba(255,255,255,0.65);font-size:0.8rem;line-height:1.6}
+.st strong{color:#fff}.st a{color:var(--red);text-decoration:none}
+.sta{width:100%;background:rgba(0,0,0,0.4);border:1.5px solid rgba(255,255,255,0.15);border-radius:10px;color:#fff;font-family:monospace;font-size:0.74rem;padding:12px;min-height:140px;resize:vertical;margin-top:10px}
+.sta:focus{outline:none;border-color:var(--red)}
+.bsetup{width:100%;padding:13px;border-radius:10px;border:none;background:var(--red);color:#fff;font-family:inherit;font-size:0.88rem;font-weight:700;cursor:pointer;margin-top:8px}
+.serr{color:#f87171;font-size:0.76rem;margin-top:6px;min-height:18px}
+
+/* ── LOGIN ── */
+#loginScreen{position:fixed;inset:0;background:var(--dark);z-index:800;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;overflow-y:auto}
+#loginScreen.h{display:none}
+.ll{font-size:2.4rem;font-weight:900;color:#fff}.ll span{color:var(--red)}
+.ls{font-size:0.58rem;letter-spacing:4px;text-transform:uppercase;color:rgba(255,255,255,0.3);margin-top:3px;margin-bottom:32px}
+.ugrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(88px,1fr));gap:10px;width:100%;max-width:400px;margin-bottom:8px}
+.ucard{background:rgba(255,255,255,0.05);border:1.5px solid rgba(255,255,255,0.08);border-radius:14px;padding:16px 8px;text-align:center;cursor:pointer;transition:all 0.15s;-webkit-tap-highlight-color:transparent}
+.ucard:active,.ucard.sel{background:rgba(200,16,46,0.25);border-color:var(--red)}
+.uav{width:48px;height:48px;border-radius:50%;background:var(--red);color:#fff;font-size:0.95rem;font-weight:800;display:flex;align-items:center;justify-content:center;margin:0 auto 8px}
+.uname{color:#fff;font-size:0.74rem;font-weight:600}
+#pinBox{text-align:center;width:100%;max-width:290px}
+#pinBox h2{color:#fff;font-size:1rem;font-weight:700;margin-bottom:3px}
+#pinBox p{color:rgba(255,255,255,0.35);font-size:0.74rem;margin-bottom:18px}
+.dots{display:flex;justify-content:center;gap:14px;margin-bottom:18px}
+.dot{width:13px;height:13px;border-radius:50%;border:2px solid rgba(255,255,255,0.2);transition:all 0.12s}
+.dot.on{background:var(--red);border-color:var(--red)}
+.pgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.pb{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.1);color:#fff;border-radius:10px;padding:14px;font-size:1.05rem;font-weight:700;cursor:pointer;font-family:inherit;-webkit-tap-highlight-color:transparent;transition:background 0.1s}
+.pb:active{background:var(--red)}
+.perr{color:#f87171;font-size:0.74rem;min-height:18px}
+.lback{color:rgba(255,255,255,0.4);font-size:0.74rem;cursor:pointer;margin-top:12px;text-decoration:underline}
+/* first run */
+.first-run{color:rgba(255,255,255,0.75);font-size:0.83rem;text-align:center;max-width:320px}
+.first-run input{width:100%;padding:10px 12px;border-radius:8px;border:none;margin-bottom:8px;font-size:0.85rem;font-family:inherit}
+
+/* ── APP ── */
+#app{display:none}
+#app.v{display:flex;flex-direction:column;min-height:100vh}
+.topbar{background:var(--dark);padding:11px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;padding-top:max(11px,env(safe-area-inset-top))}
+.tlogo{font-size:1.05rem;font-weight:900;color:#fff}.tlogo span{color:var(--red)}
+.tmod{font-size:0.78rem;font-weight:500;color:rgba(255,255,255,0.4);margin-left:6px}
+.tright{display:flex;align-items:center;gap:8px}
+.sync-dot{width:7px;height:7px;border-radius:50%;background:#22c55e;flex-shrink:0}
+.sync-dot.off{background:#ef4444}.sync-dot.wait{background:var(--amber);animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.uav-sm{width:30px;height:30px;border-radius:50%;background:var(--red);color:#fff;font-size:0.65rem;font-weight:800;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;border:none}
+.thbtn{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:rgba(255,255,255,0.7);padding:5px 10px;border-radius:7px;font-family:inherit;font-size:0.7rem;font-weight:600;cursor:pointer}
+
+/* LAYOUT */
+.layout{display:flex;flex:1;min-height:0}
+.sidebar{display:none;width:215px;background:var(--card);border-right:1px solid var(--border);flex-shrink:0;padding:12px 0;position:sticky;top:52px;height:calc(100vh - 52px);overflow-y:auto}
+@media(min-width:768px){.sidebar{display:block}}
+.sni{display:flex;align-items:center;gap:10px;padding:10px 18px;font-size:0.81rem;font-weight:600;color:var(--sub);cursor:pointer;border-left:3px solid transparent;transition:all 0.12s;user-select:none}
+.sni:hover{background:#f9fafb;color:var(--txt)}
+.sni.active{color:var(--red);background:#fff1f2;border-left-color:var(--red)}
+.sni-ico{font-size:0.95rem;width:20px;text-align:center}
+.sni-sep{height:1px;background:var(--border);margin:6px 14px}
+.content{flex:1;min-width:0;overflow-x:hidden}
+.bnav{display:flex;position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);z-index:100;padding-bottom:env(safe-area-inset-bottom)}
+.bni-wrap{display:grid;width:100%}
+.bni{display:flex;flex-direction:column;align-items:center;padding:9px 4px 7px;font-size:0.57rem;font-weight:600;color:#aaa;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.bni .ico{font-size:1.15rem;margin-bottom:2px}
+.bni.active{color:var(--red)}
+@media(min-width:768px){.bnav{display:none}}
+
+/* SECTIONS */
+.sec{display:none;padding:18px 15px 90px;max-width:1100px;margin:0 auto;width:100%}
+.sec.active{display:block}
+@media(min-width:768px){.sec{padding-bottom:24px}}
+.pgh{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:10px}
+.pg-title{font-size:1.15rem;font-weight:800;color:var(--dark)}
+.btn{padding:8px 15px;border-radius:8px;border:none;font-family:inherit;font-size:0.79rem;font-weight:700;cursor:pointer;display:inline-flex;align-items:center;gap:5px;-webkit-tap-highlight-color:transparent}
+.btn-red{background:var(--red);color:#fff}.btn-red:active{background:#a00d24}
+.btn-ghost{background:transparent;border:1.5px solid var(--border);color:var(--sub)}
+.btn-ghost:active{background:#f9fafb}
+
+/* KPIs */
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px}
+@media(min-width:600px){.kpis{grid-template-columns:repeat(4,1fr)}}
+.kpi{background:var(--card);border-radius:12px;padding:13px;border:1px solid var(--border)}
+.kpi-lbl{font-size:0.66rem;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px}
+.kpi-val{font-size:1.4rem;font-weight:900;color:var(--dark)}
+.kpi-sub{font-size:0.68rem;color:var(--sub);margin-top:2px}
+
+/* FILTERS */
+.filters{display:flex;gap:8px;margin-bottom:14px;flex-wrap:wrap;align-items:center}
+.search{flex:1;min-width:180px;background:var(--card);border:1.5px solid var(--border);border-radius:8px;padding:8px 11px;font-size:0.81rem;font-family:inherit;color:var(--txt)}
+.search:focus{outline:none;border-color:var(--red)}
+.ftabs{display:flex;gap:4px;flex-wrap:wrap}
+.ftab{padding:4px 11px;border-radius:20px;font-size:0.7rem;font-weight:600;cursor:pointer;border:1.5px solid var(--border);background:var(--card);color:var(--sub);white-space:nowrap}
+.ftab.active{background:var(--red);color:#fff;border-color:var(--red)}
+
+/* CRM CARDS */
+.crm-list{display:flex;flex-direction:column;gap:7px}
+.crm-card{background:var(--card);border-radius:11px;border:1px solid var(--border);padding:13px 14px;cursor:pointer;display:flex;gap:11px;align-items:flex-start;transition:box-shadow 0.12s}
+.crm-card:hover{box-shadow:0 2px 8px rgba(0,0,0,0.07)}
+.crm-av{width:40px;height:40px;border-radius:10px;background:var(--dark);color:#fff;font-size:0.78rem;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.crm-inf{flex:1;min-width:0}
+.crm-name{font-size:0.88rem;font-weight:700;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;margin-bottom:2px}
+.crm-meta{font-size:0.7rem;color:var(--sub)}
+.crm-r{display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0}
+.stbdg{padding:3px 8px;border-radius:20px;font-size:0.62rem;font-weight:700;white-space:nowrap}
+.s-prospect{background:#ede9fe;color:#6d28d9}
+.s-contato{background:#dbeafe;color:var(--blue)}
+.s-proposta{background:#fef3c7;color:var(--amber)}
+.s-negociacao{background:#ffedd5;color:#ea580c}
+.s-cliente{background:#dcfce7;color:var(--green)}
+.s-perdido{background:#f1f5f9;color:#94a3b8}
+.fu{font-size:0.67rem;font-weight:600}
+.fu.ov{color:var(--red)}.fu.td{color:var(--amber)}.fu.ok{color:var(--sub)}
+
+/* CLIENT PANEL */
+#clientPanel{display:none;position:fixed;inset:0;background:var(--card);z-index:500;overflow-y:auto}
+#clientPanel.v{display:block}
+@media(min-width:768px){#clientPanel{left:215px;top:52px}}
+.cp-head{background:var(--dark);padding:14px 16px;display:flex;align-items:center;gap:10px;position:sticky;top:0;z-index:10;padding-top:max(14px,env(safe-area-inset-top))}
+.cp-back{background:rgba(255,255,255,0.1);border:none;color:#fff;width:32px;height:32px;border-radius:8px;cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.cp-nm{font-size:0.98rem;font-weight:800;color:#fff;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.cp-sg{font-size:0.67rem;color:rgba(255,255,255,0.45)}
+.cp-body{padding:14px}
+.infogrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.iitem label{font-size:0.63rem;font-weight:700;text-transform:uppercase;color:var(--sub);display:block;margin-bottom:2px}
+.iitem span,.iitem a{font-size:0.8rem;color:var(--txt);font-weight:500;text-decoration:none}
+.iitem a{color:var(--blue)}
+.s-title{font-size:0.78rem;font-weight:700;color:var(--dark);margin-bottom:8px;padding-bottom:6px;border-bottom:2px solid var(--border)}
+.stbtns{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:14px}
+.stbtn{padding:5px 11px;border-radius:20px;font-size:0.7rem;font-weight:700;cursor:pointer;border:none;font-family:inherit;transition:all 0.12s}
+.stbtn.cur{outline:2.5px solid var(--dark);outline-offset:1px}
+.qacts{display:flex;gap:7px;margin-bottom:18px;flex-wrap:wrap}
+.qa{padding:8px 13px;border-radius:8px;font-size:0.74rem;font-weight:700;border:none;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px}
+.qa-c{background:#eff6ff;color:var(--blue)}
+.qa-w{background:#dcfce7;color:#15803d}
+.qa-e{background:#fef3c7;color:var(--amber)}
+.inter-list{display:flex;flex-direction:column;gap:7px;margin-bottom:14px}
+.inter{background:#f9fafb;border-radius:8px;padding:10px 12px}
+.inter-meta{display:flex;align-items:center;gap:6px;margin-bottom:4px;flex-wrap:wrap}
+.itype{font-size:0.62rem;font-weight:700;text-transform:uppercase;padding:2px 7px;border-radius:10px;background:var(--dark);color:#fff}
+.iuser{font-size:0.63rem;color:var(--sub)}
+.idate{font-size:0.63rem;color:var(--sub);margin-left:auto}
+.idesc{font-size:0.79rem;color:var(--txt);line-height:1.5}
+.inext{font-size:0.67rem;color:var(--amber);font-weight:600;margin-top:3px}
+.add-inter{background:#f9fafb;border-radius:10px;padding:14px}
+.frow2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.fr{margin-bottom:9px}
+.fr label{font-size:0.7rem;font-weight:700;text-transform:uppercase;color:var(--sub);display:block;margin-bottom:3px}
+.fr select,.fr input,.fr textarea{width:100%;padding:7px 10px;border:1.5px solid var(--border);border-radius:7px;font-size:0.81rem;font-family:inherit;color:var(--txt);background:var(--card)}
+.fr select:focus,.fr input:focus,.fr textarea:focus{outline:none;border-color:var(--red)}
+.fr textarea{resize:vertical;min-height:65px}
+
+/* MODAL */
+.ovl{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:600;align-items:flex-end;justify-content:center}
+.ovl.v{display:flex}
+@media(min-width:600px){.ovl{align-items:center}}
+.modal{background:var(--card);border-radius:18px 18px 0 0;width:100%;max-width:540px;max-height:92vh;overflow-y:auto;padding:18px;padding-bottom:max(18px,env(safe-area-inset-bottom))}
+@media(min-width:600px){.modal{border-radius:14px}}
+.mhead{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px}
+.mtitle{font-size:0.98rem;font-weight:800;color:var(--dark)}
+.mclose{background:#f3f4f6;border:none;width:28px;height:28px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.85rem}
+.fg{margin-bottom:11px}
+.fg label{font-size:0.7rem;font-weight:700;text-transform:uppercase;color:var(--sub);display:block;margin-bottom:3px}
+.fg input,.fg select,.fg textarea{width:100%;padding:8px 11px;border:1.5px solid var(--border);border-radius:8px;font-size:0.83rem;font-family:inherit;color:var(--txt);background:var(--card)}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--red)}
+.fg textarea{resize:vertical;min-height:55px}
+.f2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mact{display:flex;gap:8px;margin-top:16px;justify-content:flex-end}
+
+/* USER MANAGEMENT */
+.ulist{display:flex;flex-direction:column;gap:7px}
+.uitem{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:12px 14px;display:flex;align-items:center;gap:11px}
+.uitem.off{opacity:0.5}
+.uinfo{flex:1;min-width:0}
+.uiname{font-size:0.86rem;font-weight:700;color:var(--dark)}
+.uirole{font-size:0.7rem;color:var(--sub);margin-top:2px}
+.uacts{display:flex;gap:5px;flex-shrink:0}
+.ibtn{background:#f3f4f6;border:none;width:30px;height:30px;border-radius:7px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:0.82rem}
+.ibtn.del{background:#fee2e2}
+.modgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-top:4px}
+.mchk{display:flex;align-items:center;gap:6px;font-size:0.77rem;color:var(--txt)}
+.mchk input{width:14px;height:14px;accent-color:var(--red)}
+.pin-show{background:#111;color:#4ade80;font-family:monospace;font-size:1.3rem;letter-spacing:6px;padding:10px;border-radius:8px;text-align:center;margin:8px 0}
+
+/* COMING SOON */
+.cs{text-align:center;padding:60px 20px}
+.cs .ico{font-size:3rem;margin-bottom:14px}
+.cs h2{font-size:1.1rem;font-weight:800;color:var(--dark);margin-bottom:6px}
+.cs p{font-size:0.83rem;color:var(--sub)}
+.tag-em-breve{display:inline-block;background:#fef3c7;color:var(--amber);font-size:0.7rem;font-weight:700;padding:3px 10px;border-radius:20px;margin-top:10px}
+
+/* MISC */
+.offline-warn{position:fixed;bottom:68px;left:50%;transform:translateX(-50%);background:var(--dark);color:rgba(255,255,255,0.7);padding:7px 15px;border-radius:20px;font-size:0.7rem;font-weight:600;display:none;z-index:1000;white-space:nowrap;border:1px solid rgba(255,255,255,0.1)}
+.offline-warn.show{display:block}
+.fab{position:fixed;bottom:calc(68px + env(safe-area-inset-bottom));right:15px;width:50px;height:50px;border-radius:50%;background:var(--red);color:#fff;border:none;font-size:1.5rem;cursor:pointer;box-shadow:0 4px 14px rgba(200,16,46,0.4);z-index:200;display:flex;align-items:center;justify-content:center;-webkit-tap-highlight-color:transparent}
+.fab.h{display:none}
+@media(min-width:768px){.fab{bottom:20px;right:20px}}
+.empty{text-align:center;padding:40px 20px;color:var(--sub);font-size:0.83rem}
+.dash-card{background:var(--card);border-radius:12px;border:1px solid var(--border);padding:14px;margin-bottom:12px}
+.dash-card h3{font-size:0.82rem;font-weight:700;color:var(--dark);margin-bottom:10px}
+.ritem{padding:8px 0;border-bottom:1px solid #f3f4f6;font-size:0.77rem}
+.ritem:last-child{border:none}
+.ritem-name{font-weight:600;color:var(--dark)}
+.ritem-sub{color:var(--sub);margin-top:1px}
+.badge{display:inline-block;padding:2px 7px;border-radius:10px;font-size:0.62rem;font-weight:700}
+.badge-p1{background:#fee2e2;color:var(--red)}
+.badge-p2{background:#fef3c7;color:var(--amber)}
+</style>
+</head>
+<body>
+
+<!-- ═══════════ SETUP ═══════════ -->
+<div id="setupScreen">
+  <div class="sw">
+    <div class="slogo">A<span>2</span></div>
+    <div class="ssub">Sistema ERP — Configuração inicial</div>
+    <div class="scard">
+      <h2>⚡ Conectar ao Firebase</h2>
+      <div class="step"><div class="sn">1</div><div class="st">Acesse <a href="https://console.firebase.google.com" target="_blank">console.firebase.google.com</a> e abra o projeto <strong>a2-financeiro</strong></div></div>
+      <div class="step"><div class="sn">2</div><div class="st">Clique em <strong>Configurações do projeto → Geral</strong> e copie o bloco <strong>firebaseConfig</strong></div></div>
+      <div class="step"><div class="sn">3</div><div class="st">Cole abaixo e clique em Conectar:</div></div>
+      <textarea class="sta" id="setupInput" placeholder='{
+  "apiKey": "AIza...",
+  "authDomain": "...",
+  "databaseURL": "https://...-default-rtdb.firebaseio.com",
+  ...
+}'></textarea>
+      <button class="bsetup" onclick="saveSetup()">Conectar →</button>
+      <div class="serr" id="setupErr"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ LOGIN ═══════════ -->
+<div id="loginScreen">
+  <div class="ll">A<span>2</span></div>
+  <div class="ls">Sistema ERP</div>
+  <div id="userGrid" class="ugrid"></div>
+  <div id="pinBox" style="display:none">
+    <h2 id="pinUser"></h2>
+    <p>Digite seu PIN de 4 dígitos</p>
+    <div class="dots">
+      <div class="dot" id="d0"></div><div class="dot" id="d1"></div>
+      <div class="dot" id="d2"></div><div class="dot" id="d3"></div>
+    </div>
+    <div class="pgrid">
+      <button class="pb" onclick="pp('1')">1</button><button class="pb" onclick="pp('2')">2</button><button class="pb" onclick="pp('3')">3</button>
+      <button class="pb" onclick="pp('4')">4</button><button class="pb" onclick="pp('5')">5</button><button class="pb" onclick="pp('6')">6</button>
+      <button class="pb" onclick="pp('7')">7</button><button class="pb" onclick="pp('8')">8</button><button class="pb" onclick="pp('9')">9</button>
+      <button class="pb" onclick="pp('←')">←</button><button class="pb" onclick="pp('0')">0</button><button class="pb" onclick="pp('OK')">OK</button>
+    </div>
+    <div class="perr" id="perr"></div>
+    <div class="lback" onclick="backToUsers()">← Trocar usuário</div>
+  </div>
+</div>
+
+<!-- ═══════════ APP ═══════════ -->
+<div id="app">
+  <div class="topbar">
+    <div style="display:flex;align-items:center;gap:4px">
+      <div class="tlogo">A<span>2</span></div>
+      <span class="tmod" id="topMod">Sistema</span>
+    </div>
+    <div class="tright">
+      <div class="sync-dot wait" id="syncDot"></div>
+      <button class="uav-sm" id="userAv" onclick="logout()" title="Sair do sistema"></button>
+    </div>
+  </div>
+
+  <div class="layout">
+    <nav class="sidebar" id="sidebar"></nav>
+    <div class="content">
+
+      <!-- DASHBOARD -->
+      <div class="sec" id="secDash">
+        <div class="pgh"><div class="pg-title">🏠 Dashboard</div></div>
+        <div class="kpis" id="dashKpis"></div>
+        <div id="dashCards"></div>
+      </div>
+
+      <!-- CRM -->
+      <div class="sec" id="secCRM">
+        <div class="pgh">
+          <div class="pg-title">👥 CRM</div>
+          <button class="btn btn-red" onclick="openClientModal()">+ Empresa</button>
+        </div>
+        <div class="filters">
+          <input class="search" id="crmSearch" placeholder="Buscar empresa, cidade..." oninput="renderCRM()"/>
+          <div class="ftabs" id="stageTabs"></div>
+        </div>
+        <div class="crm-list" id="crmList"></div>
+      </div>
+
+      <!-- FINANCEIRO -->
+      <div class="sec" id="secFin">
+        <div class="cs">
+          <div class="ico">💰</div>
+          <h2>Módulo Financeiro</h2>
+          <p>Acesse o sistema completo de contas a pagar e receber.</p>
+          <a href="/financeiro/" class="btn btn-red" style="margin-top:14px;display:inline-flex">Abrir Financeiro →</a>
+        </div>
+      </div>
+
+      <!-- PROPOSTAS -->
+      <div class="sec" id="secProp">
+        <div class="cs"><div class="ico">📄</div><h2>Propostas</h2><p>Geração de propostas com orçamento e contrato preenchido automaticamente.</p><div class="tag-em-breve">Em desenvolvimento</div></div>
+      </div>
+
+      <!-- PROJETOS -->
+      <div class="sec" id="secProj">
+        <div class="cs"><div class="ico">📋</div><h2>Projetos / OS</h2><p>Ordens de serviço, cronograma e acompanhamento de obras.</p><div class="tag-em-breve">Em desenvolvimento</div></div>
+      </div>
+
+      <!-- COMPRAS -->
+      <div class="sec" id="secComp">
+        <div class="cs"><div class="ico">🛒</div><h2>Compras</h2><p>Requisições, aprovações e pedidos de compra em PDF.</p><div class="tag-em-breve">Em desenvolvimento</div></div>
+      </div>
+
+      <!-- ESTOQUE -->
+      <div class="sec" id="secEst">
+        <div class="cs"><div class="ico">📦</div><h2>Estoque</h2><p>Controle de materiais, ferramentas e EPIs.</p><div class="tag-em-breve">Em desenvolvimento</div></div>
+      </div>
+
+      <!-- RH -->
+      <div class="sec" id="secRH">
+        <div class="cs"><div class="ico">👷</div><h2>RH</h2><p>Gestão de equipe, férias, documentos e horas por projeto.</p><div class="tag-em-breve">Em desenvolvimento</div></div>
+      </div>
+
+      <!-- ADMIN -->
+      <div class="sec" id="secAdmin">
+        <div class="pgh">
+          <div class="pg-title">⚙️ Usuários</div>
+          <button class="btn btn-red" onclick="openUserModal()">+ Usuário</button>
+        </div>
+        <div class="ulist" id="userList"></div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /layout -->
+
+  <nav class="bnav"><div class="bni-wrap" id="bnav"></div></nav>
+</div><!-- /app -->
+
+<!-- ═══════════ CLIENT PANEL ═══════════ -->
+<div id="clientPanel">
+  <div class="cp-head">
+    <button class="cp-back" onclick="closePanel()">←</button>
+    <div style="flex:1;min-width:0">
+      <div class="cp-nm" id="cpName"></div>
+      <div class="cp-sg" id="cpSeg"></div>
+    </div>
+    <button class="btn btn-red" onclick="editCurrentClient()" style="font-size:0.71rem;padding:5px 10px">Editar</button>
+  </div>
+  <div class="cp-body">
+    <div class="infogrid" id="cpInfo"></div>
+    <div class="s-title">Pipeline</div>
+    <div class="stbtns" id="cpStages"></div>
+    <div class="qacts">
+      <button class="qa qa-c" id="qaCall">📞 Ligar</button>
+      <button class="qa qa-w" id="qaWA">💬 WhatsApp</button>
+      <button class="qa qa-e" id="qaEmail">📧 E-mail</button>
+    </div>
+    <div class="s-title">Histórico de Interações</div>
+    <div class="inter-list" id="cpInter"></div>
+    <div class="add-inter">
+      <div class="s-title" style="border:none;margin-bottom:8px">+ Nova Interação</div>
+      <div class="frow2">
+        <div class="fr"><label>Tipo</label>
+          <select id="iType">
+            <option value="ligacao">📞 Ligação</option>
+            <option value="whatsapp">💬 WhatsApp</option>
+            <option value="email">📧 E-mail</option>
+            <option value="visita">🏭 Visita</option>
+            <option value="reuniao">🤝 Reunião</option>
+            <option value="proposta">📄 Proposta enviada</option>
+          </select>
+        </div>
+        <div class="fr"><label>Próximo contato</label><input type="date" id="iNext"/></div>
+      </div>
+      <div class="fr"><label>Descrição</label><textarea id="iDesc" placeholder="O que foi discutido? Próximos passos..."></textarea></div>
+      <button class="btn btn-red" onclick="saveInter()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL: EMPRESA ═══════════ -->
+<div class="ovl" id="ovlClient" onclick="if(event.target===this)closeOvl('ovlClient')">
+  <div class="modal">
+    <div class="mhead">
+      <div class="mtitle" id="clientModalTitle">Nova Empresa</div>
+      <button class="mclose" onclick="closeOvl('ovlClient')">✕</button>
+    </div>
+    <input type="hidden" id="editClientId"/>
+    <div class="f2">
+      <div class="fg"><label>Nome da Empresa *</label><input type="text" id="cNome" placeholder="Honda do Brasil"/></div>
+      <div class="fg"><label>CNPJ</label><input type="text" id="cCNPJ" placeholder="00.000.000/0001-00"/></div>
+    </div>
+    <div class="f2">
+      <div class="fg"><label>Segmento</label>
+        <select id="cSeg">
+          <option value="">Selecione</option>
+          <option>Automotivo</option><option>Metal / Mecânico</option><option>Alimentos</option>
+          <option>Bebidas</option><option>Óleo & Gás</option><option>Energia</option>
+          <option>Saneamento</option><option>Químico</option><option>Farmacêutico</option>
+          <option>Papel & Celulose</option><option>Logística</option><option>Outro</option>
+        </select>
+      </div>
+      <div class="fg"><label>Cidade / UF</label><input type="text" id="cCidade" placeholder="Indaiatuba — SP"/></div>
+    </div>
+    <div class="f2">
+      <div class="fg"><label>Telefone</label><input type="text" id="cTel" placeholder="(19) 00000-0000"/></div>
+      <div class="fg"><label>E-mail</label><input type="text" id="cEmail" placeholder="contato@empresa.com"/></div>
+    </div>
+    <div class="f2">
+      <div class="fg"><label>Contato (nome)</label><input type="text" id="cContato" placeholder="Nome do responsável"/></div>
+      <div class="fg"><label>Cargo</label><input type="text" id="cCargo" placeholder="Gerente de Manutenção"/></div>
+    </div>
+    <div class="f2">
+      <div class="fg"><label>Estágio</label>
+        <select id="cEstagio">
+          <option value="prospect">🎯 Prospect</option>
+          <option value="contato">📞 Contato feito</option>
+          <option value="proposta">📋 Proposta enviada</option>
+          <option value="negociacao">🤝 Em negociação</option>
+          <option value="cliente">✅ Cliente</option>
+          <option value="perdido">❌ Perdido</option>
+        </select>
+      </div>
+      <div class="fg"><label>Responsável</label><select id="cResp"></select></div>
+    </div>
+    <div class="f2">
+      <div class="fg"><label>Prioridade</label>
+        <select id="cPrio">
+          <option value="P1">🔴 P1 — Alta</option>
+          <option value="P2">🟡 P2 — Média</option>
+          <option value="P3">⚪ P3 — Baixa</option>
+        </select>
+      </div>
+      <div class="fg"><label>Distância</label><input type="text" id="cDist" placeholder="Ex: ~30km"/></div>
+    </div>
+    <div class="fg"><label>Observações</label><textarea id="cObs" placeholder="Informações relevantes, histórico..."></textarea></div>
+    <div class="mact">
+      <button class="btn btn-ghost" onclick="closeOvl('ovlClient')">Cancelar</button>
+      <button class="btn btn-red" onclick="saveClient()">Salvar Empresa</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════ MODAL: USUÁRIO ═══════════ -->
+<div class="ovl" id="ovlUser" onclick="if(event.target===this)closeOvl('ovlUser')">
+  <div class="modal">
+    <div class="mhead">
+      <div class="mtitle" id="userModalTitle">Novo Usuário</div>
+      <button class="mclose" onclick="closeOvl('ovlUser')">✕</button>
+    </div>
+    <input type="hidden" id="editUserId"/>
+    <div class="f2">
+      <div class="fg"><label>Nome *</label><input type="text" id="uNome" placeholder="Nome completo"/></div>
+      <div class="fg"><label>Iniciais (2-3 letras)</label><input type="text" id="uInic" placeholder="Ex: AA" maxlength="3"/></div>
+    </div>
+    <div class="fg">
+      <label>PIN (4 dígitos) *</label>
+      <input type="number" id="uPIN" placeholder="Ex: 1234" min="1000" max="9999"/>
+    </div>
+    <div id="pinReveal" style="display:none">
+      <div class="pin-show" id="pinShowVal"></div>
+      <p style="font-size:0.71rem;color:var(--sub);margin-bottom:10px">⚠️ Guarde este PIN — não será exibido novamente.</p>
+    </div>
+    <div class="fg">
+      <label>Acesso aos módulos</label>
+      <div class="modgrid" id="modGrid"></div>
+    </div>
+    <div class="mact">
+      <button class="btn btn-ghost" onclick="closeOvl('ovlUser')">Cancelar</button>
+      <button class="btn btn-red" onclick="saveUser()">Salvar Usuário</button>
+    </div>
+  </div>
+</div>
+
+<div class="offline-warn" id="offWarn">⚠️ Sem conexão — modo offline</div>
+<button class="fab h" id="fab" onclick="fabAct()">+</button>
+
+<script>
+// ══════════════════════════════════════════════
+// CONSTANTS
+// ══════════════════════════════════════════════
+const SALT = '_a2_salt_2025';
+const CFG_KEYS = ['a2fb_cfg','a2erp_cfg']; // share config with financeiro app
+
+const MODS = [
+  {id:'dash', label:'Dashboard', icon:'🏠', sec:'secDash', always:true},
+  {id:'crm',  label:'CRM',       icon:'👥', sec:'secCRM'},
+  {id:'fin',  label:'Financeiro',icon:'💰', sec:'secFin'},
+  {id:'prop', label:'Propostas', icon:'📄', sec:'secProp'},
+  {id:'proj', label:'Projetos',  icon:'📋', sec:'secProj'},
+  {id:'compras',label:'Compras', icon:'🛒', sec:'secComp'},
+  {id:'estoque',label:'Estoque', icon:'📦', sec:'secEst'},
+  {id:'rh',   label:'RH',        icon:'👷', sec:'secRH'},
+  {id:'admin',label:'Admin',     icon:'⚙️', sec:'secAdmin'},
+];
+
+const STAGES = [
+  {id:'prospect',  label:'Prospect',        cls:'s-prospect'},
+  {id:'contato',   label:'Contato feito',   cls:'s-contato'},
+  {id:'proposta',  label:'Proposta enviada',cls:'s-proposta'},
+  {id:'negociacao',label:'Em negociação',   cls:'s-negociacao'},
+  {id:'cliente',   label:'Cliente',         cls:'s-cliente'},
+  {id:'perdido',   label:'Perdido',         cls:'s-perdido'},
+];
+
+// ══════════════════════════════════════════════
+// STATE
+// ══════════════════════════════════════════════
+let db = null, curUser = null, curMod = 'dash';
+let usuarios = {}, clientes = {}, interacoes = {};
+let selUID = null, pinBuf = '', curCID = null, crmFilter = 'all';
+
+// ══════════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════════
+async function hashPin(p){
+  const buf = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(p + SALT));
+  return Array.from(new Uint8Array(buf)).map(b=>b.toString(16).padStart(2,'0')).join('');
+}
+function genId(){ return Date.now().toString(36) + Math.random().toString(36).slice(2,5); }
+function initials(n){ return (n||'?').split(' ').map(w=>w[0]).join('').slice(0,2).toUpperCase(); }
+function fmtD(s){ if(!s) return '—'; const [y,m,d]=s.split('-'); return `${d}/${m}/${y}`; }
+function todayStr(){ return new Date().toISOString().slice(0,10); }
+function diffD(s){ if(!s) return null; const t=new Date(s+'T00:00:00'); const n=new Date(); n.setHours(0,0,0,0); return Math.round((t-n)/864e5); }
+function stInfo(id){ return STAGES.find(s=>s.id===id)||{label:id,cls:'s-prospect'}; }
+
+// ══════════════════════════════════════════════
+// SETUP
+// ══════════════════════════════════════════════
+function saveSetup(){
+  const raw = document.getElementById('setupInput').value.trim();
+  const err = document.getElementById('setupErr');
+  try {
+    const match = raw.match(/\{[\s\S]*\}/);
+    if(!match){ err.textContent='Cole o bloco { } do firebaseConfig'; return; }
+    let cfg;
+    try { cfg = JSON.parse(match[0]); }
+    catch(e){ cfg = JSON.parse(match[0].replace(/([{,]\s*)([a-zA-Z_]\w*)(\s*:)/g,'$1"$2"$3')); }
+    if(!cfg.apiKey||!cfg.databaseURL){ err.textContent='Faltam apiKey ou databaseURL'; return; }
+    CFG_KEYS.forEach(k => localStorage.setItem(k, JSON.stringify(cfg)));
+    initFirebase(cfg);
+  } catch(e){ err.textContent='Formato inválido. Tente novamente.'; }
+}
+
+function initFirebase(cfg){
+  try {
+    const app = firebase.apps.length ? firebase.app() : firebase.initializeApp(cfg);
+    db = firebase.database(app);
+    document.getElementById('setupScreen').classList.add('h');
+    db.ref('.info/connected').on('value', snap=>{
+      document.getElementById('syncDot').className = 'sync-dot ' + (snap.val() ? '' : 'off');
+      document.getElementById('offWarn').className = 'offline-warn' + (snap.val() ? '' : ' show');
+    });
+    loadUsers();
+  } catch(e){ document.getElementById('setupErr').textContent = 'Erro Firebase: ' + e.message; }
+}
+
+// ══════════════════════════════════════════════
+// AUTH
+// ══════════════════════════════════════════════
+function loadUsers(){
+  db.ref('erp/usuarios').on('value', snap=>{
+    usuarios = snap.val() || {};
+    const savedUID = sessionStorage.getItem('a2erp_uid');
+    if(savedUID && usuarios[savedUID] && usuarios[savedUID].ativo !== false){
+      doLogin(savedUID, usuarios[savedUID]);
+    } else {
+      renderUserGrid();
+    }
+  });
+}
+
+function renderUserGrid(){
+  const grid = document.getElementById('userGrid');
+  const active = Object.entries(usuarios).filter(([,u])=>u.ativo!==false);
+  if(!active.length){
+    grid.innerHTML = `<div class="first-run">
+      <p style="margin-bottom:14px">Bem-vindo ao A2 Sistema!<br>Crie o primeiro administrador:</p>
+      <input id="fr-nome" placeholder="Seu nome completo" style="background:#fff;color:#111;border-radius:8px;border:none;padding:10px 12px;width:100%;margin-bottom:8px;font-size:0.85rem;font-family:inherit"/>
+      <input id="fr-pin" type="number" placeholder="PIN de 4 dígitos" style="background:#fff;color:#111;border-radius:8px;border:none;padding:10px 12px;width:100%;margin-bottom:12px;font-size:0.85rem;font-family:inherit"/>
+      <button onclick="createFirstAdmin()" class="bsetup" style="margin-top:0">Criar conta →</button>
+    </div>`;
+    return;
+  }
+  grid.innerHTML = active.map(([id,u])=>`
+    <div class="ucard" onclick="selectUser('${id}')">
+      <div class="uav">${u.iniciais||initials(u.nome)}</div>
+      <div class="uname">${u.nome.split(' ')[0]}</div>
+    </div>`).join('');
+  document.getElementById('pinBox').style.display = 'none';
+  grid.style.display = 'grid';
+}
+
+async function createFirstAdmin(){
+  const nome = (document.getElementById('fr-nome').value||'').trim();
+  const pin  = (document.getElementById('fr-pin').value||'');
+  if(!nome){ alert('Informe seu nome.'); return; }
+  if(String(pin).length !== 4){ alert('PIN deve ter exatamente 4 dígitos.'); return; }
+  const uid = genId();
+  const allMods = {}; MODS.forEach(m=>allMods[m.id]=true);
+  await db.ref('erp/usuarios/'+uid).set({
+    nome, iniciais: initials(nome), pinHash: await hashPin(String(pin)),
+    modulos: allMods, ativo: true, isSuper: true, criadoEm: Date.now()
+  });
+}
+
+function selectUser(uid){
+  selUID = uid; pinBuf = '';
+  document.getElementById('userGrid').style.display = 'none';
+  document.getElementById('pinBox').style.display = 'block';
+  document.getElementById('pinUser').textContent = usuarios[uid].nome.split(' ')[0];
+  for(let i=0;i<4;i++) document.getElementById('d'+i).className='dot';
+  document.getElementById('perr').textContent = '';
+}
+function backToUsers(){
+  selUID = null; pinBuf = '';
+  document.getElementById('pinBox').style.display = 'none';
+  document.getElementById('userGrid').style.display = 'grid';
+}
+
+function pp(k){
+  if(k==='←'){ pinBuf=pinBuf.slice(0,-1); }
+  else if(k==='OK'){ checkPin(); return; }
+  else if(pinBuf.length<4){ pinBuf+=k; }
+  if(pinBuf.length===4) setTimeout(checkPin,80);
+  for(let i=0;i<4;i++) document.getElementById('d'+i).className='dot'+(i<pinBuf.length?' on':'');
+  document.getElementById('perr').textContent='';
+}
+
+async function checkPin(){
+  const u = usuarios[selUID];
+  const h = await hashPin(pinBuf);
+  if(h === u.pinHash){ doLogin(selUID, u); }
+  else {
+    document.getElementById('perr').textContent = 'PIN incorreto. Tente novamente.';
+    pinBuf=''; for(let i=0;i<4;i++) document.getElementById('d'+i).className='dot';
+  }
+}
+
+function doLogin(uid, u){
+  curUser = {uid, ...u};
+  sessionStorage.setItem('a2erp_uid', uid);
+  document.getElementById('loginScreen').classList.add('h');
+  document.getElementById('app').classList.add('v');
+  document.getElementById('userAv').textContent = u.iniciais || initials(u.nome);
+  buildNav();
+  startListeners();
+  navTo('dash');
+}
+
+function logout(){
+  if(!confirm('Sair do sistema?')) return;
+  sessionStorage.removeItem('a2erp_uid');
+  curUser=null; clientes={}; interacoes={};
+  if(db){ db.ref('erp/clientes').off(); db.ref('erp/interacoes').off(); db.ref('erp/usuarios').off(); }
+  document.getElementById('app').classList.remove('v');
+  document.getElementById('loginScreen').classList.remove('h');
+  renderUserGrid();
+}
+
+// ══════════════════════════════════════════════
+// NAV
+// ══════════════════════════════════════════════
+function canDo(mid){
+  if(!curUser) return false;
+  if(curUser.isSuper) return true;
+  if(mid==='dash') return true;
+  return !!(curUser.modulos && curUser.modulos[mid]);
+}
+
+function buildNav(){
+  const accessible = MODS.filter(m=>canDo(m.id));
+  // Sidebar
+  let sHtml = '';
+  accessible.forEach((m,i)=>{
+    if(m.id==='admin' && i>0) sHtml += '<div class="sni-sep"></div>';
+    sHtml += `<div class="sni" id="sn-${m.id}" onclick="navTo('${m.id}')"><span class="sni-ico">${m.icon}</span>${m.label}</div>`;
+  });
+  document.getElementById('sidebar').innerHTML = sHtml;
+  // Bottom nav (max 5)
+  const bn = accessible.slice(0,5);
+  document.getElementById('bnav').innerHTML =
+    `<div class="bni-wrap" style="grid-template-columns:repeat(${bn.length},1fr)">` +
+    bn.map(m=>`<div class="bni" id="bn-${m.id}" onclick="navTo('${m.id}')"><div class="ico">${m.icon}</div>${m.label}</div>`).join('') +
+    '</div>';
+}
+
+function navTo(mid){
+  if(!canDo(mid)) return;
+  curMod = mid;
+  document.querySelectorAll('.sec').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.sni,.bni').forEach(s=>s.classList.remove('active'));
+  const m = MODS.find(x=>x.id===mid);
+  if(m){
+    document.getElementById(m.sec)?.classList.add('active');
+    document.getElementById('sn-'+mid)?.classList.add('active');
+    document.getElementById('bn-'+mid)?.classList.add('active');
+    document.getElementById('topMod').textContent = m.label;
+  }
+  document.getElementById('fab').classList.toggle('h', mid!=='crm');
+  closePanel();
+}
+function fabAct(){ if(curMod==='crm') openClientModal(); }
+
+// ══════════════════════════════════════════════
+// DATA
+// ══════════════════════════════════════════════
+function startListeners(){
+  db.ref('erp/clientes').on('value', snap=>{ clientes=snap.val()||{}; renderCRM(); renderDash(); });
+  db.ref('erp/interacoes').on('value', snap=>{ interacoes=snap.val()||{}; if(curCID) renderPanel(curCID); renderCRM(); renderDash(); });
+  db.ref('erp/usuarios').on('value', snap=>{ usuarios=snap.val()||{}; renderAdminUsers(); fillRespSelect(); });
+}
+
+// ══════════════════════════════════════════════
+// DASHBOARD
+// ══════════════════════════════════════════════
+function renderDash(){
+  const arr = Object.values(clientes);
+  const byS = {}; STAGES.forEach(s=>byS[s.id]=arr.filter(c=>c.estagio===s.id).length);
+  const today = todayStr();
+  const allI = Object.values(interacoes);
+  const overdue = allI.filter(i=>i.proximoContato && i.proximoContato<today && ['cliente','perdido'].indexOf(clientes[i.clienteId]?.estagio)<0).length;
+
+  document.getElementById('dashKpis').innerHTML=`
+    <div class="kpi"><div class="kpi-lbl">Total Empresas</div><div class="kpi-val">${arr.length}</div><div class="kpi-sub">no CRM</div></div>
+    <div class="kpi"><div class="kpi-lbl">Clientes Ativos</div><div class="kpi-val" style="color:var(--green)">${byS.cliente||0}</div><div class="kpi-sub">fechados</div></div>
+    <div class="kpi"><div class="kpi-lbl">Em Negociação</div><div class="kpi-val" style="color:var(--amber)">${(byS.negociacao||0)+(byS.proposta||0)}</div><div class="kpi-sub">propostas+negoc</div></div>
+    <div class="kpi"><div class="kpi-lbl">Follow-ups vencidos</div><div class="kpi-val" style="color:var(--red)">${overdue}</div><div class="kpi-sub">precisam contato</div></div>`;
+
+  const recent = allI.sort((a,b)=>b.criadoEm-a.criadoEm).slice(0,6);
+  const overdueList = allI.filter(i=>i.proximoContato&&i.proximoContato<=today&&['cliente','perdido'].indexOf(clientes[i.clienteId]?.estagio)<0)
+    .sort((a,b)=>a.proximoContato.localeCompare(b.proximoContato)).slice(0,5);
+
+  document.getElementById('dashCards').innerHTML=`
+    ${overdueList.length?`
+    <div class="dash-card" style="border-color:#fee2e2">
+      <h3 style="color:var(--red)">🔔 Follow-ups pendentes</h3>
+      ${overdueList.map(i=>{const c=clientes[i.clienteId];const d=diffD(i.proximoContato);
+        return`<div class="ritem">
+          <div class="ritem-name">${c?c.nome:'—'} <span class="badge badge-p${c?.prioridade==='P1'?'1':'2'}">${c?.prioridade||''}</span></div>
+          <div class="ritem-sub">${i.tipo} · ${d<0?Math.abs(d)+'d atrasado':'hoje'} · ${i.usuarioNome||'—'}</div>
+        </div>`;}).join('')}
+    </div>`:''}
+    <div class="dash-card">
+      <h3>🕐 Últimas interações</h3>
+      ${recent.length?recent.map(i=>{const c=clientes[i.clienteId];
+        const dt=new Date(i.criadoEm);const ds=dt.toISOString().slice(0,10);
+        return`<div class="ritem">
+          <div class="ritem-name">${c?c.nome:'—'} <span class="stbdg ${stInfo(c?.estagio).cls}" style="font-size:0.6rem;padding:1px 6px">${stInfo(c?.estagio).label}</span></div>
+          <div class="ritem-sub">${i.tipo} · ${i.usuarioNome||'—'} · ${fmtD(ds)}</div>
+          <div style="font-size:0.76rem;color:var(--txt);margin-top:2px">${(i.descricao||'').slice(0,70)}${(i.descricao||'').length>70?'…':''}</div>
+        </div>`;}).join(''):`<div style="color:var(--sub);font-size:0.81rem">Nenhuma interação ainda.</div>`}
+    </div>`;
+}
+
+// ══════════════════════════════════════════════
+// CRM
+// ══════════════════════════════════════════════
+function renderCRM(){
+  const q = (document.getElementById('crmSearch')?.value||'').toLowerCase();
+  let arr = Object.values(clientes).filter(c=>{
+    if(crmFilter!=='all' && c.estagio!==crmFilter) return false;
+    if(q && !c.nome?.toLowerCase().includes(q) && !(c.cidade||'').toLowerCase().includes(q) && !(c.segmento||'').toLowerCase().includes(q)) return false;
+    return true;
+  });
+  const ord = ['cliente','negociacao','proposta','contato','prospect','perdido'];
+  arr.sort((a,b)=>(ord.indexOf(a.estagio)-ord.indexOf(b.estagio))||(a.nome||'').localeCompare(b.nome||''));
+
+  const total = Object.values(clientes);
+  const cnts = {all:total.length};
+  STAGES.forEach(s=>cnts[s.id]=total.filter(c=>c.estagio===s.id).length);
+
+  document.getElementById('stageTabs').innerHTML =
+    `<div class="ftab ${crmFilter==='all'?'active':''}" onclick="setFilter('all')">Todos (${cnts.all})</div>` +
+    STAGES.map(s=>`<div class="ftab ${crmFilter===s.id?'active':''}" onclick="setFilter('${s.id}')">${s.label} (${cnts[s.id]||0})</div>`).join('');
+
+  if(!arr.length){
+    document.getElementById('crmList').innerHTML='<div class="empty">Nenhuma empresa encontrada.</div>';
+    return;
+  }
+  document.getElementById('crmList').innerHTML = arr.map(c=>{
+    const st = stInfo(c.estagio);
+    const inters = Object.values(interacoes).filter(i=>i.clienteId===c.id).sort((a,b)=>b.criadoEm-a.criadoEm);
+    const last = inters[0];
+    const nextI = inters.find(i=>i.proximoContato);
+    let fuHtml='';
+    if(nextI?.proximoContato){
+      const d=diffD(nextI.proximoContato);
+      const cls=d<0?'ov':d===0?'td':'ok';
+      const lbl=d<0?`${Math.abs(d)}d atrasado`:d===0?'Hoje!':d===1?'Amanhã':`em ${d}d`;
+      fuHtml=`<div class="fu ${cls}">📅 ${lbl}</div>`;
+    }
+    return`<div class="crm-card" onclick="openPanel('${c.id}')">
+      <div class="crm-av">${(c.nome||'?').slice(0,2).toUpperCase()}</div>
+      <div class="crm-inf">
+        <div class="crm-name">${c.nome}</div>
+        <div class="crm-meta">${c.cidade||'—'} · ${c.segmento||'—'}${c.prioridade?' · '+c.prioridade:''}</div>
+        ${last?`<div class="crm-meta" style="margin-top:2px">↩ ${last.tipo} · ${last.usuarioNome||'—'}</div>`:'<div class="crm-meta" style="margin-top:2px;color:#f59e0b">Sem interações ainda</div>'}
+      </div>
+      <div class="crm-r">
+        <span class="stbdg ${st.cls}">${st.label}</span>
+        ${fuHtml}
+      </div>
+    </div>`;
+  }).join('');
+}
+function setFilter(f){ crmFilter=f; renderCRM(); }
+
+// ══════════════════════════════════════════════
+// CLIENT PANEL
+// ══════════════════════════════════════════════
+function openPanel(cid){
+  curCID=cid; renderPanel(cid);
+  document.getElementById('clientPanel').classList.add('v');
+}
+function closePanel(){ document.getElementById('clientPanel').classList.remove('v'); curCID=null; }
+function editCurrentClient(){ if(curCID) openClientModal(curCID); }
+
+function renderPanel(cid){
+  const c=clientes[cid]; if(!c) return;
+  document.getElementById('cpName').textContent=c.nome;
+  document.getElementById('cpSeg').textContent=[(c.segmento||''),(c.cidade||''),(c.prioridade||'')].filter(Boolean).join(' · ');
+  document.getElementById('cpInfo').innerHTML=`
+    <div class="iitem"><label>CNPJ</label><span>${c.cnpj||'—'}</span></div>
+    <div class="iitem"><label>Contato</label><span>${[c.contatoNome,c.cargo?'('+c.cargo+')':null].filter(Boolean).join(' ')||'—'}</span></div>
+    <div class="iitem"><label>Telefone</label>${c.telefone?`<a href="tel:${c.telefone}">${c.telefone}</a>`:'<span>—</span>'}</div>
+    <div class="iitem"><label>E-mail</label>${c.email?`<a href="mailto:${c.email}">${c.email}</a>`:'<span>—</span>'}</div>
+    <div class="iitem"><label>Responsável</label><span>${c.responsavelNome||'—'}</span></div>
+    <div class="iitem"><label>Distância</label><span>${c.distancia||'—'}</span></div>
+    ${c.obs?`<div class="iitem" style="grid-column:1/-1"><label>Observações</label><span>${c.obs}</span></div>`:''}`;
+
+  document.getElementById('cpStages').innerHTML=STAGES.map(s=>
+    `<button class="stbtn ${s.cls} ${c.estagio===s.id?'cur':''}" onclick="setStage('${cid}','${s.id}')">${s.label}</button>`
+  ).join('');
+
+  document.getElementById('qaCall').onclick=()=>c.telefone&&window.open('tel:'+c.telefone);
+  document.getElementById('qaWA').onclick=()=>{const n=(c.telefone||'').replace(/\D/g,'');n&&window.open('https://wa.me/55'+n);};
+  document.getElementById('qaEmail').onclick=()=>c.email&&window.open('mailto:'+c.email);
+
+  const inters=Object.values(interacoes).filter(i=>i.clienteId===cid).sort((a,b)=>b.criadoEm-a.criadoEm);
+  document.getElementById('cpInter').innerHTML=inters.length?inters.map(i=>{
+    const ds=new Date(i.criadoEm).toISOString().slice(0,10);
+    return`<div class="inter">
+      <div class="inter-meta">
+        <span class="itype">${i.tipo}</span>
+        <span class="iuser">${i.usuarioNome||'—'}</span>
+        <span class="idate">${fmtD(ds)}</span>
+      </div>
+      <div class="idesc">${i.descricao||'—'}</div>
+      ${i.proximoContato?`<div class="inext">📅 Próximo: ${fmtD(i.proximoContato)}</div>`:''}
+    </div>`;}).join(''):'<div style="color:var(--sub);font-size:0.81rem;padding:4px 0">Nenhuma interação registrada.</div>';
+
+  document.getElementById('iDesc').value='';
+  document.getElementById('iNext').value='';
+}
+
+async function setStage(cid,s){
+  await db.ref('erp/clientes/'+cid+'/estagio').set(s);
+  renderPanel(cid);
+}
+
+async function saveInter(){
+  if(!curCID) return;
+  const desc=document.getElementById('iDesc').value.trim();
+  if(!desc){alert('Descreva a interação.');return;}
+  const id=genId();
+  await db.ref('erp/interacoes/'+id).set({
+    id, clienteId:curCID,
+    tipo:document.getElementById('iType').value,
+    descricao:desc,
+    proximoContato:document.getElementById('iNext').value||null,
+    usuarioId:curUser.uid, usuarioNome:curUser.nome.split(' ')[0],
+    criadoEm:Date.now()
+  });
+  // Auto-advance from prospect to contato
+  if(clientes[curCID]?.estagio==='prospect')
+    await db.ref('erp/clientes/'+curCID+'/estagio').set('contato');
+  document.getElementById('iDesc').value='';
+  document.getElementById('iNext').value='';
+}
+
+// ══════════════════════════════════════════════
+// CLIENT MODAL
+// ══════════════════════════════════════════════
+function openClientModal(cid){
+  document.getElementById('editClientId').value=cid||'';
+  document.getElementById('clientModalTitle').textContent=cid?'Editar Empresa':'Nova Empresa';
+  if(cid){
+    const c=clientes[cid];
+    document.getElementById('cNome').value=c.nome||'';
+    document.getElementById('cCNPJ').value=c.cnpj||'';
+    document.getElementById('cSeg').value=c.segmento||'';
+    document.getElementById('cCidade').value=c.cidade||'';
+    document.getElementById('cTel').value=c.telefone||'';
+    document.getElementById('cEmail').value=c.email||'';
+    document.getElementById('cContato').value=c.contatoNome||'';
+    document.getElementById('cCargo').value=c.cargo||'';
+    document.getElementById('cEstagio').value=c.estagio||'prospect';
+    document.getElementById('cResp').value=c.responsavelId||'';
+    document.getElementById('cPrio').value=c.prioridade||'P1';
+    document.getElementById('cDist').value=c.distancia||'';
+    document.getElementById('cObs').value=c.obs||'';
+  } else {
+    ['cNome','cCNPJ','cCidade','cTel','cEmail','cContato','cCargo','cDist','cObs'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('cSeg').value='';
+    document.getElementById('cEstagio').value='prospect';
+    document.getElementById('cPrio').value='P1';
+  }
+  fillRespSelect();
+  document.getElementById('ovlClient').classList.add('v');
+}
+
+function fillRespSelect(){
+  const sel=document.getElementById('cResp'); if(!sel) return;
+  const cur=sel.value;
+  sel.innerHTML='<option value="">— Sem responsável —</option>'+
+    Object.entries(usuarios).filter(([,u])=>u.ativo!==false)
+      .map(([id,u])=>`<option value="${id}">${u.nome.split(' ')[0]}</option>`).join('');
+  if(cur) sel.value=cur;
+}
+
+async function saveClient(){
+  const nome=(document.getElementById('cNome').value||'').trim();
+  if(!nome){alert('Informe o nome da empresa.');return;}
+  const cid=document.getElementById('editClientId').value||genId();
+  const rid=document.getElementById('cResp').value;
+  const rUser=rid?usuarios[rid]:null;
+  await db.ref('erp/clientes/'+cid).set({
+    id:cid, nome,
+    cnpj:document.getElementById('cCNPJ').value.trim(),
+    segmento:document.getElementById('cSeg').value,
+    cidade:document.getElementById('cCidade').value.trim(),
+    telefone:document.getElementById('cTel').value.trim(),
+    email:document.getElementById('cEmail').value.trim(),
+    contatoNome:document.getElementById('cContato').value.trim(),
+    cargo:document.getElementById('cCargo').value.trim(),
+    estagio:document.getElementById('cEstagio').value,
+    responsavelId:rid, responsavelNome:rUser?rUser.nome.split(' ')[0]:'',
+    prioridade:document.getElementById('cPrio').value,
+    distancia:document.getElementById('cDist').value.trim(),
+    obs:document.getElementById('cObs').value.trim(),
+    criadoEm:clientes[cid]?.criadoEm||Date.now(),
+    criadoPor:curUser.uid, atualizadoEm:Date.now()
+  });
+  closeOvl('ovlClient');
+}
+
+// ══════════════════════════════════════════════
+// USER MANAGEMENT
+// ══════════════════════════════════════════════
+function renderAdminUsers(){
+  const el=document.getElementById('userList'); if(!el) return;
+  el.innerHTML=Object.entries(usuarios).map(([uid,u])=>`
+    <div class="uitem ${u.ativo===false?'off':''}">
+      <div class="uav" style="width:36px;height:36px;font-size:0.75rem;flex-shrink:0">${u.iniciais||initials(u.nome)}</div>
+      <div class="uinfo">
+        <div class="uiname">${u.nome} ${u.isSuper?'👑':''} ${u.ativo===false?'<span style="font-size:0.65rem;color:var(--sub)">(inativo)</span>':''}</div>
+        <div class="uirole">${modLabel(u.modulos)}</div>
+      </div>
+      <div class="uacts">
+        <button class="ibtn" onclick="openUserModal('${uid}')" title="Editar">✏️</button>
+        ${!u.isSuper?`<button class="ibtn ${u.ativo!==false?'del':''}" onclick="toggleUser('${uid}',${u.ativo!==false})" title="${u.ativo!==false?'Desativar':'Reativar'}">${u.ativo!==false?'🚫':'✅'}</button>`:''}
+      </div>
+    </div>`).join('');
+}
+
+function modLabel(mods){
+  if(!mods) return 'Sem acesso';
+  const acc=MODS.filter(m=>m.id!=='dash'&&mods[m.id]).map(m=>m.label);
+  return acc.length?acc.join(', '):'Apenas Dashboard';
+}
+
+function openUserModal(uid){
+  document.getElementById('editUserId').value=uid||'';
+  document.getElementById('userModalTitle').textContent=uid?'Editar Usuário':'Novo Usuário';
+  document.getElementById('pinReveal').style.display='none';
+  const u=uid?usuarios[uid]:null;
+  document.getElementById('uNome').value=u?.nome||'';
+  document.getElementById('uInic').value=u?.iniciais||'';
+  document.getElementById('uPIN').value='';
+  document.getElementById('uPIN').placeholder=uid?'Deixe em branco para não alterar':'Ex: 1234';
+  renderModGrid(u?.modulos||{});
+  document.getElementById('ovlUser').classList.add('v');
+}
+
+function renderModGrid(mods){
+  document.getElementById('modGrid').innerHTML=MODS.filter(m=>m.id!=='dash').map(m=>`
+    <label class="mchk">
+      <input type="checkbox" id="mc_${m.id}" ${mods[m.id]?'checked':''}/> ${m.icon} ${m.label}
+    </label>`).join('');
+}
+
+async function saveUser(){
+  const nome=(document.getElementById('uNome').value||'').trim();
+  if(!nome){alert('Informe o nome.');return;}
+  const uid=document.getElementById('editUserId').value||genId();
+  const pinVal=String(document.getElementById('uPIN').value||'');
+  const existing=usuarios[uid]||{};
+  let pinHash=existing.pinHash;
+  if(pinVal){
+    if(pinVal.length!==4){alert('PIN deve ter 4 dígitos.');return;}
+    pinHash=await hashPin(pinVal);
+    document.getElementById('pinShowVal').textContent=pinVal;
+    document.getElementById('pinReveal').style.display='block';
+  } else if(!pinHash){alert('Informe um PIN para o novo usuário.');return;}
+  const mods={dash:true};
+  MODS.filter(m=>m.id!=='dash').forEach(m=>{ mods[m.id]=!!(document.getElementById('mc_'+m.id)?.checked); });
+  const inic=(document.getElementById('uInic').value||'').trim().toUpperCase()||initials(nome);
+  await db.ref('erp/usuarios/'+uid).set({
+    ...existing, nome, iniciais:inic, pinHash, modulos:mods,
+    ativo:existing.ativo!==false, criadoEm:existing.criadoEm||Date.now()
+  });
+  if(!pinVal) closeOvl('ovlUser');
+}
+
+async function toggleUser(uid,isActive){
+  if(isActive&&!confirm(`Desativar ${usuarios[uid]?.nome}? Ele não conseguirá fazer login.`)) return;
+  await db.ref('erp/usuarios/'+uid+'/ativo').set(!isActive);
+}
+
+// ══════════════════════════════════════════════
+// UTILS
+// ══════════════════════════════════════════════
+function closeOvl(id){ document.getElementById(id).classList.remove('v'); }
+
+// ══════════════════════════════════════════════
+// INIT
+// ══════════════════════════════════════════════
+(function init(){
+  // Try saved Firebase config (shared with financeiro app)
+  for(const k of CFG_KEYS){
+    const cfg=localStorage.getItem(k);
+    if(cfg){ try{ initFirebase(JSON.parse(cfg)); return; }catch(e){} }
+  }
+  // No config — show setup
+})();
+
+if('serviceWorker' in navigator)
+  navigator.serviceWorker.register('/app/sw.js',{scope:'/app/'});
+window.addEventListener('online', ()=>document.getElementById('offWarn').classList.remove('show'));
+window.addEventListener('offline',()=>document.getElementById('offWarn').classList.add('show'));
+</script>
+</body>
+</html>
