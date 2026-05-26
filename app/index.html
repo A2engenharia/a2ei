@@ -304,6 +304,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .nr-venc{background:#fee2e2;color:var(--red)}
 .nr-pend{background:#fef3c7;color:var(--amber)}
 
+/* ── NOTAS FISCAIS ── */
+.nf-card{background:var(--card);border-radius:11px;border:1px solid var(--border);padding:13px 14px;margin-bottom:7px;cursor:pointer;display:flex;justify-content:space-between;align-items:flex-start;gap:12px;transition:box-shadow 0.12s}
+.nf-card:hover{box-shadow:0 2px 8px rgba(0,0,0,0.07)}
+.nf-num{font-size:0.68rem;font-weight:700;color:var(--sub);margin-bottom:2px}
+.nf-cliente{font-size:0.9rem;font-weight:700;color:var(--dark);margin-bottom:2px}
+.nf-desc{font-size:0.72rem;color:var(--sub)}
+.nf-val{font-size:1rem;font-weight:800;color:var(--dark);text-align:right;white-space:nowrap}
+.nf-iss{font-size:0.68rem;color:var(--sub);text-align:right}
+.pst-rascunho-nf{background:#f1f5f9;color:#64748b}
+.pst-processando{background:#fef3c7;color:var(--amber)}
+.pst-emitida{background:#dcfce7;color:var(--green)}
+.pst-cancelada{background:#fee2e2;color:var(--red)}
+.pst-erro{background:#fee2e2;color:var(--red)}
+.focus-box{background:#0f172a;border-radius:10px;padding:14px;color:#e2e8f0;font-family:monospace;font-size:0.75rem;margin:10px 0;word-break:break-all;line-height:1.6}
+.focus-key{color:#94a3b8;font-size:0.65rem}
+
 /* MISC */
 .offline-warn{position:fixed;bottom:68px;left:50%;transform:translateX(-50%);background:var(--dark);color:rgba(255,255,255,0.7);padding:7px 15px;border-radius:20px;font-size:0.7rem;font-weight:600;display:none;z-index:1000;white-space:nowrap;border:1px solid rgba(255,255,255,0.1)}
 .offline-warn.show{display:block}
@@ -478,6 +494,25 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
           <div class="ftabs" id="rhTabs"></div>
         </div>
         <div id="funcList"></div>
+      </div>
+
+      <!-- NOTAS FISCAIS -->
+      <div class="sec" id="secNF">
+        <div class="pgh">
+          <div class="pg-title">🧾 Notas Fiscais</div>
+          <div style="display:flex;gap:7px">
+            <button class="btn btn-ghost" onclick="openNFConfig()">⚙️ Configurar</button>
+            <button class="btn btn-red" onclick="openNFModal()">+ Nova NF</button>
+          </div>
+        </div>
+        <div id="nfConfigAlert" style="display:none;background:#fef3c7;border:1px solid #fcd34d;border-radius:9px;padding:10px 14px;margin-bottom:12px;font-size:0.8rem;color:#92400e">
+          ⚠️ Configure o token Focus NFe antes de emitir notas. <button onclick="openNFConfig()" style="background:none;border:none;color:var(--blue);cursor:pointer;font-weight:700;font-family:inherit">Configurar agora →</button>
+        </div>
+        <div class="filters">
+          <input class="search" id="nfSearch" placeholder="Buscar NF, cliente..." oninput="renderNF()"/>
+          <div class="ftabs" id="nfTabs"></div>
+        </div>
+        <div id="nfList"></div>
       </div>
 
       <!-- ADMIN -->
@@ -996,6 +1031,143 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
   </div>
 </div>
 
+<!-- ═══ MODAL: CONFIGURAÇÃO FOCUS NFe ═══ -->
+<div class="ovl" id="ovlNFConfig" onclick="if(event.target===this)closeOvl('ovlNFConfig')">
+  <div class="modal" style="max-width:520px">
+    <div class="mhead">
+      <div class="mtitle">⚙️ Configurar Focus NFe</div>
+      <button class="mclose" onclick="closeOvl('ovlNFConfig')">✕</button>
+    </div>
+    <div style="background:#eff6ff;border-radius:8px;padding:10px 13px;margin-bottom:14px;font-size:0.78rem;color:#1e40af;line-height:1.6">
+      <strong>Sandbox (teste gratuito):</strong> Cadastre-se em <a href="https://app.focusnfe.com.br" target="_blank" style="color:var(--blue)">app.focusnfe.com.br</a> → Acesse Configurações → copie o <strong>Token de Homologação</strong>
+    </div>
+    <div class="fg"><label>Token Focus NFe (Homologação/Sandbox) *</label>
+      <input type="text" id="nfToken" placeholder="Ex: wLMcBTf..." style="font-family:monospace"/>
+    </div>
+    <div class="f2">
+      <div class="fg"><label>CNPJ Prestador (A2)</label>
+        <input type="text" id="nfCNPJ" value="12674244000139" placeholder="Só números"/>
+      </div>
+      <div class="fg"><label>Inscrição Municipal</label>
+        <input type="text" id="nfIM" placeholder="Nº inscrição municipal"/>
+      </div>
+    </div>
+    <div class="f2">
+      <div class="fg"><label>Código Município (IBGE)</label>
+        <input type="text" id="nfCodMun" value="3521200" placeholder="Indaiatuba=3521200"/>
+      </div>
+      <div class="fg"><label>Alíquota ISS (%)</label>
+        <input type="number" id="nfAliq" value="2" min="0" max="10" step="0.01"/>
+      </div>
+    </div>
+    <div class="fg"><label>Item Lista de Serviços</label>
+      <select id="nfItemLista">
+        <option value="07.02">07.02 — Execução por empreitada de obras de construção civil</option>
+        <option value="07.01">07.01 — Engenharia, arquitetura, urbanismo</option>
+        <option value="07.09">07.09 — Varrição, coleta, remoção, manutenção</option>
+        <option value="14.01">14.01 — Lubrificação, limpeza, instalação de máquinas</option>
+        <option value="14.06">14.06 — Instalação e montagem de aparelhos</option>
+      </select>
+    </div>
+    <div class="fg"><label>Ambiente</label>
+      <select id="nfAmbiente">
+        <option value="homologacao">🧪 Homologação (Sandbox — Teste)</option>
+        <option value="producao">🚀 Produção (Notas reais)</option>
+      </select>
+    </div>
+    <div class="mact">
+      <button class="btn btn-ghost" onclick="closeOvl('ovlNFConfig')">Cancelar</button>
+      <button class="btn btn-ghost" onclick="testarConexaoNF()">🧪 Testar Conexão</button>
+      <button class="btn btn-red" onclick="saveNFConfig()">Salvar</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: NOVA NOTA FISCAL ═══ -->
+<div class="ovl" id="ovlNF" onclick="if(event.target===this)closeOvl('ovlNF')">
+  <div class="modal" style="max-width:580px">
+    <div class="mhead">
+      <div class="mtitle" id="nfModalTitle">Nova Nota Fiscal</div>
+      <button class="mclose" onclick="closeOvl('ovlNF')">✕</button>
+    </div>
+    <input type="hidden" id="editNFId"/>
+    <div class="f2">
+      <div class="fg"><label>Tipo</label>
+        <select id="nfTipo">
+          <option value="nfse">NFS-e (Serviços)</option>
+          <option value="nfe">NF-e (Produtos)</option>
+        </select>
+      </div>
+      <div class="fg"><label>Data de Emissão</label>
+        <input type="date" id="nfData"/>
+      </div>
+    </div>
+    <div class="fg"><label>Cliente *</label>
+      <select id="nfCliente" onchange="onNFClientChange()">
+        <option value="">— Selecione ou preencha abaixo —</option>
+      </select>
+    </div>
+    <div class="f2">
+      <div class="fg"><label>Razão Social / Nome *</label>
+        <input type="text" id="nfRazao" placeholder="Razão social do tomador"/>
+      </div>
+      <div class="fg"><label>CNPJ / CPF</label>
+        <input type="text" id="nfCNPJTom" placeholder="Só números"/>
+      </div>
+    </div>
+    <div class="f2">
+      <div class="fg"><label>E-mail</label>
+        <input type="email" id="nfEmailTom" placeholder="email@empresa.com"/>
+      </div>
+      <div class="fg"><label>Município do Tomador</label>
+        <input type="text" id="nfMunTom" placeholder="Ex: Campinas — SP"/>
+      </div>
+    </div>
+    <div class="fg"><label>Discriminação do Serviço *</label>
+      <textarea id="nfDiscriminacao" placeholder="Descreva detalhadamente o serviço prestado..."></textarea>
+    </div>
+    <div class="f2">
+      <div class="fg"><label>Valor do Serviço (R$) *</label>
+        <input type="number" id="nfValor" min="0" step="0.01" placeholder="0,00" oninput="calcNFISS()"/>
+      </div>
+      <div class="fg"><label>ISS Retido?</label>
+        <select id="nfISSRetido"><option value="false">Não</option><option value="true">Sim</option></select>
+      </div>
+    </div>
+    <div class="f2">
+      <div class="fg"><label>Alíquota ISS (%)</label>
+        <input type="number" id="nfAliqNF" value="2" min="0" max="10" step="0.01" oninput="calcNFISS()"/>
+      </div>
+      <div class="fg"><label>Valor ISS (R$)</label>
+        <input type="number" id="nfValorISS" readonly style="background:#f9fafb"/>
+      </div>
+    </div>
+    <div class="fg"><label>Proposta / OS de referência (opcional)</label>
+      <select id="nfProp"></select>
+    </div>
+    <div class="fg"><label>Observações</label>
+      <textarea id="nfObs" placeholder="Informações adicionais..."></textarea>
+    </div>
+    <div class="mact">
+      <button class="btn btn-ghost" onclick="closeOvl('ovlNF')">Cancelar</button>
+      <button class="btn btn-ghost" onclick="saveNF('rascunho')">💾 Salvar Rascunho</button>
+      <button class="btn btn-red" onclick="saveNF('emitir')">🧾 Salvar e Emitir →</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ MODAL: DETALHE NOTA FISCAL ═══ -->
+<div class="ovl" id="ovlNFView" onclick="if(event.target===this)closeOvl('ovlNFView')">
+  <div class="modal" style="max-width:560px">
+    <div class="mhead">
+      <div class="mtitle" id="nfvTitle">Nota Fiscal</div>
+      <button class="mclose" onclick="closeOvl('ovlNFView')">✕</button>
+    </div>
+    <div id="nfvBody"></div>
+    <div class="mact" id="nfvActs"></div>
+  </div>
+</div>
+
 <div class="offline-warn" id="offWarn">⚠️ Sem conexão — modo offline</div>
 <button class="fab h" id="fab" onclick="fabAct()">+</button>
 
@@ -1015,6 +1187,7 @@ const MODS = [
   {id:'compras',label:'Compras', icon:'🛒', sec:'secComp'},
   {id:'estoque',label:'Estoque', icon:'📦', sec:'secEst'},
   {id:'rh',   label:'RH',        icon:'👷', sec:'secRH'},
+  {id:'nf',   label:'Notas Fiscais',icon:'🧾', sec:'secNF'},
   {id:'admin',label:'Admin',     icon:'⚙️', sec:'secAdmin'},
 ];
 
@@ -1055,6 +1228,8 @@ let db = null, curUser = null, curMod = 'dash';
 let usuarios = {}, clientes = {}, interacoes = {};
 let propostas = {}, projetos = {}, fornecedores = {}, pedidos = {}, estoque = {}, movimentos = {}, funcionarios = {};
 let lancamentos = {};
+let notas = {}, nfConfig = {};
+let nfFilter = 'all';
 let selUID = null, pinBuf = '', curCID = null, crmFilter = 'all';
 let propFilter = 'all', projFilter = 'all', estFilter = 'all', rhFilter = 'all';
 let curProjViewId = null;
@@ -1201,8 +1376,8 @@ function logout(){
   if(!confirm('Sair do sistema?')) return;
   sessionStorage.removeItem('a2erp_uid');
   curUser=null; clientes={}; interacoes={};
-  propostas={}; projetos={}; fornecedores={}; pedidos={}; estoque={}; movimentos={}; funcionarios={}; lancamentos={};
-  if(db){ ['erp/clientes','erp/interacoes','erp/usuarios','erp/propostas','erp/projetos','erp/fornecedores','erp/pedidos','erp/estoque','erp/movimentos','erp/funcionarios','lancamentos'].forEach(p=>db.ref(p).off()); }
+  propostas={}; projetos={}; fornecedores={}; pedidos={}; estoque={}; movimentos={}; funcionarios={}; lancamentos={}; notas={}; nfConfig={};
+  if(db){ ['erp/clientes','erp/interacoes','erp/usuarios','erp/propostas','erp/projetos','erp/fornecedores','erp/pedidos','erp/estoque','erp/movimentos','erp/funcionarios','lancamentos','erp/notas','erp/nfconfig'].forEach(p=>db.ref(p).off()); }
   document.getElementById('app').classList.remove('v');
   document.getElementById('loginScreen').classList.remove('h');
   renderUserGrid();
@@ -1268,6 +1443,8 @@ function startListeners(){
   db.ref('erp/movimentos').on('value', snap=>{ movimentos=snap.val()||{}; });
   db.ref('erp/funcionarios').on('value', snap=>{ funcionarios=snap.val()||{}; renderRH(); renderDash(); });
   db.ref('lancamentos').on('value', snap=>{ lancamentos=snap.val()||{}; renderDash(); });
+  db.ref('erp/notas').on('value', snap=>{ notas=snap.val()||{}; renderNF(); });
+  db.ref('erp/nfconfig').on('value', snap=>{ nfConfig=snap.val()||{}; renderNF(); });
 }
 
 // ══════════════════════════════════════════════
@@ -2404,6 +2581,348 @@ async function saveFunc(){
   const fid=document.getElementById('editFuncId').value||genId();
   await db.ref('erp/funcionarios/'+fid).set({id:fid,nome,cargo:document.getElementById('fnCargo').value,tipo:document.getElementById('fnTipo').value,admissao:document.getElementById('fnAdmissao').value||'',cpf:document.getElementById('fnCPF').value.trim(),tel:document.getElementById('fnTel').value.trim(),nr10:document.getElementById('fnNR10').value||'',nr35:document.getElementById('fnNR35').value||'',nr12:document.getElementById('fnNR12').value||'',nr18:document.getElementById('fnNR18').value||'',ferIni:document.getElementById('fnFerIni').value||'',ferFim:document.getElementById('fnFerFim').value||'',status:document.getElementById('fnStatus').value,criadoEm:funcionarios[fid]?.criadoEm||Date.now(),atualizadoPor:curUser.uid});
   closeOvl('ovlFunc');
+}
+
+// ══════════════════════════════════════════════
+// NOTAS FISCAIS
+// ══════════════════════════════════════════════
+const NF_STATUS = {
+  rascunho:   {l:'Rascunho',    cls:'pst-rascunho-nf'},
+  processando:{l:'Processando', cls:'pst-processando'},
+  emitida:    {l:'Emitida ✅',  cls:'pst-emitida'},
+  cancelada:  {l:'Cancelada',   cls:'pst-cancelada'},
+  erro:       {l:'Erro ❌',     cls:'pst-erro'},
+};
+
+function renderNF(){
+  // Config alert
+  const cfgAlert = document.getElementById('nfConfigAlert');
+  if(cfgAlert) cfgAlert.style.display = nfConfig.token ? 'none' : 'block';
+
+  const el = document.getElementById('nfList'); if(!el) return;
+  const q = (document.getElementById('nfSearch')?.value||'').toLowerCase();
+  const arr = Object.values(notas).filter(n=>{
+    if(nfFilter!=='all' && n.status!==nfFilter) return false;
+    if(q && !(n.razao||'').toLowerCase().includes(q) && !(n.numero||'').toLowerCase().includes(q) && !(n.discriminacao||'').toLowerCase().includes(q)) return false;
+    return true;
+  }).sort((a,b)=>b.criadoEm-a.criadoEm);
+
+  const tots = Object.values(notas);
+  const cnts = {all:tots.length};
+  Object.keys(NF_STATUS).forEach(k=>cnts[k]=tots.filter(n=>n.status===k).length);
+
+  document.getElementById('nfTabs').innerHTML =
+    `<div class="ftab ${nfFilter==='all'?'active':''}" onclick="setNFFilter('all')">Todas (${cnts.all})</div>`+
+    Object.entries(NF_STATUS).map(([id,s])=>
+      `<div class="ftab ${nfFilter===id?'active':''}" onclick="setNFFilter('${id}')">${s.l.replace(' ✅','').replace(' ❌','')} (${cnts[id]||0})</div>`
+    ).join('');
+
+  if(!arr.length){ el.innerHTML='<div class="empty">Nenhuma nota fiscal. Clique em "+ Nova NF" para começar.</div>'; return; }
+  el.innerHTML = arr.map(n=>{
+    const st = NF_STATUS[n.status]||NF_STATUS.rascunho;
+    return`<div class="nf-card" onclick="openNFView('${n.id}')">
+      <div style="flex:1;min-width:0">
+        <div class="nf-num">${n.numero||'—'} · ${n.tipo==='nfse'?'NFS-e':'NF-e'} · ${fmtD(n.data||'')}</div>
+        <div class="nf-cliente">${n.razao||'—'}</div>
+        <div class="nf-desc">${(n.discriminacao||'').slice(0,60)}${(n.discriminacao||'').length>60?'…':''}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:5px;flex-shrink:0">
+        <div class="nf-val">${fmtBRL(n.valor||0)}</div>
+        <span class="stbdg ${st.cls}">${st.l}</span>
+      </div>
+    </div>`;
+  }).join('');
+}
+function setNFFilter(f){ nfFilter=f; renderNF(); }
+
+function openNFConfig(){
+  document.getElementById('nfToken').value   = nfConfig.token||'';
+  document.getElementById('nfCNPJ').value    = nfConfig.cnpj||'12674244000139';
+  document.getElementById('nfIM').value      = nfConfig.im||'';
+  document.getElementById('nfCodMun').value  = nfConfig.codMun||'3521200';
+  document.getElementById('nfAliq').value    = nfConfig.aliq||2;
+  document.getElementById('nfItemLista').value = nfConfig.item||'07.02';
+  document.getElementById('nfAmbiente').value  = nfConfig.ambiente||'homologacao';
+  document.getElementById('ovlNFConfig').classList.add('v');
+}
+async function saveNFConfig(){
+  const token = document.getElementById('nfToken').value.trim();
+  if(!token){ alert('Informe o token Focus NFe.'); return; }
+  await db.ref('erp/nfconfig').set({
+    token,
+    cnpj:    document.getElementById('nfCNPJ').value.replace(/\D/g,''),
+    im:      document.getElementById('nfIM').value.trim(),
+    codMun:  document.getElementById('nfCodMun').value.trim(),
+    aliq:    parseFloat(document.getElementById('nfAliq').value||2),
+    item:    document.getElementById('nfItemLista').value,
+    ambiente:document.getElementById('nfAmbiente').value,
+  });
+  closeOvl('ovlNFConfig');
+  alert('✅ Configuração salva!');
+}
+
+async function testarConexaoNF(){
+  const token = document.getElementById('nfToken').value.trim();
+  if(!token){ alert('Informe o token primeiro.'); return; }
+  const amb = document.getElementById('nfAmbiente').value;
+  const base = amb==='producao'
+    ? 'https://api.focusnfe.com.br'
+    : 'https://homologacao.focusnfe.com.br';
+  try {
+    const r = await fetch(`${base}/v2/empresas`, {
+      headers:{'Authorization':'Basic '+btoa(token+':')}
+    });
+    if(r.ok||r.status===403||r.status===404){
+      alert('✅ Conexão com Focus NFe estabelecida!\nToken válido. Pode salvar a configuração.');
+    } else {
+      alert(`⚠️ Resposta: ${r.status} — Verifique o token.`);
+    }
+  } catch(e){
+    alert('⚠️ Erro de rede. Isso pode ser bloqueio CORS no navegador — tente a partir de um servidor ou contate o suporte.\n\nDetalhe: '+e.message);
+  }
+}
+
+function openNFModal(nid){
+  const n = nid ? notas[nid] : null;
+  document.getElementById('editNFId').value = nid||'';
+  document.getElementById('nfModalTitle').textContent = nid ? 'Editar Nota Fiscal' : 'Nova Nota Fiscal';
+  // Populate client select
+  const sel = document.getElementById('nfCliente');
+  sel.innerHTML = '<option value="">— Selecione o cliente do CRM —</option>'+
+    Object.values(clientes).sort((a,b)=>a.nome.localeCompare(b.nome))
+    .map(c=>`<option value="${c.id}" data-razao="${c.nome}" data-cnpj="${(c.cnpj||'').replace(/\D/g,'')}" data-email="${c.email||''}" data-mun="${c.cidade||''}">${c.nome}</option>`).join('');
+  // Populate propostas select
+  const psel = document.getElementById('nfProp');
+  psel.innerHTML = '<option value="">— Sem referência —</option>'+
+    Object.values(propostas).map(p=>`<option value="${p.id}">${p.numero} — ${p.clienteNome}</option>`).join('');
+
+  if(n){
+    sel.value = n.clienteId||'';
+    document.getElementById('nfTipo').value = n.tipo||'nfse';
+    document.getElementById('nfData').value = n.data||todayStr();
+    document.getElementById('nfRazao').value = n.razao||'';
+    document.getElementById('nfCNPJTom').value = n.cnpjTom||'';
+    document.getElementById('nfEmailTom').value = n.emailTom||'';
+    document.getElementById('nfMunTom').value = n.munTom||'';
+    document.getElementById('nfDiscriminacao').value = n.discriminacao||'';
+    document.getElementById('nfValor').value = n.valor||'';
+    document.getElementById('nfISSRetido').value = n.issRetido||'false';
+    document.getElementById('nfAliqNF').value = n.aliq||nfConfig.aliq||2;
+    document.getElementById('nfValorISS').value = n.valorISS||'';
+    document.getElementById('nfProp').value = n.propId||'';
+    document.getElementById('nfObs').value = n.obs||'';
+  } else {
+    ['nfRazao','nfCNPJTom','nfEmailTom','nfMunTom','nfDiscriminacao','nfObs'].forEach(id=>document.getElementById(id).value='');
+    document.getElementById('nfTipo').value = 'nfse';
+    document.getElementById('nfData').value = todayStr();
+    document.getElementById('nfValor').value = '';
+    document.getElementById('nfISSRetido').value = 'false';
+    document.getElementById('nfAliqNF').value = nfConfig.aliq||2;
+    document.getElementById('nfValorISS').value = '';
+  }
+  calcNFISS();
+  document.getElementById('ovlNF').classList.add('v');
+}
+
+function onNFClientChange(){
+  const opt = document.getElementById('nfCliente').selectedOptions[0];
+  if(!opt||!opt.value) return;
+  document.getElementById('nfRazao').value = opt.dataset.razao||'';
+  document.getElementById('nfCNPJTom').value = opt.dataset.cnpj||'';
+  document.getElementById('nfEmailTom').value = opt.dataset.email||'';
+  document.getElementById('nfMunTom').value = opt.dataset.mun||'';
+}
+
+function calcNFISS(){
+  const val = parseFloat(document.getElementById('nfValor')?.value||0);
+  const aliq = parseFloat(document.getElementById('nfAliqNF')?.value||2);
+  document.getElementById('nfValorISS').value = (val * aliq / 100).toFixed(2);
+}
+
+async function saveNF(action){
+  const razao = (document.getElementById('nfRazao').value||'').trim();
+  const disc = (document.getElementById('nfDiscriminacao').value||'').trim();
+  const valor = parseFloat(document.getElementById('nfValor').value||0);
+  if(!razao||!disc||!valor){ alert('Preencha: Razão Social, Discriminação e Valor.'); return; }
+
+  const nid = document.getElementById('editNFId').value || genId();
+  const existing = notas[nid]||{};
+  const aliq = parseFloat(document.getElementById('nfAliqNF').value||2);
+  const yr = new Date().getFullYear();
+  const n = Object.values(notas).filter(x=>(x.numero||'').startsWith('NF'+yr)).length;
+  const numero = existing.numero || ('NF'+yr+String(n+1).padStart(4,'0'));
+
+  const obj = {
+    id:nid, numero, tipo: document.getElementById('nfTipo').value,
+    data: document.getElementById('nfData').value,
+    clienteId: document.getElementById('nfCliente').value||'',
+    razao, cnpjTom: document.getElementById('nfCNPJTom').value.replace(/\D/g,''),
+    emailTom: document.getElementById('nfEmailTom').value.trim(),
+    munTom: document.getElementById('nfMunTom').value.trim(),
+    discriminacao: disc, valor, aliq,
+    valorISS: parseFloat((valor*aliq/100).toFixed(2)),
+    issRetido: document.getElementById('nfISSRetido').value,
+    propId: document.getElementById('nfProp').value||'',
+    obs: document.getElementById('nfObs').value.trim(),
+    status: action==='emitir' ? 'processando' : 'rascunho',
+    criadoEm: existing.criadoEm||Date.now(),
+    criadoPor: curUser.uid, atualizadoEm: Date.now()
+  };
+  await db.ref('erp/notas/'+nid).set(obj);
+  closeOvl('ovlNF');
+
+  if(action==='emitir'){
+    if(!nfConfig.token){ alert('Configure o token Focus NFe antes de emitir.'); await db.ref('erp/notas/'+nid+'/status').set('rascunho'); return; }
+    await emitirFocusNFe(nid);
+  }
+}
+
+async function emitirFocusNFe(nid){
+  const n = notas[nid]||await db.ref('erp/notas/'+nid).once('value').then(s=>s.val());
+  if(!n){ alert('Nota não encontrada.'); return; }
+  const amb = nfConfig.ambiente==='producao'
+    ? 'https://api.focusnfe.com.br'
+    : 'https://homologacao.focusnfe.com.br';
+  const ref = 'a2-'+nid;
+  const body = {
+    data_emissao: n.data+'T10:00:00-03:00',
+    prestador:{
+      cnpj: nfConfig.cnpj||'12674244000139',
+      inscricao_municipal: nfConfig.im||'',
+      codigo_municipio: nfConfig.codMun||'3521200'
+    },
+    tomador:{
+      cnpj: n.cnpjTom||undefined,
+      cpf: (!n.cnpjTom&&n.cpfTom)||undefined,
+      razao_social: n.razao,
+      email: n.emailTom||undefined,
+      endereco:{
+        logradouro:'A definir', numero:'S/N',
+        bairro:'A definir',
+        codigo_municipio: nfConfig.codMun||'3521200',
+        uf:'SP', cep:'13330000'
+      }
+    },
+    servico:{
+      aliquota: n.aliq/100,
+      base_calculo: n.valor,
+      discriminacao: n.discriminacao,
+      iss_retido: n.issRetido==='true'?'true':'false',
+      item_lista_servico: nfConfig.item||'07.02',
+      valor_servico: n.valor,
+      valor_iss: n.valorISS,
+      valor_liquido_nfse: n.valor - (n.issRetido==='true'?n.valorISS:0),
+      codigo_municipio: nfConfig.codMun||'3521200'
+    }
+  };
+  try {
+    const r = await fetch(`${amb}/v2/nfse?ref=${ref}`, {
+      method:'POST',
+      headers:{'Authorization':'Basic '+btoa(nfConfig.token+':'),'Content-Type':'application/json'},
+      body: JSON.stringify(body)
+    });
+    const data = await r.json().catch(()=>({}));
+    if(r.ok || r.status===201 || r.status===202){
+      await db.ref('erp/notas/'+nid).update({
+        status:'processando', focusRef:ref,
+        focusResposta: JSON.stringify(data).slice(0,500),
+        atualizadoEm:Date.now()
+      });
+      alert('✅ Nota enviada ao Focus NFe!\nUse "Verificar Status" para acompanhar o processamento.');
+      setTimeout(()=>verificarFocusNFe(nid), 5000);
+    } else {
+      const msg = data.mensagem||data.message||JSON.stringify(data);
+      await db.ref('erp/notas/'+nid).update({status:'erro', focusErro:msg, atualizadoEm:Date.now()});
+      alert('❌ Erro Focus NFe:\n'+msg);
+    }
+  } catch(e){
+    await db.ref('erp/notas/'+nid).update({status:'erro', focusErro:e.message, atualizadoEm:Date.now()});
+    alert('❌ Erro de comunicação:\n'+e.message+'\n\nVerifique se o token está correto e tente novamente.');
+  }
+}
+
+async function verificarFocusNFe(nid){
+  const n = notas[nid]; if(!n||!n.focusRef) return;
+  const amb = nfConfig.ambiente==='producao'
+    ? 'https://api.focusnfe.com.br'
+    : 'https://homologacao.focusnfe.com.br';
+  try {
+    const r = await fetch(`${amb}/v2/nfse/${n.focusRef}`, {
+      headers:{'Authorization':'Basic '+btoa(nfConfig.token+':')}
+    });
+    const data = await r.json().catch(()=>({}));
+    const st = data.status;
+    if(st==='autorizado'){
+      await db.ref('erp/notas/'+nid).update({
+        status:'emitida',
+        numeroNFSe: data.numero_nfse||data.numero||'',
+        chaveNFSe: data.chave_nfe||data.numero_nfse||'',
+        pdfUrl: data.caminho_xml_nota_fiscal||'',
+        focusResposta: JSON.stringify(data).slice(0,500),
+        atualizadoEm:Date.now()
+      });
+      openNFView(nid);
+    } else if(st==='cancelado'){
+      await db.ref('erp/notas/'+nid).update({status:'cancelada', atualizadoEm:Date.now()});
+    } else if(st==='erro'||st==='erro_autorizacao'){
+      const msg = data.mensagem_sefaz||data.mensagem||JSON.stringify(data);
+      await db.ref('erp/notas/'+nid).update({status:'erro', focusErro:msg, atualizadoEm:Date.now()});
+      alert('❌ Erro SEFAZ:\n'+msg);
+    } else {
+      alert('Status atual: '+(st||'processando')+'\nAguarde alguns segundos e verifique novamente.');
+    }
+  } catch(e){ alert('Erro ao verificar: '+e.message); }
+}
+
+function openNFView(nid){
+  const n = notas[nid]; if(!n) return;
+  const st = NF_STATUS[n.status]||NF_STATUS.rascunho;
+  document.getElementById('nfvTitle').textContent = (n.numero||'NF')+' — '+(n.razao||'');
+  document.getElementById('nfvBody').innerHTML=`
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px">
+      <span class="stbdg ${st.cls}">${st.l}</span>
+      <span style="font-size:0.75rem;color:var(--sub)">${n.tipo==='nfse'?'NFS-e':'NF-e'} · ${fmtD(n.data||'')}</span>
+    </div>
+    ${n.numeroNFSe?`<div class="focus-box"><div class="focus-key">Número NFS-e</div>${n.numeroNFSe}${n.chaveNFSe?`<br><div class="focus-key">Chave</div>${n.chaveNFSe}`:''}${n.pdfUrl?`<br><a href="${n.pdfUrl}" target="_blank" style="color:#60a5fa">📄 Ver PDF da nota</a>`:''}</div>`:''}
+    ${n.focusErro?`<div class="focus-box" style="border:1px solid #ef4444"><div class="focus-key">Erro</div>${n.focusErro}</div>`:''}
+    <div style="margin-bottom:8px"><strong>Tomador:</strong> ${n.razao}${n.cnpjTom?' · CNPJ: '+n.cnpjTom:''}</div>
+    <div style="margin-bottom:8px;font-size:0.82rem">${n.discriminacao}</div>
+    <div style="display:flex;gap:16px;font-size:0.82rem;margin-top:10px">
+      <div><strong>Valor:</strong> ${fmtBRL(n.valor)}</div>
+      <div><strong>ISS (${n.aliq}%):</strong> ${fmtBRL(n.valorISS)}</div>
+      <div><strong>ISS Retido:</strong> ${n.issRetido==='true'?'Sim':'Não'}</div>
+    </div>
+    ${n.obs?`<div style="margin-top:10px;font-size:0.79rem;color:var(--sub)"><strong>Obs:</strong> ${n.obs}</div>`:''}`;
+
+  const acts = document.getElementById('nfvActs');
+  acts.innerHTML = `
+    <button class="btn btn-ghost" onclick="closeOvl('ovlNFView')">Fechar</button>
+    ${n.status==='rascunho'||n.status==='erro'?`<button class="btn btn-ghost" onclick="closeOvl('ovlNFView');openNFModal('${nid}')">✏️ Editar</button>`:''}
+    ${n.status==='processando'||n.status==='rascunho'?`<button class="btn btn-ghost" onclick="verificarFocusNFe('${nid}')" style="background:#eff6ff;color:var(--blue)">🔄 Verificar Status</button>`:''}
+    ${n.status==='rascunho'||n.status==='erro'?`<button class="btn btn-red" onclick="closeOvl('ovlNFView');emitirFocusNFe('${nid}')">🧾 Emitir via Focus NFe</button>`:''}
+    ${n.status==='emitida'?`<button class="btn btn-ghost" onclick="cancelarNF('${nid}')" style="background:#fee2e2;color:var(--red)">❌ Cancelar NF</button>`:''}`;
+  document.getElementById('ovlNFView').classList.add('v');
+}
+
+async function cancelarNF(nid){
+  const n = notas[nid]; if(!n) return;
+  if(!confirm('Cancelar esta nota fiscal? O cancelamento será enviado ao Focus NFe.')) return;
+  if(!n.focusRef){ await db.ref('erp/notas/'+nid+'/status').set('cancelada'); closeOvl('ovlNFView'); return; }
+  const amb = nfConfig.ambiente==='producao'
+    ? 'https://api.focusnfe.com.br'
+    : 'https://homologacao.focusnfe.com.br';
+  try {
+    const r = await fetch(`${amb}/v2/nfse/${n.focusRef}`, {
+      method:'DELETE',
+      headers:{'Authorization':'Basic '+btoa(nfConfig.token+':')}
+    });
+    await db.ref('erp/notas/'+nid).update({status:'cancelada', atualizadoEm:Date.now()});
+    closeOvl('ovlNFView');
+    alert(r.ok ? '✅ Nota cancelada com sucesso.' : '⚠️ Nota marcada como cancelada no ERP. Verifique no Focus NFe.');
+  } catch(e){
+    await db.ref('erp/notas/'+nid).update({status:'cancelada', atualizadoEm:Date.now()});
+    closeOvl('ovlNFView');
+  }
 }
 
 // ══════════════════════════════════════════════
