@@ -1150,6 +1150,10 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
         <option value="producao">🚀 Produção (Notas reais)</option>
       </select>
     </div>
+    <div class="fg"><label>URL do Proxy (Cloudflare Worker) *</label>
+      <input type="text" id="nfProxy" placeholder="https://focusnfe-proxy.SEU-USUARIO.workers.dev" style="font-family:monospace;font-size:0.78rem"/>
+      <div style="font-size:0.72rem;color:var(--sub);margin-top:5px">⚠️ Necessário para evitar bloqueio CORS do navegador. Siga as instruções de configuração do proxy.</div>
+    </div>
     <div class="mact">
       <button class="btn btn-ghost" onclick="closeOvl('ovlNFConfig')">Cancelar</button>
       <button class="btn btn-ghost" onclick="testarConexaoNF()">🧪 Testar Conexão</button>
@@ -2886,11 +2890,14 @@ function openNFConfig(){
   document.getElementById('nfAliq').value    = nfConfig.aliq||2;
   document.getElementById('nfItemLista').value = nfConfig.item||'07.02';
   document.getElementById('nfAmbiente').value  = nfConfig.ambiente||'homologacao';
+  document.getElementById('nfProxy').value      = nfConfig.proxyUrl||'';
   document.getElementById('ovlNFConfig').classList.add('v');
 }
 async function saveNFConfig(){
   const token = document.getElementById('nfToken').value.trim();
   if(!token){ alert('Informe o token Focus NFe.'); return; }
+  const proxyUrl = document.getElementById('nfProxy').value.trim().replace(/\/$/,'');
+  if(!proxyUrl){ alert('Informe a URL do proxy Cloudflare Worker.\nSem ele as chamadas serão bloqueadas pelo navegador.'); return; }
   await db.ref('erp/nfconfig').set({
     token,
     cnpj:    document.getElementById('nfCNPJ').value.replace(/\D/g,''),
@@ -2899,18 +2906,28 @@ async function saveNFConfig(){
     aliq:    parseFloat(document.getElementById('nfAliq').value||2),
     item:    document.getElementById('nfItemLista').value,
     ambiente:document.getElementById('nfAmbiente').value,
+    proxyUrl,
   });
   closeOvl('ovlNFConfig');
   alert('✅ Configuração salva!');
+}
+
+// Retorna a base URL via proxy Cloudflare (resolve CORS)
+function focusBase(amb){
+  const proxy = (nfConfig.proxyUrl||'').replace(/\/$/,'');
+  if(proxy) return proxy+'/'+(amb==='producao'?'prod':'homolog');
+  // sem proxy: direto (pode falhar por CORS)
+  return amb==='producao'?'https://api.focusnfe.com.br':'https://homologacao.focusnfe.com.br';
 }
 
 async function testarConexaoNF(){
   const token = document.getElementById('nfToken').value.trim();
   if(!token){ alert('Informe o token primeiro.'); return; }
   const amb = document.getElementById('nfAmbiente').value;
-  const base = amb==='producao'
-    ? 'https://api.focusnfe.com.br'
-    : 'https://homologacao.focusnfe.com.br';
+  const proxy = document.getElementById('nfProxy').value.trim().replace(/\/$/,'');
+  const base = proxy
+    ? proxy+'/'+(amb==='producao'?'prod':'homolog')
+    : (amb==='producao'?'https://api.focusnfe.com.br':'https://homologacao.focusnfe.com.br');
   try {
     const r = await fetch(`${base}/v2/empresas`, {
       headers:{'Authorization':'Basic '+btoa(token+':')}
@@ -3023,9 +3040,7 @@ async function saveNF(action){
 async function emitirFocusNFe(nid){
   const n = notas[nid]||await db.ref('erp/notas/'+nid).once('value').then(s=>s.val());
   if(!n){ alert('Nota não encontrada.'); return; }
-  const amb = nfConfig.ambiente==='producao'
-    ? 'https://api.focusnfe.com.br'
-    : 'https://homologacao.focusnfe.com.br';
+  const amb = focusBase(nfConfig.ambiente);
   const ref = 'a2-'+nid;
   const body = {
     data_emissao: n.data+'T10:00:00-03:00',
@@ -3086,9 +3101,7 @@ async function emitirFocusNFe(nid){
 
 async function verificarFocusNFe(nid){
   const n = notas[nid]; if(!n||!n.focusRef) return;
-  const amb = nfConfig.ambiente==='producao'
-    ? 'https://api.focusnfe.com.br'
-    : 'https://homologacao.focusnfe.com.br';
+  const amb = focusBase(nfConfig.ambiente);
   try {
     const r = await fetch(`${amb}/v2/nfse/${n.focusRef}`, {
       headers:{'Authorization':'Basic '+btoa(nfConfig.token+':')}
@@ -3151,9 +3164,7 @@ async function cancelarNF(nid){
   const n = notas[nid]; if(!n) return;
   if(!confirm('Cancelar esta nota fiscal? O cancelamento será enviado ao Focus NFe.')) return;
   if(!n.focusRef){ await db.ref('erp/notas/'+nid+'/status').set('cancelada'); closeOvl('ovlNFView'); return; }
-  const amb = nfConfig.ambiente==='producao'
-    ? 'https://api.focusnfe.com.br'
-    : 'https://homologacao.focusnfe.com.br';
+  const amb = focusBase(nfConfig.ambiente);
   try {
     const r = await fetch(`${amb}/v2/nfse/${n.focusRef}`, {
       method:'DELETE',
