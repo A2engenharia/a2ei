@@ -102,7 +102,8 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
 /* KPIs */
 .kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-bottom:18px}
-@media(min-width:600px){.kpis{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:480px){.kpis{grid-template-columns:repeat(4,1fr)}}
+@media(min-width:900px){.kpis{grid-template-columns:repeat(4,1fr)}}
 .kpi{background:var(--card);border-radius:12px;padding:13px;border:1px solid var(--border)}
 .kpi-lbl{font-size:0.66rem;font-weight:700;color:var(--sub);text-transform:uppercase;letter-spacing:.4px;margin-bottom:5px}
 .kpi-val{font-size:1.4rem;font-weight:900;color:var(--dark)}
@@ -1053,6 +1054,7 @@ const STAGES = [
 let db = null, curUser = null, curMod = 'dash';
 let usuarios = {}, clientes = {}, interacoes = {};
 let propostas = {}, projetos = {}, fornecedores = {}, pedidos = {}, estoque = {}, movimentos = {}, funcionarios = {};
+let lancamentos = {};
 let selUID = null, pinBuf = '', curCID = null, crmFilter = 'all';
 let propFilter = 'all', projFilter = 'all', estFilter = 'all', rhFilter = 'all';
 let curProjViewId = null;
@@ -1199,8 +1201,8 @@ function logout(){
   if(!confirm('Sair do sistema?')) return;
   sessionStorage.removeItem('a2erp_uid');
   curUser=null; clientes={}; interacoes={};
-  propostas={}; projetos={}; fornecedores={}; pedidos={}; estoque={}; movimentos={}; funcionarios={};
-  if(db){ ['erp/clientes','erp/interacoes','erp/usuarios','erp/propostas','erp/projetos','erp/fornecedores','erp/pedidos','erp/estoque','erp/movimentos','erp/funcionarios'].forEach(p=>db.ref(p).off()); }
+  propostas={}; projetos={}; fornecedores={}; pedidos={}; estoque={}; movimentos={}; funcionarios={}; lancamentos={};
+  if(db){ ['erp/clientes','erp/interacoes','erp/usuarios','erp/propostas','erp/projetos','erp/fornecedores','erp/pedidos','erp/estoque','erp/movimentos','erp/funcionarios','lancamentos'].forEach(p=>db.ref(p).off()); }
   document.getElementById('app').classList.remove('v');
   document.getElementById('loginScreen').classList.remove('h');
   renderUserGrid();
@@ -1265,6 +1267,7 @@ function startListeners(){
   db.ref('erp/estoque').on('value', snap=>{ estoque=snap.val()||{}; renderEst(); });
   db.ref('erp/movimentos').on('value', snap=>{ movimentos=snap.val()||{}; });
   db.ref('erp/funcionarios').on('value', snap=>{ funcionarios=snap.val()||{}; renderRH(); renderDash(); });
+  db.ref('lancamentos').on('value', snap=>{ lancamentos=snap.val()||{}; renderDash(); });
 }
 
 // ══════════════════════════════════════════════
@@ -1274,31 +1277,72 @@ function renderDash(){
   const arr = Object.values(clientes);
   const byS = {}; STAGES.forEach(s=>byS[s.id]=arr.filter(c=>c.estagio===s.id).length);
   const today = todayStr();
+  const ym = today.slice(0,7); // YYYY-MM
   const allI = Object.values(interacoes);
   const overdue = allI.filter(i=>i.proximoContato && i.proximoContato<today && ['cliente','perdido'].indexOf(clientes[i.clienteId]?.estagio)<0).length;
 
+  // — Propostas
   const propArr = Object.values(propostas);
   const propAberto = propArr.filter(p=>p.status==='enviada').length;
   const propValor = propArr.filter(p=>p.status==='aprovada').reduce((s,p)=>s+(p.oferta||0),0);
-  const projArr = Object.values(projetos);
-  const projAtivos = projArr.filter(p=>p.status==='em-andamento').length;
-  const funcArr = Object.values(funcionarios);
-  const funcAtivos = funcArr.filter(f=>f.status==='ativo').length;
 
+  // — Projetos / RH
+  const projAtivos = Object.values(projetos).filter(p=>p.status==='em-andamento').length;
+  const funcAtivos = Object.values(funcionarios).filter(f=>f.status==='ativo').length;
+
+  // — Financeiro (lancamentos/)
+  const lanArr = Object.values(lancamentos);
+  const mesRec = lanArr.filter(l=>l.tipo==='receita' && l.data?.startsWith(ym));
+  const mesDes = lanArr.filter(l=>l.tipo==='despesa' && l.data?.startsWith(ym));
+  const recTotal  = mesRec.reduce((s,l)=>s+(l.valor||0),0);
+  const recPago   = mesRec.filter(l=>l.status==='recebido').reduce((s,l)=>s+(l.valor||0),0);
+  const desTotal  = mesDes.reduce((s,l)=>s+(l.valor||0),0);
+  const desPago   = mesDes.filter(l=>l.status==='pago').reduce((s,l)=>s+(l.valor||0),0);
+  const saldo     = recPago - desPago;
+  const aReceber  = mesRec.filter(l=>l.status==='pendente').reduce((s,l)=>s+(l.valor||0),0);
+  const aPagar    = mesDes.filter(l=>l.status==='pendente').reduce((s,l)=>s+(l.valor||0),0);
+
+  // ── KPIs (8 cards, 2 rows)
   document.getElementById('dashKpis').innerHTML=`
-    <div class="kpi"><div class="kpi-lbl">Empresas CRM</div><div class="kpi-val">${arr.length}</div><div class="kpi-sub">${byS.cliente||0} clientes</div></div>
-    <div class="kpi"><div class="kpi-lbl">Em Negociação</div><div class="kpi-val" style="color:var(--amber)">${(byS.negociacao||0)+(byS.proposta||0)}</div><div class="kpi-sub">follow-ups: ${overdue} venc.</div></div>
+    <div class="kpi"><div class="kpi-lbl">Receitas do mês</div><div class="kpi-val" style="color:var(--green)">${fmtBRL(recPago)}</div><div class="kpi-sub">total: ${fmtBRL(recTotal)}</div></div>
+    <div class="kpi"><div class="kpi-lbl">Despesas do mês</div><div class="kpi-val" style="color:var(--red)">${fmtBRL(desPago)}</div><div class="kpi-sub">total: ${fmtBRL(desTotal)}</div></div>
+    <div class="kpi"><div class="kpi-lbl">Saldo realizado</div><div class="kpi-val" style="color:${saldo>=0?'var(--green)':'var(--red)'}">${fmtBRL(saldo)}</div><div class="kpi-sub">a receber: ${fmtBRL(aReceber)}</div></div>
+    <div class="kpi"><div class="kpi-lbl">A pagar</div><div class="kpi-val" style="color:var(--amber)">${fmtBRL(aPagar)}</div><div class="kpi-sub">pendente este mês</div></div>
+    <div class="kpi"><div class="kpi-lbl">Empresas CRM</div><div class="kpi-val">${arr.length}</div><div class="kpi-sub">${byS.cliente||0} clientes ativos</div></div>
+    <div class="kpi"><div class="kpi-lbl">Em Negociação</div><div class="kpi-val" style="color:var(--amber)">${(byS.negociacao||0)+(byS.proposta||0)}</div><div class="kpi-sub">${overdue} follow-ups venc.</div></div>
     <div class="kpi"><div class="kpi-lbl">Propostas Abertas</div><div class="kpi-val" style="color:var(--blue)">${propAberto}</div><div class="kpi-sub">aprovadas: ${fmtBRL(propValor)}</div></div>
     <div class="kpi"><div class="kpi-lbl">OS em Andamento</div><div class="kpi-val" style="color:var(--green)">${projAtivos}</div><div class="kpi-sub">equipe: ${funcAtivos} ativos</div></div>`;
 
-  const recent = allI.sort((a,b)=>b.criadoEm-a.criadoEm).slice(0,6);
+  // ── Cash flow últimos 6 meses
+  const cfHtml = renderCashFlow(lanArr);
+
+  // ── Cards
+  const recent = allI.sort((a,b)=>b.criadoEm-a.criadoEm).slice(0,5);
   const overdueList = allI.filter(i=>i.proximoContato&&i.proximoContato<=today&&['cliente','perdido'].indexOf(clientes[i.clienteId]?.estagio)<0)
     .sort((a,b)=>a.proximoContato.localeCompare(b.proximoContato)).slice(0,5);
 
+  // ── Vencimentos financeiros próximos (7 dias)
+  const d7 = new Date(); d7.setDate(d7.getDate()+7); const d7s=d7.toISOString().slice(0,10);
+  const vencFin = lanArr.filter(l=>l.status==='pendente'&&l.data&&l.data>=today&&l.data<=d7s)
+    .sort((a,b)=>a.data.localeCompare(b.data)).slice(0,6);
+
   document.getElementById('dashCards').innerHTML=`
+    ${cfHtml}
+    ${vencFin.length?`
+    <div class="dash-card" style="border-color:#fef3c7">
+      <h3 style="color:var(--amber)">📅 Vencimentos próximos (7 dias)</h3>
+      ${vencFin.map(l=>`<div class="ritem" style="display:flex;justify-content:space-between;align-items:center">
+        <div>
+          <div class="ritem-name">${l.desc||'—'} <span style="font-size:0.62rem;padding:2px 6px;border-radius:10px;background:${l.tipo==='receita'?'#dcfce7':'#fee2e2'};color:${l.tipo==='receita'?'var(--green)':'var(--red)'};">${l.tipo==='receita'?'Receber':'Pagar'}</span></div>
+          <div class="ritem-sub">${fmtD(l.data)} · ${l.categ||'—'}</div>
+        </div>
+        <div style="font-weight:800;color:${l.tipo==='receita'?'var(--green)':'var(--red)'};">${fmtBRL(l.valor||0)}</div>
+      </div>`).join('')}
+      <a href="/financeiro/" style="display:block;text-align:center;margin-top:10px;font-size:0.75rem;color:var(--blue);text-decoration:none">Ver Financeiro completo →</a>
+    </div>`:''}
     ${overdueList.length?`
     <div class="dash-card" style="border-color:#fee2e2">
-      <h3 style="color:var(--red)">🔔 Follow-ups pendentes</h3>
+      <h3 style="color:var(--red)">🔔 Follow-ups CRM vencidos</h3>
       ${overdueList.map(i=>{const c=clientes[i.clienteId];const d=diffD(i.proximoContato);
         return`<div class="ritem">
           <div class="ritem-name">${c?c.nome:'—'} <span class="badge badge-p${c?.prioridade==='P1'?'1':'2'}">${c?.prioridade||''}</span></div>
@@ -1306,15 +1350,60 @@ function renderDash(){
         </div>`;}).join('')}
     </div>`:''}
     <div class="dash-card">
-      <h3>🕐 Últimas interações</h3>
+      <h3>🕐 Últimas interações CRM</h3>
       ${recent.length?recent.map(i=>{const c=clientes[i.clienteId];
         const dt=new Date(i.criadoEm);const ds=dt.toISOString().slice(0,10);
         return`<div class="ritem">
           <div class="ritem-name">${c?c.nome:'—'} <span class="stbdg ${stInfo(c?.estagio).cls}" style="font-size:0.6rem;padding:1px 6px">${stInfo(c?.estagio).label}</span></div>
           <div class="ritem-sub">${i.tipo} · ${i.usuarioNome||'—'} · ${fmtD(ds)}</div>
           <div style="font-size:0.76rem;color:var(--txt);margin-top:2px">${(i.descricao||'').slice(0,70)}${(i.descricao||'').length>70?'…':''}</div>
-        </div>`;}).join(''):`<div style="color:var(--sub);font-size:0.81rem">Nenhuma interação ainda.</div>`}
+        </div>`;}).join(''):`<div style="color:var(--sub);font-size:0.81rem;padding:8px 0">Nenhuma interação ainda.</div>`}
     </div>`;
+}
+
+function renderCashFlow(lanArr){
+  // Build 6-month bars
+  const months=[];
+  for(let i=5;i>=0;i--){
+    const d=new Date(); d.setDate(1); d.setMonth(d.getMonth()-i);
+    months.push(d.toISOString().slice(0,7));
+  }
+  const data=months.map(ym=>{
+    const rec=lanArr.filter(l=>l.tipo==='receita'&&l.data?.startsWith(ym)).reduce((s,l)=>s+(l.valor||0),0);
+    const des=lanArr.filter(l=>l.tipo==='despesa'&&l.data?.startsWith(ym)).reduce((s,l)=>s+(l.valor||0),0);
+    return{ym,rec,des,saldo:rec-des};
+  });
+  const maxVal=Math.max(...data.map(d=>Math.max(d.rec,d.des)),1);
+  const monthNames=['Jan','Fev','Mar','Abr','Mai','Jun','Jul','Ago','Set','Out','Nov','Dez'];
+  const bars=data.map(d=>{
+    const [y,m]=d.ym.split('-');
+    const mn=monthNames[parseInt(m)-1];
+    const rH=Math.round((d.rec/maxVal)*80);
+    const dH=Math.round((d.des/maxVal)*80);
+    const sColor=d.saldo>=0?'var(--green)':'var(--red)';
+    return`<div style="display:flex;flex-direction:column;align-items:center;gap:2px;flex:1">
+      <div style="font-size:0.6rem;color:${sColor};font-weight:700">${d.saldo>=0?'+':''}${d.saldo>=1000?(d.saldo/1000).toFixed(0)+'k':Math.round(d.saldo)}</div>
+      <div style="display:flex;align-items:flex-end;gap:2px;height:80px">
+        <div style="width:10px;background:var(--green);opacity:0.8;height:${rH}px;border-radius:2px 2px 0 0" title="Receita: ${fmtBRL(d.rec)}"></div>
+        <div style="width:10px;background:var(--red);opacity:0.7;height:${dH}px;border-radius:2px 2px 0 0" title="Despesa: ${fmtBRL(d.des)}"></div>
+      </div>
+      <div style="font-size:0.62rem;color:var(--sub)">${mn}</div>
+    </div>`;
+  }).join('');
+  const totRec=data.reduce((s,d)=>s+d.rec,0);
+  const totDes=data.reduce((s,d)=>s+d.des,0);
+  return`<div class="dash-card">
+    <h3 style="display:flex;justify-content:space-between;align-items:center">
+      <span>💰 Fluxo de Caixa — últimos 6 meses</span>
+      <a href="/financeiro/" style="font-size:0.71rem;color:var(--blue);text-decoration:none;font-weight:600">Abrir →</a>
+    </h3>
+    <div style="display:flex;align-items:flex-end;gap:6px;padding:8px 0 4px;overflow-x:auto">${bars}</div>
+    <div style="display:flex;gap:16px;margin-top:6px;font-size:0.72rem">
+      <span style="color:var(--green)">■ Receitas: ${fmtBRL(totRec)}</span>
+      <span style="color:var(--red)">■ Despesas: ${fmtBRL(totDes)}</span>
+      <span style="color:${totRec-totDes>=0?'var(--green)':'var(--red)'};font-weight:700">Resultado: ${fmtBRL(totRec-totDes)}</span>
+    </div>
+  </div>`;
 }
 
 // ══════════════════════════════════════════════
