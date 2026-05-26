@@ -3073,29 +3073,33 @@ async function emitirFocusNFe(nid){
       codigo_municipio: nfConfig.codMun||'3521200'
     }
   };
+  console.log('📤 Focus NFe — enviando:', JSON.stringify(body, null, 2));
   try {
     const r = await fetch(`${amb}/v2/nfse?ref=${ref}`, {
       method:'POST',
       headers:{'Authorization':'Basic '+btoa(nfConfig.token+':'),'Content-Type':'application/json'},
       body: JSON.stringify(body)
     });
-    const data = await r.json().catch(()=>({}));
+    const rawText = await r.text();
+    console.log('📥 Focus NFe — resposta HTTP', r.status, ':', rawText);
+    let data = {}; try{ data=JSON.parse(rawText); }catch(_){}
     if(r.ok || r.status===201 || r.status===202){
       await db.ref('erp/notas/'+nid).update({
         status:'processando', focusRef:ref,
-        focusResposta: JSON.stringify(data).slice(0,500),
+        focusResposta: rawText.slice(0,500),
         atualizadoEm:Date.now()
       });
       alert('✅ Nota enviada ao Focus NFe!\nUse "Verificar Status" para acompanhar o processamento.');
       setTimeout(()=>verificarFocusNFe(nid), 5000);
     } else {
-      const msg = data.mensagem||data.message||JSON.stringify(data);
-      await db.ref('erp/notas/'+nid).update({status:'erro', focusErro:msg, atualizadoEm:Date.now()});
-      alert('❌ Erro Focus NFe:\n'+msg);
+      const msg = data.mensagem||data.message||data.erro||rawText||'Erro desconhecido';
+      const detail = `HTTP ${r.status}: ${msg}`;
+      await db.ref('erp/notas/'+nid).update({status:'erro', focusErro:detail, atualizadoEm:Date.now()});
+      alert('❌ Erro Focus NFe ('+r.status+'):\n'+msg+'\n\n(Abra F12 → Console para ver detalhes completos)');
     }
   } catch(e){
     await db.ref('erp/notas/'+nid).update({status:'erro', focusErro:e.message, atualizadoEm:Date.now()});
-    alert('❌ Erro de comunicação:\n'+e.message+'\n\nVerifique se o token está correto e tente novamente.');
+    alert('❌ Erro de comunicação:\n'+e.message);
   }
 }
 
