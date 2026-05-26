@@ -477,13 +477,22 @@ function saveSetup(){
   const err = document.getElementById('setupErr');
   try {
     let cfg;
-    if(raw.startsWith('{')) cfg = JSON.parse(raw);
-    else { err.textContent='Cole apenas o conteúdo do { }'; return; }
-    if(!cfg.apiKey||!cfg.databaseURL){ err.textContent='Faltam campos obrigatórios (apiKey, databaseURL)'; return; }
+    // Extrai o bloco { } mesmo que o usuário cole o código completo do Firebase
+    const match = raw.match(/\{[\s\S]*\}/);
+    if(!match){ err.textContent='Cole o bloco { ... } do firebaseConfig'; return; }
+    let jsonStr = match[0];
+    // Tenta JSON puro primeiro; se falhar, converte JS (chaves sem aspas) para JSON
+    try {
+      cfg = JSON.parse(jsonStr);
+    } catch(e1) {
+      const fixed = jsonStr.replace(/([{,]\s*)([a-zA-Z_][a-zA-Z0-9_]*)(\s*:)/g, '$1"$2"$3');
+      cfg = JSON.parse(fixed);
+    }
+    if(!cfg.apiKey||!cfg.databaseURL){ err.textContent='Faltam campos: apiKey e databaseURL são obrigatórios'; return; }
     localStorage.setItem(CFG_LS, JSON.stringify(cfg));
     err.textContent='';
     initFirebase(cfg);
-  } catch(e){ err.textContent='JSON inválido. Verifique o formato.'; }
+  } catch(e){ err.textContent='Formato inválido. Cole o bloco inteiro do firebaseConfig.'; }
 }
 
 function initFirebase(cfg){
