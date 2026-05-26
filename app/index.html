@@ -11,6 +11,7 @@
 <title>A2 Sistema ERP</title>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-database-compat.js"></script>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{--red:#C8102E;--dark:#1a1a1a;--green:#16a34a;--amber:#d97706;--blue:#1d4ed8;
@@ -205,6 +206,22 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 .mchk{display:flex;align-items:center;gap:6px;font-size:0.77rem;color:var(--txt)}
 .mchk input{width:14px;height:14px;accent-color:var(--red)}
 .pin-show{background:#111;color:#4ade80;font-family:monospace;font-size:1.3rem;letter-spacing:6px;padding:10px;border-radius:8px;text-align:center;margin:8px 0}
+
+/* ── ADMIN TABS ── */
+.adm-tabs{display:flex;gap:2px;background:var(--bg);border-radius:10px;padding:4px;margin-bottom:16px}
+.adm-tab{flex:1;padding:8px 6px;border-radius:7px;border:none;background:transparent;color:var(--sub);font-size:0.78rem;font-weight:600;cursor:pointer;transition:all 0.15s;text-align:center}
+.adm-tab.active{background:#fff;color:var(--red);box-shadow:0 1px 4px rgba(0,0,0,0.1)}
+/* ── EXPORT ── */
+.exp-desc{font-size:0.82rem;color:var(--sub);line-height:1.6;margin-bottom:16px}
+.exp-card-big{display:flex;align-items:center;gap:14px;background:#fff;border:1.5px solid var(--border);border-radius:12px;padding:16px;margin-bottom:10px;cursor:pointer;transition:all 0.15s}
+.exp-card-big:hover{border-color:var(--red);box-shadow:0 2px 12px rgba(200,16,46,0.1)}
+.exp-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:8px}
+.exp-mini{display:flex;flex-direction:column;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--border);border-radius:10px;padding:16px 10px;cursor:pointer;font-size:0.79rem;font-weight:600;transition:all 0.15s;text-align:center}
+.exp-mini span:first-child{font-size:1.5rem}
+.exp-mini:hover{border-color:var(--red);color:var(--red);background:rgba(200,16,46,0.04)}
+.exp-mini:active{transform:scale(0.96)}
+.bkp-warn{background:rgba(200,16,46,0.05);border:1.5px dashed var(--red);border-radius:10px;padding:14px;margin-top:8px}
+.bkp-info{background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:14px;margin-top:12px;font-size:0.78rem;color:var(--sub);line-height:1.6}
 
 /* COMING SOON */
 .cs{text-align:center;padding:60px 20px}
@@ -517,11 +534,69 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;b
 
       <!-- ADMIN -->
       <div class="sec" id="secAdmin">
-        <div class="pgh">
-          <div class="pg-title">⚙️ Usuários</div>
-          <button class="btn btn-red" onclick="openUserModal()">+ Usuário</button>
+        <!-- Admin Tabs -->
+        <div class="adm-tabs">
+          <button class="adm-tab active" id="admTab-usuarios" onclick="admTab('usuarios')">👥 Usuários</button>
+          <button class="adm-tab" id="admTab-exportar" onclick="admTab('exportar')">📤 Exportar</button>
+          <button class="adm-tab" id="admTab-backup" onclick="admTab('backup')">💾 Backup</button>
         </div>
-        <div class="ulist" id="userList"></div>
+
+        <!-- Pane: Usuários -->
+        <div id="admPane-usuarios">
+          <div class="pgh" style="padding-top:0">
+            <div class="pg-title">Usuários</div>
+            <button class="btn btn-red" onclick="openUserModal()">+ Usuário</button>
+          </div>
+          <div class="ulist" id="userList"></div>
+        </div>
+
+        <!-- Pane: Exportar -->
+        <div id="admPane-exportar" style="display:none">
+          <div class="pgh" style="padding-top:0"><div class="pg-title">Exportar Dados</div></div>
+          <p class="exp-desc">Exporte os dados do sistema para Excel. Ideal para relatórios, auditoria ou migração futura para outro ERP.</p>
+          <div class="exp-card-big" onclick="exportarTudo()">
+            <div style="font-size:2rem">📊</div>
+            <div style="flex:1">
+              <div style="font-weight:700;font-size:0.92rem">Exportar Tudo</div>
+              <div style="font-size:0.76rem;color:var(--sub);margin-top:3px">Um arquivo Excel com todos os módulos — cada um em uma aba</div>
+            </div>
+            <button class="btn btn-red" style="white-space:nowrap" onclick="event.stopPropagation();exportarTudo()">⬇️ Baixar</button>
+          </div>
+          <div class="s-title" style="margin:16px 0 10px">Por Módulo</div>
+          <div class="exp-grid">
+            <div class="exp-mini" onclick="exportarMod('Clientes',getSheetClientes)"><span>👥</span><span>Clientes</span></div>
+            <div class="exp-mini" onclick="exportarMod('Propostas',getSheetPropostas)"><span>📄</span><span>Propostas</span></div>
+            <div class="exp-mini" onclick="exportarMod('Projetos',getSheetProjetos)"><span>📋</span><span>Projetos</span></div>
+            <div class="exp-mini" onclick="exportarMod('Financeiro',getSheetFinanceiro)"><span>💰</span><span>Financeiro</span></div>
+            <div class="exp-mini" onclick="exportarMod('Estoque',getSheetEstoque)"><span>📦</span><span>Estoque</span></div>
+            <div class="exp-mini" onclick="exportarMod('Funcionarios',getSheetFuncionarios)"><span>👷</span><span>Funcionários</span></div>
+            <div class="exp-mini" onclick="exportarMod('Compras',getSheetCompras)"><span>🛒</span><span>Compras</span></div>
+            <div class="exp-mini" onclick="exportarMod('Notas-Fiscais',getSheetNotas)"><span>🧾</span><span>Notas Fiscais</span></div>
+          </div>
+        </div>
+
+        <!-- Pane: Backup -->
+        <div id="admPane-backup" style="display:none">
+          <div class="pgh" style="padding-top:0"><div class="pg-title">Backup Completo</div></div>
+          <p class="exp-desc">O backup salva <strong>todos os dados</strong> em um arquivo JSON. Use para segurança ou restauração de emergência.</p>
+          <div class="exp-card-big" onclick="exportarBackupJSON()">
+            <div style="font-size:2rem">💾</div>
+            <div style="flex:1">
+              <div style="font-weight:700;font-size:0.92rem">Backup Completo (JSON)</div>
+              <div style="font-size:0.76rem;color:var(--sub);margin-top:3px">Clientes, projetos, financeiro, estoque, NFs e todos os demais dados</div>
+            </div>
+            <button class="btn btn-red" style="white-space:nowrap" onclick="event.stopPropagation();exportarBackupJSON()">⬇️ Baixar</button>
+          </div>
+          <div class="bkp-info">
+            <strong>💡 Recomendação:</strong> faça backup mensal e guarde no Google Drive ou pen drive.<br>
+            Em caso de migração para outro sistema, envie o arquivo JSON para o suporte técnico.
+          </div>
+          <div class="s-title" style="margin:20px 0 10px">Restaurar Backup</div>
+          <div class="bkp-warn">
+            <div style="font-size:0.78rem;color:var(--sub);margin-bottom:10px">⚠️ A restauração <strong>substitui todos os dados atuais</strong>. Use apenas em emergências.</div>
+            <input type="file" id="backupFile" accept=".json" onchange="confirmarRestore()" style="font-size:0.78rem;color:var(--sub)"/>
+          </div>
+        </div>
       </div>
 
     </div><!-- /content -->
@@ -1853,6 +1928,174 @@ async function toggleUser(uid,isActive){
 async function deleteUser(uid,nome){
   if(!confirm(`⚠️ Excluir permanentemente "${nome}"?\n\nEsta ação não pode ser desfeita.`)) return;
   await db.ref('erp/usuarios/'+uid).remove();
+}
+
+// ══════════════════════════════════════════════
+// ADMIN TABS
+// ══════════════════════════════════════════════
+function admTab(tab){
+  ['usuarios','exportar','backup'].forEach(t=>{
+    document.getElementById('admTab-'+t).classList.toggle('active',t===tab);
+    document.getElementById('admPane-'+t).style.display=t===tab?'':'none';
+  });
+}
+
+// ══════════════════════════════════════════════
+// EXPORTAR DADOS
+// ══════════════════════════════════════════════
+function fmtTs(ts){ return ts?new Date(ts).toLocaleDateString('pt-BR'):''; }
+
+function getSheetClientes(){
+  const rows=Object.values(clientes).map(c=>({
+    'Nome':c.nome||'','CNPJ':c.cnpj||'','Segmento':c.segmento||'',
+    'Cidade':c.cidade||'','Contato':c.contatoNome||'','Cargo':c.cargo||'',
+    'Telefone':c.telefone||'','Email':c.email||'','Estágio':c.estagio||'',
+    'Responsável':c.responsavelNome||'','Prioridade':c.prioridade||'',
+    'Observações':c.obs||'','Criado em':fmtTs(c.criadoEm)
+  }));
+  return rows.length?rows:[{'Mensagem':'Nenhum cliente cadastrado'}];
+}
+
+function getSheetPropostas(){
+  const rows=Object.values(propostas).map(p=>({
+    'Número':p.numero||'','Cliente':p.clienteNome||'','Descrição':p.desc||'',
+    'Local':p.local||'','Prazo':p.prazo||'','Status':p.status||'',
+    'Custo (R$)':Number(p.custo||0).toFixed(2),
+    'Proposta (R$)':Number(p.oferta||0).toFixed(2),
+    'Margem (%)':p.margem||0,'Impostos (%)':p.impostos||0,
+    'Responsável':p.criadoPorNome||'','Validade (dias)':p.validade||'',
+    'Observações':p.obs||'','Criado em':fmtTs(p.criadoEm)
+  }));
+  return rows.length?rows:[{'Mensagem':'Nenhuma proposta cadastrada'}];
+}
+
+function getSheetProjetos(){
+  const rows=Object.values(projetos).map(p=>({
+    'Número':p.numero||'','Título':p.titulo||'','Cliente':p.clienteNome||'',
+    'Status':p.status||'','Responsável':p.respNome||'',
+    'Data Início':p.dataInicio||'','Data Fim':p.dataFim||'',
+    'Valor (R$)':Number(p.valor||0).toFixed(2),
+    'Progresso (%)':p.progresso||0,'Tipo':p.tipo||'',
+    'Descrição':p.desc||'','Observações':p.obs||'','Criado em':fmtTs(p.criadoEm)
+  }));
+  return rows.length?rows:[{'Mensagem':'Nenhum projeto cadastrado'}];
+}
+
+function getSheetFinanceiro(){
+  const rows=Object.values(lancamentos).map(l=>({
+    'Data':l.data||'','Descrição':l.desc||l.descricao||'',
+    'Tipo':l.tipo==='receita'?'Receita':'Despesa',
+    'Valor (R$)':Number(l.valor||0).toFixed(2),
+    'Categoria':l.cat||l.categoria||'','Projeto':l.projeto||'',
+    'Observações':l.obs||'','Criado em':fmtTs(l.criadoEm)
+  }));
+  return rows.length?rows:[{'Mensagem':'Nenhum lançamento cadastrado'}];
+}
+
+function getSheetEstoque(){
+  const rows=Object.values(estoque).map(e=>({
+    'Nome':e.nome||'','Categoria':e.cat||'','Unidade':e.unid||'',
+    'Quantidade':e.qtd||0,'Estoque Mínimo':e.min||0,
+    'Localização':e.loc||'','Observações':e.obs||'','Criado em':fmtTs(e.criadoEm)
+  }));
+  return rows.length?rows:[{'Mensagem':'Nenhum item no estoque'}];
+}
+
+function getSheetFuncionarios(){
+  const rows=Object.values(funcionarios).map(f=>({
+    'Nome':f.nome||'','Cargo':f.cargo||'','Tipo':f.tipo||'',
+    'CPF':f.cpf||'','Telefone':f.tel||'','Admissão':f.admissao||'',
+    'Status':f.status||'','NR-10':f.nr10||'','NR-35':f.nr35||'',
+    'NR-12':f.nr12||'','NR-18':f.nr18||'',
+    'Férias Início':f.ferIni||'','Férias Fim':f.ferFim||''
+  }));
+  return rows.length?rows:[{'Mensagem':'Nenhum funcionário cadastrado'}];
+}
+
+function getSheetCompras(){
+  const rows=Object.values(pedidos).map(p=>({
+    'Número':p.numero||'',
+    'Fornecedor':fornecedores[p.fornId]?.nome||p.fornId||'',
+    'Projeto':projetos[p.projId]?.titulo||p.projId||'',
+    'Total (R$)':Number(p.total||0).toFixed(2),
+    'Pagamento':p.pgto||'','Status':p.status||'',
+    'Observações':p.obs||'','Criado em':fmtTs(p.criadoEm)
+  }));
+  return rows.length?rows:[{'Mensagem':'Nenhum pedido cadastrado'}];
+}
+
+function getSheetNotas(){
+  const rows=Object.values(notas).map(n=>({
+    'Número':n.numero||'','Cliente':n.clienteNome||'','CNPJ':n.clienteCNPJ||'',
+    'Descrição':n.descricao||'','Valor (R$)':Number(n.valor||0).toFixed(2),
+    'ISS (R$)':Number(n.iss||0).toFixed(2),'Status':n.status||'',
+    'Ambiente':n.ambiente||'','Focus Ref':n.focusRef||'','Criado em':fmtTs(n.criadoEm)
+  }));
+  return rows.length?rows:[{'Mensagem':'Nenhuma nota fiscal cadastrada'}];
+}
+
+function _xlsxDownload(wb,filename){
+  const wbout=XLSX.write(wb,{bookType:'xlsx',type:'array'});
+  const blob=new Blob([wbout],{type:'application/octet-stream'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download=filename; a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
+function exportarTudo(){
+  if(typeof XLSX==='undefined'){alert('Biblioteca de exportação ainda carregando. Tente em instantes.');return;}
+  const wb=XLSX.utils.book_new();
+  const sheets=[
+    ['Clientes',getSheetClientes()],['Propostas',getSheetPropostas()],
+    ['Projetos',getSheetProjetos()],['Financeiro',getSheetFinanceiro()],
+    ['Estoque',getSheetEstoque()],['Funcionários',getSheetFuncionarios()],
+    ['Compras',getSheetCompras()],['Notas Fiscais',getSheetNotas()]
+  ];
+  sheets.forEach(([name,data])=>XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(data),name));
+  _xlsxDownload(wb,'A2-ERP-Completo-'+new Date().toISOString().slice(0,10)+'.xlsx');
+}
+
+function exportarMod(nome,getFn){
+  if(typeof XLSX==='undefined'){alert('Biblioteca de exportação ainda carregando. Tente em instantes.');return;}
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,XLSX.utils.json_to_sheet(getFn()),nome.substring(0,31));
+  _xlsxDownload(wb,'A2-ERP-'+nome+'-'+new Date().toISOString().slice(0,10)+'.xlsx');
+}
+
+function exportarBackupJSON(){
+  const backup={
+    exportadoEm:new Date().toISOString(),versao:'1.0',empresa:'A2 Engenharia Integrada',
+    dados:{clientes,interacoes,propostas,projetos,fornecedores,pedidos,estoque,movimentos,funcionarios,lancamentos,notas}
+  };
+  const blob=new Blob([JSON.stringify(backup,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url; a.download='A2-ERP-Backup-'+new Date().toISOString().slice(0,10)+'.json'; a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
+async function confirmarRestore(){
+  const file=document.getElementById('backupFile').files[0]; if(!file) return;
+  if(!confirm('⚠️ ATENÇÃO!\n\nIsso irá SUBSTITUIR todos os dados atuais pelos do backup.\n\nTem certeza absoluta?')){
+    document.getElementById('backupFile').value=''; return;
+  }
+  try{
+    const backup=JSON.parse(await file.text());
+    if(!backup.dados){alert('Arquivo de backup inválido.');return;}
+    const d=backup.dados;
+    const ops=[
+      ['erp/clientes',d.clientes],['erp/interacoes',d.interacoes],
+      ['erp/propostas',d.propostas],['erp/projetos',d.projetos],
+      ['erp/fornecedores',d.fornecedores],['erp/pedidos',d.pedidos],
+      ['erp/estoque',d.estoque],['erp/movimentos',d.movimentos],
+      ['erp/funcionarios',d.funcionarios],['lancamentos',d.lancamentos],
+      ['erp/notas',d.notas]
+    ];
+    for(const [path,val] of ops){ if(val) await db.ref(path).set(val); }
+    alert('✅ Backup restaurado!\nExportado em: '+(backup.exportadoEm?new Date(backup.exportadoEm).toLocaleDateString('pt-BR'):'data desconhecida'));
+    document.getElementById('backupFile').value='';
+  }catch(e){ alert('❌ Erro ao restaurar: '+e.message); }
 }
 
 // ══════════════════════════════════════════════
