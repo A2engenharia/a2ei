@@ -331,7 +331,24 @@ tbody tr:last-child td{border-bottom:none}
       </div>
 
       <div class="charts">
-        <div class="chc"><div class="cht">Receitas vs Despesas — últimos 6 meses</div><canvas id="cvBar" height="200"></canvas></div>
+        <div class="chc">
+          <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:6px;margin-bottom:6px">
+            <div class="cht" id="barTitle" style="margin:0">Receitas vs Despesas</div>
+            <div style="display:flex;gap:6px">
+              <select id="selAno" onchange="setPeriodoBar()" style="font-size:0.78rem;padding:3px 7px;border:1px solid var(--border);border-radius:6px;background:var(--card);color:var(--txt);cursor:pointer"></select>
+              <select id="selMes" onchange="setPeriodoBar()" style="font-size:0.78rem;padding:3px 7px;border:1px solid var(--border);border-radius:6px;background:var(--card);color:var(--txt);cursor:pointer">
+                <option value="0">Ano inteiro</option>
+                <option value="1">Janeiro</option><option value="2">Fevereiro</option>
+                <option value="3">Março</option><option value="4">Abril</option>
+                <option value="5">Maio</option><option value="6">Junho</option>
+                <option value="7">Julho</option><option value="8">Agosto</option>
+                <option value="9">Setembro</option><option value="10">Outubro</option>
+                <option value="11">Novembro</option><option value="12">Dezembro</option>
+              </select>
+            </div>
+          </div>
+          <canvas id="cvBar" height="200"></canvas>
+        </div>
         <div class="chc"><div class="cht">Despesas por Categoria</div><canvas id="cvDonut" height="150"></canvas><div class="dl" id="dLeg"></div></div>
         <div class="chc"><div class="cht">Saldo Projetado — próximos 6 meses</div><canvas id="cvLine" height="150"></canvas></div>
       </div>
@@ -720,16 +737,34 @@ function renderDash(){
 }
 
 // ── CHARTS ──
-function drawCharts(){ drawBar(); drawDonut(); drawLine(); }
+function drawCharts(){ initBarSelectors(); drawBar(); drawDonut(); drawLine(); }
 
+function initBarSelectors(){
+  const anos=new Set();
+  anos.add(TODAY.getFullYear());
+  anos.add(TODAY.getFullYear()-1);
+  getArr().forEach(e=>{ const d=pDate(e.vencimento); if(d) anos.add(d.getFullYear()); });
+  const sel=document.getElementById('selAno');
+  const cur=sel.value||TODAY.getFullYear();
+  sel.innerHTML=[...anos].sort((a,b)=>b-a).map(a=>`<option value="${a}"${a==cur?'selected':''}>${a}</option>`).join('');
+}
+function setPeriodoBar(){ drawBar(); }
 function drawBar(){
+  initBarSelectors();
+  const anoSel=parseInt(document.getElementById('selAno')?.value||TODAY.getFullYear());
+  const mesSel=parseInt(document.getElementById('selMes')?.value||0);
   const cv=document.getElementById('cvBar');
   cv.width=cv.parentElement.clientWidth||400; cv.height=200;
   const ctx=cv.getContext('2d'); ctx.clearRect(0,0,cv.width,cv.height);
   const ms=[];
-  for(let i=5;i>=0;i--){
-    const d=new Date(TODAY.getFullYear(),TODAY.getMonth()-i,1);
-    ms.push({y:d.getFullYear(),m:d.getMonth(),l:MESES[d.getMonth()]});
+  if(mesSel===0){
+    // Ano inteiro — 12 meses
+    for(let m=0;m<12;m++) ms.push({y:anoSel,m,l:MESES[m].slice(0,3)});
+    document.getElementById('barTitle').textContent=`Receitas vs Despesas — ${anoSel}`;
+  } else {
+    // Mês específico — só esse mês
+    ms.push({y:anoSel,m:mesSel-1,l:MESES[mesSel-1]});
+    document.getElementById('barTitle').textContent=`Receitas vs Despesas — ${MESES[mesSel-1]} ${anoSel}`;
   }
   const arr=getArr();
   const rv=ms.map(({y,m})=>arr.filter(e=>{
