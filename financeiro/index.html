@@ -994,6 +994,19 @@ window.addEventListener('offline',()=>document.getElementById('offlineWarn').cla
 window.addEventListener('online',()=>document.getElementById('offlineWarn').classList.remove('show'));
 window.addEventListener('resize',()=>{ if(curTab==='dash')drawCharts(); });
 
+// Embed hardcoded config if not in localStorage
+if(!localStorage.getItem(CFG_LS)){
+  const cfg={
+    apiKey:"AIzaSyCSRLX0TLoG2NjKAk9SuMybj4JCvZ0hRNo",
+    authDomain:"a2-financeiro.firebaseapp.com",
+    databaseURL:"https://a2-financeiro-default-rtdb.firebaseio.com",
+    projectId:"a2-financeiro",
+    storageBucket:"a2-financeiro.firebasestorage.app",
+    messagingSenderId:"476870957005",
+    appId:"1:476870957005:web:b613181e30856a6fa25684"
+  };
+  localStorage.setItem(CFG_LS, JSON.stringify(cfg));
+}
 const savedCfg = localStorage.getItem(CFG_LS);
 if(savedCfg){
   try {
