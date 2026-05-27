@@ -3212,7 +3212,7 @@ function closeOvl(id){ document.getElementById(id).classList.remove('v'); }
 })();
 
 if('serviceWorker' in navigator)
-  navigator.serviceWorker.register('/app/sw.js',{scope:'/app/'});
+  navigator.serviceWorker.register('/erp/sw.js',{scope:'/erp/'});
 window.addEventListener('online', ()=>document.getElementById('offWarn').classList.remove('show'));
 window.addEventListener('offline',()=>document.getElementById('offWarn').classList.add('show'));
 </script>
